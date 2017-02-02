@@ -29,7 +29,7 @@ namespace Cedita.Payroll.Engines.NationalInsurance
                 periodST = TaxMath.PeriodRound(TaxMath.Factor(totalST, weeksInPeriod, periodCnt), weeksInPeriod),
                 periodUAP = TaxMath.PeriodRound(TaxMath.Factor(totalUAP, weeksInPeriod, periodCnt), weeksInPeriod),
                 periodUEL = TaxMath.PeriodRound(TaxMath.Factor(totalUEL, weeksInPeriod, periodCnt), weeksInPeriod),
-                periodLEL = TaxMath.PeriodRound(TaxMath.Factor(totalLEL, weeksInPeriod, periodCnt), weeksInPeriod);
+                periodLEL = Math.Ceiling(TaxMath.Factor(totalLEL, weeksInPeriod, periodCnt));
 
             var niCalc = new NationalInsuranceCalculation();
 
