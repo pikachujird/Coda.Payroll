@@ -104,7 +104,8 @@ namespace Cedita.Payroll.Models
 
         protected void SanitiseTaxCode(string taxCode)
         {
-            SanitisedTaxCode = taxCode.ToUpperInvariant();
+            SanitisedTaxCode = taxCode.Trim();
+            SanitisedTaxCode = SanitisedTaxCode.ToUpperInvariant();
 
             // Do this here as it affects the sanitised tax code directly
             DetermineScottishTaxCode();

@@ -110,7 +110,7 @@ namespace Cedita.Payroll.Engines.Paye
             if (BracketCache.ContainsKey(brKey = new Tuple<int, int, int, bool>(year, period, periods, scottish)))
                 return BracketCache[brKey];
 
-            var taxYearBrackets = GetBracketsFromProvider(scottish);
+            var taxYearBrackets = GetBracketsFromProvider(TaxYear > 2016 ? scottish : false);
             var periodBrackets = new List<PayeInternalBracket>();
 
             decimal lastC = 0, lastK = 0;
