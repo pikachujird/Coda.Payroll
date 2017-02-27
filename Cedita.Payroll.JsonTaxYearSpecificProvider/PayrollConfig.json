@@ -946,11 +946,11 @@
     "ScottishBrackets": [
       {
         "From": 0,
-        "To": 31930,
+        "To": 31500,
         "Multiplier": 0.2
       },
       {
-        "From": 31930,
+        "From": 31500,
         "To": 150000,
         "Multiplier": 0.4
       },
