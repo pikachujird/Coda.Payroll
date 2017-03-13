@@ -132,6 +132,28 @@ namespace Cedita.Payroll
             return (T)retValue;
         }
 
+        /// <summary>
+        /// Returns a rounded period value
+        /// </summary>
+        /// <param name="specificValueType"></param>
+        /// <param name="period"></param>
+        /// <returns></returns>
+        public decimal GetPeriodTaxYearValue(TaxYearSpecificValues specificValueType, PayPeriods period)
+        {
+            // Get the annual value
+            decimal annualValue = GetSpecificValue<decimal>(specificValueType);
+
+            // By default for weekly we have 52 weeks in our period
+            int periodCnt = 52;
+            int weeksInPeriod = 1;
+            if (period == PayPeriods.Monthly)
+                periodCnt = 12;
+            else
+                weeksInPeriod = (int)Math.Round((decimal)periodCnt / (int)period);
+
+            return TaxMath.PeriodRound((annualValue * weeksInPeriod) / periodCnt, weeksInPeriod);
+        }
+
         public IEnumerable<TaxBracket> GetTaxBrackets(bool scottish = false)
         {
             EnsureTaxYearSet();

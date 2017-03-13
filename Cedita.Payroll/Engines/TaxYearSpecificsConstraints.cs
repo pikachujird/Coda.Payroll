@@ -25,6 +25,7 @@ namespace Cedita.Payroll.Engines
         void SetTaxYear(int taxYear);
 
         T GetSpecificValue<T>(TaxYearSpecificValues specificValueType);
+        decimal GetPeriodTaxYearValue(TaxYearSpecificValues specificValueType, PayPeriods period);
         NationalInsuranceCode GetCodeSpecifics(char niCode);
         bool IsFixedCode(string taxCode);
         FixedCode GetFixedCode(string taxCode);
