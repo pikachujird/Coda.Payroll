@@ -127,7 +127,7 @@ namespace Cedita.Payroll.Models
             IsPrefixCode = PrefixCodes.Contains(TaxCodeLetter);
         }
 
-        protected readonly string CodeRegex = @"^(S?)((([1-9][0-9]{0,5})([LMNPTY]))|(([K])([1-9][0-9]{0,5})))$";
+        protected readonly string CodeRegex = @"^(S?)((([0-9]{0,6})([LMNPTY]))|(([K])([1-9][0-9]{0,5})))$";
         protected bool DetermineCodeComponents()
         {
             if (!IsNoAdjustmentCode)

@@ -42,6 +42,12 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(true, taxCode.IsNoAdjustmentCode);
             Assert.AreEqual(false, taxCode.IsPrefixCode);
 
+            taxCode = TaxCode.Parse("0T");
+            Assert.AreEqual(true, taxCode.IsValidTaxCode);
+            Assert.AreEqual(false, taxCode.IsScotlandTax);
+            Assert.AreEqual(false, taxCode.IsNoAdjustmentCode);
+            Assert.AreEqual(false, taxCode.IsPrefixCode);
+
             taxCode = TaxCode.Parse("K666");
             Assert.AreEqual(true, taxCode.IsValidTaxCode);
             Assert.AreEqual(false, taxCode.IsScotlandTax);
