@@ -13,10 +13,16 @@ namespace Cedita.Payroll.Tests
         {
             // Test TryParse
             Assert.AreEqual(false, TaxCode.TryParse("ABC", out var failedTaxCode));
+            Assert.AreEqual(false, TaxCode.TryParse("X", out failedTaxCode));
+            Assert.AreEqual(false, TaxCode.TryParse("0", out failedTaxCode));
+            Assert.AreEqual(false, TaxCode.TryParse("-", out failedTaxCode));
             Assert.AreEqual(false, TaxCode.TryParse("!", out failedTaxCode));
             Assert.AreEqual(false, TaxCode.TryParse(null, out failedTaxCode));
             // Test Parse
             try { TaxCode.Parse("ABC"); Assert.Fail(); } catch { }
+            try { TaxCode.Parse("X"); Assert.Fail(); } catch { }
+            try { TaxCode.Parse("0"); Assert.Fail(); } catch { }
+            try { TaxCode.Parse("-"); Assert.Fail(); } catch { }
             try { TaxCode.Parse("!"); Assert.Fail(); } catch { }
             try { TaxCode.Parse(null); Assert.Fail(); } catch { }
         }
@@ -59,23 +65,20 @@ namespace Cedita.Payroll.Tests
             // Prefix Codes
             Assert.AreEqual("K", TaxCode.Parse("K944").TaxCodeLetter);
             Assert.AreEqual("K", TaxCode.Parse("K1000").TaxCodeLetter);
+            Assert.AreEqual("K", TaxCode.Parse("SK1000").TaxCodeLetter);
 
             // Basic Rate
             Assert.AreEqual("BR", TaxCode.Parse("BR").TaxCodeLetter);
-            Assert.AreEqual("BR", TaxCode.Parse("0BR").TaxCodeLetter);
-            Assert.AreEqual("BR", TaxCode.Parse("BR0").TaxCodeLetter);
+            Assert.AreEqual("BR", TaxCode.Parse("SBR").TaxCodeLetter);
 
             // D Codes
             Assert.AreEqual("D", TaxCode.Parse("D").TaxCodeLetter);
             Assert.AreEqual("D0", TaxCode.Parse("D0").TaxCodeLetter);
             Assert.AreEqual("D1", TaxCode.Parse("D1").TaxCodeLetter);
+            Assert.AreEqual("D0", TaxCode.Parse("SD0").TaxCodeLetter);
 
             // N* Codes
             Assert.AreEqual("NT", TaxCode.Parse("NT").TaxCodeLetter);
-            Assert.AreEqual("NI", TaxCode.Parse("NI").TaxCodeLetter);
-
-            // Erroneous Codes
-            Assert.AreEqual("AB", TaxCode.Parse("AB12").TaxCodeLetter);
         }
 
         [TestCategory("Tax Code Tests"), TestMethod]
@@ -84,15 +87,17 @@ namespace Cedita.Payroll.Tests
             // Standard
             Assert.AreEqual(944, TaxCode.Parse("944L").TaxCodeNumber);
             Assert.AreEqual(1000, TaxCode.Parse("1000L").TaxCodeNumber);
+            Assert.AreEqual(1000, TaxCode.Parse("S1000L").TaxCodeNumber);
 
             // Prefix Codes
             Assert.AreEqual(944, TaxCode.Parse("K944").TaxCodeNumber);
             Assert.AreEqual(1000, TaxCode.Parse("K1000").TaxCodeNumber);
+            Assert.AreEqual(1100, TaxCode.Parse("SK1100").TaxCodeNumber);
 
             // Basic Rate
             Assert.AreEqual(null, TaxCode.Parse("BR").TaxCodeNumber);
-            Assert.AreEqual(0, TaxCode.Parse("0BR").TaxCodeNumber);
-            Assert.AreEqual(0, TaxCode.Parse("BR0").TaxCodeNumber);
+            //Assert.AreEqual(0, TaxCode.Parse("0BR").TaxCodeNumber);
+            //Assert.AreEqual(0, TaxCode.Parse("BR0").TaxCodeNumber);
 
             // D Codes
             Assert.AreEqual(null, TaxCode.Parse("D").TaxCodeNumber);

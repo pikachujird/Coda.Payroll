@@ -127,7 +127,7 @@ namespace Cedita.Payroll.Models
             IsPrefixCode = PrefixCodes.Contains(TaxCodeLetter);
         }
 
-        protected readonly string CodeRegex = @"^(\d*)([A-Z]{1,2})(\d*)$";
+        protected readonly string CodeRegex = @"^(S?)((([1-9][0-9]{0,5})([LMNPTY]))|(([K])([1-9][0-9]{0,5})))$";
         protected bool DetermineCodeComponents()
         {
             if (!IsNoAdjustmentCode)
@@ -138,10 +138,10 @@ namespace Cedita.Payroll.Models
                     return false;
 
                 // Letter first, from the middle group supporting either prefix or suffix codes
-                TaxCodeLetter = codeMatches[0].Groups[2].Value;
+                TaxCodeLetter = $"{codeMatches[0].Groups[5].Value}{codeMatches[0].Groups[7].Value}";
 
                 // Now the numbers
-                if (Int32.TryParse($"{codeMatches[0].Groups[1].Value}{codeMatches[0].Groups[3].Value}", out int result))
+                if (Int32.TryParse($"{codeMatches[0].Groups[4].Value}{codeMatches[0].Groups[8].Value}", out int result))
                     TaxCodeNumber = result;
             }
             else
