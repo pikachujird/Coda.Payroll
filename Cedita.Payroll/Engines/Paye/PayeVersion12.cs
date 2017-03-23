@@ -116,7 +116,9 @@ namespace Cedita.Payroll.Engines.Paye
             decimal lastC = 0, lastK = 0;
             foreach(var taxYearBracket in taxYearBrackets)
             {
+#pragma warning disable IDE0017 // Simplify object initialization
                 var periodBracket = new PayeInternalBracket();
+#pragma warning restore IDE0017 // Simplify object initialization
                 periodBracket.R = taxYearBracket.Multiplier;
                 periodBracket.B = taxYearBracket.To - taxYearBracket.From;
 

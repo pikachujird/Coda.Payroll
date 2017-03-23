@@ -10,13 +10,6 @@ namespace Cedita.Payroll.Engines.NationalInsurance
     {
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods periods)
         {
-            int periodCnt = 52;
-            int weeksInPeriod = 1;
-            if (periods == PayPeriods.Monthly)
-                periodCnt = 12;
-            else
-                weeksInPeriod = (int)Math.Round((decimal)periodCnt / (int)periods);
-
             var totalPT = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.PrimaryThreshold);
             var totalST = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.SecondaryThreshold);
             var totalUEL = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.UpperEarningsLimit);
@@ -26,10 +19,11 @@ namespace Cedita.Payroll.Engines.NationalInsurance
 
             var niRates = TaxYearSpecificProvider.GetCodeSpecifics(niCategory);
 
+            var factoring = TaxMath.GetFactoring(periods);
             // WTF. UEL must round 865.3846 to 866. But PT must round 680.3333 to 680. This isn't sane.
-            decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, weeksInPeriod, periodCnt), weeksInPeriod),
-                periodUEL = Math.Ceiling(TaxMath.Factor(totalUEL, weeksInPeriod, periodCnt)),
-                periodLEL = Math.Ceiling(TaxMath.Factor(totalLEL, weeksInPeriod, periodCnt));
+            decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, factoring.WeeksInPeriod, factoring.Periods), factoring.WeeksInPeriod),
+                periodUEL = Math.Ceiling(TaxMath.Factor(totalUEL, factoring.WeeksInPeriod, factoring.Periods)),
+                periodLEL = Math.Ceiling(TaxMath.Factor(totalLEL, factoring.WeeksInPeriod, factoring.Periods));
 
             var niCalc = new NationalInsuranceCalculation
             {

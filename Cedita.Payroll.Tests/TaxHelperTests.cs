@@ -33,7 +33,7 @@ namespace Cedita.Payroll.Tests
         }
 
         [TestCategory("Helpers"), TestMethod]
-        public void TaxPeriodGenerationDerivation()
+        public void TaxPeriodGeneration()
         {
             var taxDates = Models.TaxPeriod.GetPeriodsForTaxYear(2016);
             var firstDate = taxDates[0];

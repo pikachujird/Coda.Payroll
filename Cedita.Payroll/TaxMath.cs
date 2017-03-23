@@ -78,11 +78,30 @@ namespace Cedita.Payroll
             return 0m;
         }
 
+        /// <summary>
+        /// Return the Smallest of two values.
+        /// </summary>
+        /// <param name="x">Decimal 1</param>
+        /// <param name="y">Decimal 2</param>
+        /// <returns>Smallest between Decimals 1 & 2</returns>
         public static decimal Smallest(decimal x, decimal y)
         {
             if (x >= y)
                 return y;
             return x;
+        }
+
+        /// <summary>
+        /// Get Period Based Factors for TaxMath.Factor
+        /// </summary>
+        /// <param name="payPeriods">Pay Periods</param>
+        /// <returns>Name Value Tuple for Periods / WeeksInPeriod</returns>
+        public static (int Periods, int WeeksInPeriod) GetFactoring(PayPeriods payPeriods)
+        {
+            if (payPeriods == PayPeriods.Monthly)
+                return (12, 1);
+            else
+                return (52, (int)Math.Round((decimal)52 / (int)payPeriods));
         }
     }
 }
