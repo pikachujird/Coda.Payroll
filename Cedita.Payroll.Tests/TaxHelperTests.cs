@@ -33,6 +33,22 @@ namespace Cedita.Payroll.Tests
         }
 
         [TestCategory("Helpers"), TestMethod]
+        public void TaxPeriodGenerationDerivation()
+        {
+            var taxDates = Models.TaxPeriod.GetPeriodsForTaxYear(2016);
+            var firstDate = taxDates[0];
+            var lastDate = taxDates[364];
+            Assert.AreEqual(1, firstDate.Week);
+            Assert.AreEqual(53, lastDate.Week);
+
+            Assert.AreEqual(1, firstDate.Month);
+            Assert.AreEqual(12, lastDate.Month);
+
+            Assert.AreEqual(2016, firstDate.Year);
+            Assert.AreEqual(2016, lastDate.Year);
+        }
+
+        [TestCategory("Helpers"), TestMethod]
         public void NumberTruncationTest()
         {
             Assert.AreEqual(9999.99999m, TaxMath.Truncate(9999.999999999m, 5));
