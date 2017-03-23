@@ -20,7 +20,7 @@ namespace Cedita.Payroll.Engines.NationalInsurance
             TaxYearSpecificProvider.SetTaxYear(taxYear);
         }
 
-        public abstract NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods periods);
+        public abstract NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods);
 
         protected virtual decimal SubtractRound(decimal gross, decimal limit, decimal subtract)
         {

@@ -8,7 +8,7 @@ namespace Cedita.Payroll.Engines.NationalInsurance
     [EngineApplicableTaxYear(TaxYearStartYear = 2016)]
     public class NationalInsurance2016 : NationalInsurance2014
     {
-        public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods periods)
+        public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)
         {
             var totalPT = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.PrimaryThreshold);
             var totalST = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.SecondaryThreshold);
@@ -19,11 +19,11 @@ namespace Cedita.Payroll.Engines.NationalInsurance
 
             var niRates = TaxYearSpecificProvider.GetCodeSpecifics(niCategory);
 
-            var factoring = TaxMath.GetFactoring(periods);
-            decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, factoring.WeeksInPeriod, factoring.Periods), factoring.WeeksInPeriod),
-                periodST = TaxMath.PeriodRound(TaxMath.Factor(totalST, factoring.WeeksInPeriod, factoring.Periods), factoring.WeeksInPeriod),
-                periodUEL = TaxMath.PeriodRound(TaxMath.Factor(totalUEL, factoring.WeeksInPeriod, factoring.Periods), factoring.WeeksInPeriod),
-                periodLEL = Math.Ceiling(TaxMath.Factor(totalLEL, factoring.WeeksInPeriod, factoring.Periods));
+            var (periods, weeksInPeriod) = TaxMath.GetFactoring(payPeriods);
+            decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, weeksInPeriod, periods), weeksInPeriod),
+                periodST = TaxMath.PeriodRound(TaxMath.Factor(totalST, weeksInPeriod, periods), weeksInPeriod),
+                periodUEL = TaxMath.PeriodRound(TaxMath.Factor(totalUEL, weeksInPeriod, periods), weeksInPeriod),
+                periodLEL = Math.Ceiling(TaxMath.Factor(totalLEL, weeksInPeriod, periods));
 
             var niCalc = new NationalInsuranceCalculation
             {
