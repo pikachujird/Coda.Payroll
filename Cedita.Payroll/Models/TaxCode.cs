@@ -92,6 +92,9 @@ namespace Cedita.Payroll.Models
             if (taxCode == null) return false;
 
             SanitiseTaxCode(taxCode);
+            
+            if (string.IsNullOrWhiteSpace(taxCode)) return false;
+            
             DetermineNoAdjustmentCode();
 
             if (!DetermineCodeComponents()) return false;
@@ -106,6 +109,8 @@ namespace Cedita.Payroll.Models
         {
             SanitisedTaxCode = taxCode.Trim();
             SanitisedTaxCode = SanitisedTaxCode.ToUpperInvariant();
+            
+            if (SanitisedTaxCode.Length == 0) return;
 
             // Do this here as it affects the sanitised tax code directly
             DetermineScottishTaxCode();
