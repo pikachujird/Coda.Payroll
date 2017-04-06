@@ -64,8 +64,8 @@ namespace Cedita.Payroll.Models
             
             var span = date - taxYearStart;
             week = (int)Math.Floor(span.Days / 7d) + 1;
-            fortnight = week / 2;
-            fourweek = week / 4;
+            fortnight = Math.Max(1, week / 2);
+            fourweek = Math.Max(1, week / 4);
 
             if (date.Day < 6)
                 date = date.AddMonths(-1);
