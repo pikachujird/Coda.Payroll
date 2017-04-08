@@ -30,6 +30,26 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(2016, new DateTime(2017, 01, 01).GetTaxPeriod().Year);
             Assert.AreEqual(2016, new DateTime(2017, 04, 05).GetTaxPeriod().Year);
             Assert.AreEqual(2017, new DateTime(2017, 04, 06).GetTaxPeriod().Year);
+
+
+            Assert.AreEqual(1, new DateTime(2017, 04, 06).GetTaxPeriod().Fortnight);
+            Assert.AreEqual(1, new DateTime(2017, 04, 07).GetTaxPeriod().Fortnight);
+            Assert.AreEqual(1, new DateTime(2017, 04, 13).GetTaxPeriod().Fortnight);
+            Assert.AreEqual(1, new DateTime(2017, 04, 14).GetTaxPeriod().Fortnight);
+            Assert.AreEqual(1, new DateTime(2017, 04, 19).GetTaxPeriod().Fortnight);
+            Assert.AreEqual(2, new DateTime(2017, 04, 20).GetTaxPeriod().Fortnight);
+            Assert.AreEqual(2, new DateTime(2017, 04, 24).GetTaxPeriod().Fortnight);
+            Assert.AreEqual(27, new DateTime(2018, 04, 05).GetTaxPeriod().Fortnight);
+            
+            Assert.AreEqual(1, new DateTime(2017, 04, 06).GetTaxPeriod().FourWeek);
+            Assert.AreEqual(1, new DateTime(2017, 04, 07).GetTaxPeriod().FourWeek);
+            Assert.AreEqual(1, new DateTime(2017, 04, 20).GetTaxPeriod().FourWeek);
+            Assert.AreEqual(1, new DateTime(2017, 04, 24).GetTaxPeriod().FourWeek);
+            Assert.AreEqual(1, new DateTime(2017, 05, 02).GetTaxPeriod().FourWeek);
+            Assert.AreEqual(1, new DateTime(2017, 05, 03).GetTaxPeriod().FourWeek);
+            Assert.AreEqual(2, new DateTime(2017, 05, 04).GetTaxPeriod().FourWeek);
+            Assert.AreEqual(2, new DateTime(2017, 05, 05).GetTaxPeriod().FourWeek);
+            Assert.AreEqual(14, new DateTime(2018, 04, 05).GetTaxPeriod().FourWeek);
         }
 
         [TestCategory("Helpers"), TestMethod]
@@ -40,6 +60,12 @@ namespace Cedita.Payroll.Tests
             var lastDate = taxDates[364];
             Assert.AreEqual(1, firstDate.Week);
             Assert.AreEqual(53, lastDate.Week);
+            
+            Assert.AreEqual(1, firstDate.Fortnight);
+            Assert.AreEqual(27, lastDate.Fortnight);
+
+            Assert.AreEqual(1, firstDate.FourWeek);
+            Assert.AreEqual(14, lastDate.FourWeek);
 
             Assert.AreEqual(1, firstDate.Month);
             Assert.AreEqual(12, lastDate.Month);
