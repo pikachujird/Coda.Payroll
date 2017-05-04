@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard1.4</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.1.0.3-pre</Version>
+    <Version>0.1.0.4-pre</Version>
     <Authors>Cedita</Authors>
     <Company>Cedita Ltd</Company>
     <Description>.NET Standard implementation of the United Kingdom's HMRC UK Tax legislation.</Description>
