@@ -835,9 +835,9 @@
 
     "DeaProtectedEarnings": 0.6,
 
-    "PensionLowerThreshold": 5824,
+    "PensionLowerThreshold": 5876,
     "PensionAutomaticEnrolment": 10000,
-    "PensionUpperThreshold": 43000,
+    "PensionUpperThreshold": 45000,
 
     "FixedCodes": [
       {
