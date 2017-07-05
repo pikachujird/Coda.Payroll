@@ -10,7 +10,7 @@ namespace Cedita.Payroll
     {
         Monthly = 12,
         FourWeekly = 13,
-        Fortnightly = 28,
+        Fortnightly = 26,
         Weekly = 52
     }
 }

@@ -155,10 +155,11 @@ namespace Cedita.Payroll.Engines.Paye
             var quotientMult = TaxMath.UpRound(500 * (10 / (decimal)payPeriodForQuotient), 2);
             remainder = ((remainder * 10) + 9) / (int)payPeriodForQuotient;
             remainder = Math.Ceiling(remainder * 100) / 100;
-            remainder *= Math.Round((decimal)payPeriodForQuotient / (decimal)periods);
+            //remainder *= Math.Round((decimal)payPeriodForQuotient / (decimal)periods);
             quotient = quotient * quotientMult;
 
             var adjustment = (quotient + remainder);// * period;
+            adjustment *= Math.Round((decimal)payPeriodForQuotient / (decimal)periods);
 
             if (taxCode.IsPrefixCode)
                 adjustment *= -1;

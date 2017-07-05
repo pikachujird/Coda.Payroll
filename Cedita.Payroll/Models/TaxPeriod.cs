@@ -74,5 +74,12 @@ namespace Cedita.Payroll.Models
             var yearDiff = date.Year - year;
             month = Math.Max(1, (yearDiff * 12) + monthDiff);
         }
+
+        protected static TaxPeriod GetPeriodFromNumber(PayPeriods periods, int period, int taxYear)
+        {
+            var baseDate = new DateTime(taxYear, 04, 06);
+            var referenceDate = baseDate.AddDays(period * (365 / (int)periods));
+            return new TaxPeriod(referenceDate);
+        }
     }
 }
