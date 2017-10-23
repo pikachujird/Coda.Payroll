@@ -14,6 +14,12 @@ namespace Cedita.Payroll.Tests
 
         protected decimal TestShim(decimal gross, char niCode, PayPeriods periods, int year)
         {
+            var result = GetCalculationResult(gross, niCode, periods, year);
+            return result.EmployeeNi + result.EmployerNi;
+        }
+
+        protected NationalInsuranceCalculation GetCalculationResult(decimal gross, char niCode, PayPeriods periods, int year)
+        {
             if (!CalcEngines.ContainsKey(year))
             {
                 CalcEngines.Add(year, DefaultEngineResolver.GetEngine<INiCalculationEngine>(year));
@@ -21,8 +27,7 @@ namespace Cedita.Payroll.Tests
                 CalcEngines[year].SetTaxYear(year);
             }
 
-            var result = CalcEngines[year].CalculateNationalInsurance(gross, niCode, periods);
-            return result.EmployeeNi + result.EmployerNi;
+            return CalcEngines[year].CalculateNationalInsurance(gross, niCode, periods);
         }
     }
 }

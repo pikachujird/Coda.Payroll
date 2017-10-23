@@ -254,6 +254,18 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(61.44m, TestShim(3750.29m, niCode, PayPeriods.Monthly, 2017));
             Assert.AreEqual(61.45m, TestShim(3750.30m, niCode, PayPeriods.Monthly, 2017));
             Assert.AreEqual(337.90m, TestShim(5500m, niCode, PayPeriods.Monthly, 2017));
+
+            // X Code
+            niCode = 'X';
+            Assert.AreEqual(0m, TestShim(600m, niCode, PayPeriods.Weekly, 2017));
+            
+            // Ensure the UEL/LEL Figures are all zero for X Code
+            var niResult = GetCalculationResult(600m, niCode, PayPeriods.Weekly, 2017);
+            Assert.AreEqual(0m, niResult.EarningsUptoIncludingLEL);
+            Assert.AreEqual(0m, niResult.EarningsAboveUEL);
+            Assert.AreEqual(0m, niResult.EarningsAboveSTUptoIncludingUEL);
+            Assert.AreEqual(0m, niResult.EarningsAbovePTUptoIncludingST);
+            Assert.AreEqual(0m, niResult.EarningsAboveLELUptoIncludingPT);
         }
     }
 }
