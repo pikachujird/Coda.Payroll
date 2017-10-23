@@ -257,8 +257,38 @@ namespace Cedita.Payroll.Tests
 
             // X Code
             niCode = 'X';
-            Assert.AreEqual(0m, TestShim(600m, niCode, PayPeriods.Weekly, 2017));
-            
+            Assert.AreEqual(0m, TestShim(157.29m, niCode, PayPeriods.Weekly, 2017));
+            Assert.AreEqual(0m, TestShim(157.30m, niCode, PayPeriods.Weekly, 2017));
+            Assert.AreEqual(0m, TestShim(866.04m, niCode, PayPeriods.Weekly, 2017));
+            Assert.AreEqual(0m, TestShim(866.05m, niCode, PayPeriods.Weekly, 2017));
+            Assert.AreEqual(0m, TestShim(866.29m, niCode, PayPeriods.Weekly, 2017));
+            Assert.AreEqual(0m, TestShim(866.30m, niCode, PayPeriods.Weekly, 2017));
+            Assert.AreEqual(0m, TestShim(1180m, niCode, PayPeriods.Weekly, 2017));
+
+            Assert.AreEqual(0m, TestShim(314.29m, niCode, PayPeriods.Fortnightly, 2017));
+            Assert.AreEqual(0m, TestShim(314.30m, niCode, PayPeriods.Fortnightly, 2017));
+            Assert.AreEqual(0m, TestShim(1731.04m, niCode, PayPeriods.Fortnightly, 2017));
+            Assert.AreEqual(0m, TestShim(1731.05m, niCode, PayPeriods.Fortnightly, 2017));
+            Assert.AreEqual(0m, TestShim(1731.29m, niCode, PayPeriods.Fortnightly, 2017));
+            Assert.AreEqual(0m, TestShim(1731.30m, niCode, PayPeriods.Fortnightly, 2017));
+            Assert.AreEqual(0m, TestShim(2545m, niCode, PayPeriods.Fortnightly, 2017));
+
+            Assert.AreEqual(0m, TestShim(628.29m, niCode, PayPeriods.FourWeekly, 2017));
+            Assert.AreEqual(0m, TestShim(628.30m, niCode, PayPeriods.FourWeekly, 2017));
+            Assert.AreEqual(0m, TestShim(3462.04m, niCode, PayPeriods.FourWeekly, 2017));
+            Assert.AreEqual(0m, TestShim(3462.05m, niCode, PayPeriods.FourWeekly, 2017));
+            Assert.AreEqual(0m, TestShim(3462.29m, niCode, PayPeriods.FourWeekly, 2017));
+            Assert.AreEqual(0m, TestShim(3462.30m, niCode, PayPeriods.FourWeekly, 2017));
+            Assert.AreEqual(0m, TestShim(4850m, niCode, PayPeriods.FourWeekly, 2017));
+
+            Assert.AreEqual(0m, TestShim(680.29m, niCode, PayPeriods.Monthly, 2017));
+            Assert.AreEqual(0m, TestShim(680.30m, niCode, PayPeriods.Monthly, 2017));
+            Assert.AreEqual(0m, TestShim(3750.04m, niCode, PayPeriods.Monthly, 2017));
+            Assert.AreEqual(0m, TestShim(3750.05m, niCode, PayPeriods.Monthly, 2017));
+            Assert.AreEqual(0m, TestShim(3750.29m, niCode, PayPeriods.Monthly, 2017));
+            Assert.AreEqual(0m, TestShim(3750.30m, niCode, PayPeriods.Monthly, 2017));
+            Assert.AreEqual(0m, TestShim(5500m, niCode, PayPeriods.Monthly, 2017));
+
             // Ensure the UEL/LEL Figures are all zero for X Code
             var niResult = GetCalculationResult(600m, niCode, PayPeriods.Weekly, 2017);
             Assert.AreEqual(0m, niResult.EarningsUptoIncludingLEL);
