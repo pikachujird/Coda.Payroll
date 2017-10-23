@@ -24,6 +24,10 @@ namespace Cedita.Payroll.Engines.NationalInsurance
             var totalUST = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.UpperSecondaryThreshold);
             var totalAUST = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.ApprenticeUpperSecondaryThreshold);
 
+            // 'X' Ni Code does not pay NI
+            if (niCategory == 'X')
+                gross = 0m;
+
             var niRates = TaxYearSpecificProvider.GetCodeSpecifics(niCategory);
 
             // WTF. UEL must round 865.3846 to 866. But PT must round 680.3333 to 680. This isn't sane.
