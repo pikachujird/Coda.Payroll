@@ -981,9 +981,9 @@
     "UpperSecondaryThreshold": 46350,
     "ApprenticeUpperSecondaryThreshold": 46350,
 
-    "Plan1StudentLoanThreshold": 17775,
+    "Plan1StudentLoanThreshold": 18330,
     "Plan1StudentLoanRate": 0.09,
-    "Plan2StudentLoanThreshold": 21000,
+    "Plan2StudentLoanThreshold": 25000,
     "Plan2StudentLoanRate": 0.09,
 
     "DeaProtectedEarnings": 0.6,
