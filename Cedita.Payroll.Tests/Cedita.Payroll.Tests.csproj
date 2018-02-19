@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="NiTests.2015.cs" />
     <Compile Include="NiTests.2016.cs" />
+    <Compile Include="NiTests.2018.cs" />
     <Compile Include="NiTests.2017.cs" />
     <Compile Include="NiTests.cs" />
     <Compile Include="NiTests.2014.cs" />
