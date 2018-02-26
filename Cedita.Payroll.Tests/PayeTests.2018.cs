@@ -35,10 +35,10 @@ namespace Cedita.Payroll.Tests
             // (Scottish) General Tax Rate
             Assert.AreEqual(0m, LegacyShim(39.24m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
             Assert.AreEqual(0.19m, LegacyShim(39.25m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
-            Assert.AreEqual(626.57m, LegacyShim(2914.24m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
-            Assert.AreEqual(626.98m, LegacyShim(2914.25m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
-            Assert.AreEqual(4572.82m, LegacyShim(12539.24m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
-            Assert.AreEqual(4573.28m, LegacyShim(12539.25m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
+            Assert.AreEqual(640.62m, LegacyShim(2914.24m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
+            Assert.AreEqual(641.03m, LegacyShim(2914.25m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
+            Assert.AreEqual(4586.87m, LegacyShim(12539.24m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
+            Assert.AreEqual(4587.33m, LegacyShim(12539.25m, "S45L", PayPeriods.Monthly, 1, 0, 0, false, 2018));
 
             Assert.AreEqual(19.80m, LegacyShim(99.99m, "SBR", PayPeriods.Monthly, 1, 0, 0, false, 2018));
             Assert.AreEqual(20.79m, LegacyShim(99.99m, "SD0", PayPeriods.Monthly, 1, 0, 0, false, 2018));
@@ -47,10 +47,10 @@ namespace Cedita.Payroll.Tests
 
             Assert.AreEqual(0m, LegacyShim(29.05m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
             Assert.AreEqual(0.19m, LegacyShim(29.06m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
-            Assert.AreEqual(144.81m, LegacyShim(692.06m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
-            Assert.AreEqual(144.81m, LegacyShim(692.07m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
-            Assert.AreEqual(1055.42m, LegacyShim(2913.06m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
-            Assert.AreEqual(1055.44m, LegacyShim(2913.07m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
+            Assert.AreEqual(148.05m, LegacyShim(692.06m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
+            Assert.AreEqual(148.05m, LegacyShim(692.07m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
+            Assert.AreEqual(1058.66m, LegacyShim(2913.06m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
+            Assert.AreEqual(1058.68m, LegacyShim(2913.07m, "S145L", PayPeriods.Weekly, 1, 0, 0, false, 2018));
 
             Assert.AreEqual(20.20m, LegacyShim(101.99m, "SBR", PayPeriods.Weekly, 1, 0, 0, false, 2018));
             Assert.AreEqual(21.21m, LegacyShim(101.99m, "SD0", PayPeriods.Weekly, 1, 0, 0, false, 2018));
