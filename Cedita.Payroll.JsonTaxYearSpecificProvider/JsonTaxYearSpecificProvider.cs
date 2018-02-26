@@ -60,15 +60,14 @@ namespace Cedita.Payroll
         {
             EnsureTaxYearSet();
 
-            return (scottish ? CurrentTaxYear.ScottishFixedCodes : CurrentTaxYear.FixedCodes).SingleOrDefault(m => m.Code == taxCode);
+            return ((scottish ? CurrentTaxYear.ScottishFixedCodes : null) ?? CurrentTaxYear.FixedCodes).SingleOrDefault(m => m.Code == taxCode);
         }
 
         public bool IsFixedCode(string taxCode, bool scottish = false)
         {
             EnsureTaxYearSet();
-
-
-            return (scottish ? CurrentTaxYear.ScottishFixedCodes : CurrentTaxYear.FixedCodes).Any(m => m.Code == taxCode);
+            
+            return ((scottish ? CurrentTaxYear.ScottishFixedCodes : null) ?? CurrentTaxYear.FixedCodes).Any(m => m.Code == taxCode);
         }
 
         public T GetSpecificValue<T>(TaxYearSpecificValues specificValueType)
