@@ -6,24 +6,13 @@ using System.Collections.Generic;
 namespace Cedita.Payroll.Engines
 {
     /// <summary>
-    /// Interface that supports the injection of an <see cref="IProvideTaxYearSpecifics"/> instance
-    /// </summary>
-    public interface IRequireTaxYearSpecifics
-    {
-        void SetTaxYearSpecificsProvider(IProvideTaxYearSpecifics provider);
-        void SetTaxYear(int taxYear);
-    }
-
-    /// <summary>
     /// Interface to support the retrieval of Tax Year Specifics
     /// 
     /// It is recommended for high performance applications to provide your own static in-code implementation of this,
     /// or database / cache based at a minimum. This is to apply instead of the default JSON provider.
     /// </summary>
-    public interface IProvideTaxYearSpecifics
+    public interface ITaxConfigurationDataProvider
     {
-        void SetTaxYear(int taxYear);
-
         T GetSpecificValue<T>(TaxYearSpecificValues specificValueType);
         decimal GetPeriodTaxYearValue(TaxYearSpecificValues specificValueType, PayPeriods period);
         NationalInsuranceCode GetCodeSpecifics(char niCode);

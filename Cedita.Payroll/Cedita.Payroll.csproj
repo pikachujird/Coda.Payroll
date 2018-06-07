@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard2.0;net471</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.0</Version>
     <Authors>Cedita</Authors>
@@ -13,12 +13,6 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>payroll hmrc tax nationalinsurance rti ni calculations uk uktax json cedita taxyearspecifics</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0' AND '$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputType>library</OutputType>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
-  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
