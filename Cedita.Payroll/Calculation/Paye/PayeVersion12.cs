@@ -8,6 +8,7 @@ using Cedita.Payroll.Models;
 
 namespace Cedita.Payroll.Calculation.Paye
 {
+    [CalculationEngineTaxYear(TaxYear = 2013)]
     [CalculationEngineTaxYear(TaxYear = 2014)]
     public class PayeVersion12 : PayeCalculationEngine
     {
@@ -34,7 +35,7 @@ namespace Cedita.Payroll.Calculation.Paye
             var taxableIncome = Math.Max(Math.Floor(CalculationContainer.Pn - CalculationContainer.na1), 0);
             var fixedCodeList = CalculationContainer.TaxCode.IsScotlandTax ? taxYearConfigurationData.ScottishFixedCodes : taxYearConfigurationData.FixedCodes;
             FixedCode fixedCode;
-            if (fixedCodeList.Any(m => m.Code == CalculationContainer.TaxCode.SanitisedTaxCode))
+            if (fixedCodeList?.Any(m => m.Code == CalculationContainer.TaxCode.SanitisedTaxCode) == true)
             {
                 fixedCode = fixedCodeList.First(m => m.Code == CalculationContainer.TaxCode.SanitisedTaxCode);
                 CalculationContainer.Ln = taxableIncome * fixedCode.Rate;
