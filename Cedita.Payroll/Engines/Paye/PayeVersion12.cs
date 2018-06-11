@@ -3,11 +3,11 @@
 using System;
 using System.Collections.Generic;
 using Cedita.Payroll.Models;
-using Cedita.Payroll.Models.TaxYearSpecifics;
+using Cedita.Payroll.Models.TaxConfiguration;
 
 namespace Cedita.Payroll.Engines.Paye
 {
-    [EngineApplicableTaxYear(TaxYearStartYear = 2014)]
+    [CalculationEngineTaxYear(TaxYear = 2014)]
     public class PayeVersion12 : PayeCalculationEngine
     {
         public override decimal CalculateTaxDueForPeriod(TaxCode taxCode, decimal gross, PayPeriods periods, int period, bool week1 = false, decimal grossToDate = 0, decimal taxToDate = 0)

@@ -22,6 +22,8 @@ namespace Cedita.Payroll.Engines.Paye
         public decimal ln;
         public decimal Un;
         public decimal Tn;
+
+        public decimal TaxDue => ln;
     }
 
     public class PayeInternalBracket

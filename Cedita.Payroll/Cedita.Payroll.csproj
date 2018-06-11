@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.0</Version>
+    <Version>2.0-pre</Version>
     <Authors>Cedita</Authors>
     <Company>Cedita Ltd</Company>
     <Description>.NET Standard implementation of the United Kingdom's HMRC UK Tax legislation.</Description>
@@ -11,7 +11,7 @@
     <PackageIconUrl>https://www.cedita.com/nuget.png</PackageIconUrl>
     <RepositoryUrl>https://www.github.com/cedita/Cedita.Payroll</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageTags>payroll hmrc tax nationalinsurance rti ni calculations uk uktax json cedita taxyearspecifics</PackageTags>
+    <PackageTags>payroll hmrc paye tax nationalinsurance rti ni calculations uk uktax json cedita</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="**\*.resx" />
@@ -20,5 +20,11 @@
     <Compile Remove="obj\**" />
     <EmbeddedResource Remove="obj\**" />
     <None Remove="obj\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Configuration\PayrollConfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\Data\PayrollConfig.json" />
   </ItemGroup>
 </Project>

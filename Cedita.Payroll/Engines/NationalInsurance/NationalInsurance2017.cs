@@ -5,8 +5,8 @@ using System;
 
 namespace Cedita.Payroll.Engines.NationalInsurance
 {
-    [EngineApplicableTaxYear(TaxYearStartYear = 2017)]
-    [EngineApplicableTaxYear(TaxYearStartYear = 2018)]
+    [CalculationEngineTaxYear(TaxYear = 2017)]
+    [CalculationEngineTaxYear(TaxYear = 2018)]
     public class NationalInsurance2017 : NationalInsurance2016
     {
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)
@@ -20,9 +20,11 @@ namespace Cedita.Payroll.Engines.NationalInsurance
 
             var niRates = TaxYearSpecificProvider.GetCodeSpecifics(niCategory);
 
-            // 'X' Ni Code does not pay NI contributions
+            // 'X' NI Code does not pay NI contributions
             if (niCategory == 'X')
+            {
                 gross = 0m;
+            }
 
             var (periods, weeksInPeriod) = TaxMath.GetFactoring(payPeriods);
             // WTF. UEL must round 865.3846 to 866. But PT must round 680.3333 to 680. This isn't sane.

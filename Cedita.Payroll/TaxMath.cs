@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Cedita Ltd. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
+using Cedita.Payroll.Models;
 using System;
 
 namespace Cedita.Payroll
@@ -10,7 +11,11 @@ namespace Cedita.Payroll
     /// </summary>
     public static class TaxMath
     {
-        public enum MultiplicationAccuracy { High, Low }
+        public enum MultiplicationAccuracy
+        {
+            High,
+            Low
+        }
 
         public static decimal Truncate(decimal value, int places = 2)
         {
@@ -43,7 +48,9 @@ namespace Cedita.Payroll
         public static decimal PeriodRound(decimal value, int periods)
         {
             if (periods > 1)
+            {
                 return Math.Ceiling(value);
+            }
             return Math.Round(value, 0, MidpointRounding.AwayFromZero);
         }
 
@@ -74,7 +81,9 @@ namespace Cedita.Payroll
         public static decimal PositiveOnly(decimal value)
         {
             if (value > 0)
+            {
                 return value;
+            }
             return 0m;
         }
 
@@ -87,7 +96,9 @@ namespace Cedita.Payroll
         public static decimal Smallest(decimal x, decimal y)
         {
             if (x >= y)
+            {
                 return y;
+            }
             return x;
         }
 
@@ -96,12 +107,19 @@ namespace Cedita.Payroll
         /// </summary>
         /// <param name="payPeriods">Pay Periods</param>
         /// <returns>Name Value Tuple for Periods / WeeksInPeriod</returns>
-        public static (int Periods, int WeeksInPeriod) GetFactoring(PayPeriods payPeriods)
+        public static PeriodFactoring GetFactoring(PayPeriods payPeriods)
         {
-            if (payPeriods == PayPeriods.Monthly)
-                return (12, 1);
-            else
-                return (52, (int)Math.Round((decimal)52 / (int)payPeriods));
+            int periods = 12, weeksInPeriod = 1;
+            if (payPeriods != PayPeriods.Monthly)
+            {
+                periods = 52;
+                weeksInPeriod = (int)Math.Round((decimal)52 / (int)payPeriods);
+            }
+            return new PeriodFactoring
+            {
+                Periods = periods,
+                WeeksInPeriod = weeksInPeriod
+            };
         }
     }
 }

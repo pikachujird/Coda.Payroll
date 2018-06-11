@@ -37,7 +37,7 @@ namespace Cedita.Payroll.Engines.Paye
 
         protected abstract PayeInternalBracket[] GetBracketsForPeriod();
 
-        protected abstract decimal GetPayAdjustment(TaxCode taxCode, PayPeriods periods/*, int period*/);
+        protected abstract decimal GetPayAdjustment(TaxCode taxCode, PayPeriods periods);
 
         protected abstract PayeCalculationContainer CreateDefaultContainer();
 

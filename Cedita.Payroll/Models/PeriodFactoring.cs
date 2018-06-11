@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Cedita Ltd. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
 
-namespace Cedita.Payroll.Models.TaxYearSpecifics
+namespace Cedita.Payroll.Models
 {
-    public class FixedCode
+    public struct PeriodFactoring
     {
-        public string Code { get; set; }
-        public decimal Rate { get; set; }
+        public int Periods { get; set; }
+        public int WeeksInPeriod { get; set; }
     }
 }

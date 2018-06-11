@@ -5,7 +5,7 @@ using System;
 
 namespace Cedita.Payroll.Engines.NationalInsurance
 {
-    [EngineApplicableTaxYear(TaxYearStartYear = 2016)]
+    [CalculationEngineTaxYear(TaxYear = 2016)]
     public class NationalInsurance2016 : NationalInsurance2014
     {
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)

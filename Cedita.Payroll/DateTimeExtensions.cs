@@ -5,7 +5,7 @@ using System;
 
 namespace Cedita.Payroll
 {
-    public static class TaxExtensions
+    public static class DateTimeExtensions
     {
         /// <summary>
         /// Get the <see cref="TaxPeriod"/> for this <see cref="DateTime"/>
