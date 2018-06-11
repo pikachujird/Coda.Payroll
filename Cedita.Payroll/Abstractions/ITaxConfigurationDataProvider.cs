@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Cedita Ltd. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
-using System.Collections.Generic;
+using Cedita.Payroll.Configuration;
 
 namespace Cedita.Payroll.Abstractions
 {
@@ -12,11 +12,6 @@ namespace Cedita.Payroll.Abstractions
     /// </summary>
     public interface ITaxConfigurationDataProvider
     {
-        T GetSpecificValue<T>(TaxYearSpecificValues specificValueType);
-        decimal GetPeriodTaxYearValue(TaxYearSpecificValues specificValueType, PayPeriods period);
-        NationalInsuranceCode GetCodeSpecifics(char niCode);
-        bool IsFixedCode(string taxCode, bool scottish = false);
-        FixedCode GetFixedCode(string taxCode, bool scottish = false);
-        IEnumerable<TaxBracket> GetTaxBrackets(bool scottish = false);
+        TaxYearConfigurationData GetTaxYearConfigurationData(int taxYear);
     }
 }
