@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Cedita Ltd. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
 using System;
-using System.Collections.Generic;
 
 namespace Cedita.Payroll.Models
 {
@@ -32,7 +31,9 @@ namespace Cedita.Payroll.Models
             Date = date;
             Year = date.Year;
             if (date.Month < 4 || (date.Month == 4 && date.Day < 6))
+            {
                 Year--;
+            }
             var baseDate = new DateTime(Year, 04, 06);
             TaxPeriodsFromDates(baseDate, date, out int year, out int week, out int fortnight, out int fourweek, out int month);
             Week = week;
@@ -41,7 +42,7 @@ namespace Cedita.Payroll.Models
             Month = month;
         }
 
-        public static TaxPeriod[] GetPeriodsForTaxYear(int taxYear = 2016)
+        public static TaxPeriod[] GetPeriodsForTaxYear(int taxYear)
         {
             var baseDate = new DateTime(taxYear, 04, 06);
             var daysInYear = new DateTime(taxYear + 1, 12, 31).DayOfYear;
@@ -60,7 +61,9 @@ namespace Cedita.Payroll.Models
         {
             year = date.Year;
             if (date.Month < 4 || (date.Month == 4 && date.Day < 6))
+            {
                 year--;
+            }
             
             var span = date - taxYearStart;
             week = (int)Math.Floor(span.Days / 7d) + 1;
@@ -68,7 +71,9 @@ namespace Cedita.Payroll.Models
             fourweek = (int)((week / 4d) + 0.75d);
 
             if (date.Day < 6)
+            {
                 date = date.AddMonths(-1);
+            }
 
             var monthDiff = date.Month - 3;
             var yearDiff = date.Year - year;
