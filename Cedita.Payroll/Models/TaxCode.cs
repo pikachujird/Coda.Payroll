@@ -68,10 +68,14 @@ namespace Cedita.Payroll.Models
         public static TaxCode Parse(string input)
         {
             if (input == null)
+            {
                 throw new ArgumentNullException(nameof(input));
+            }
 
             if (!TryParse(input, out TaxCode taxCode))
+            {
                 throw new FormatException($"{input} is an invalid tax code format.");
+            }
 
             return taxCode;
         }
@@ -90,15 +94,24 @@ namespace Cedita.Payroll.Models
         
         protected bool PerformTranslation(string taxCode)
         {
-            if (taxCode == null) return false;
+            if (taxCode == null)
+            {
+                return false;
+            }
 
             SanitiseTaxCode(taxCode);
             
-            if (string.IsNullOrWhiteSpace(taxCode)) return false;
-            
+            if (string.IsNullOrWhiteSpace(taxCode))
+            {
+                return false;
+            }
+
             DetermineNoAdjustmentCode();
 
-            if (!DetermineCodeComponents()) return false;
+            if (!DetermineCodeComponents())
+            {
+                return false;
+            }
             DeterminePrefixCode();
             
             IsValidTaxCode = true;
@@ -111,12 +124,17 @@ namespace Cedita.Payroll.Models
             SanitisedTaxCode = taxCode.Trim();
             SanitisedTaxCode = SanitisedTaxCode.ToUpperInvariant();
             
-            if (SanitisedTaxCode.Length == 0) return;
+            if (SanitisedTaxCode.Length == 0)
+            {
+                return;
+            }
 
             // Do this here as it affects the sanitised tax code directly
             DetermineScottishTaxCode();
             if (IsScotlandTax)
+            {
                 SanitisedTaxCode = SanitisedTaxCode.Substring(1);
+            }
         }
 
         protected void DetermineScottishTaxCode()
@@ -146,14 +164,18 @@ namespace Cedita.Payroll.Models
                 var codeMatches = new Regex(CodeRegex).Matches(SanitisedTaxCode);
                 // If we don't have a match, we failed to get it
                 if (codeMatches.Count == 0)
+                {
                     return false;
+                }
 
                 // Letter first, from the middle group supporting either prefix or suffix codes
                 TaxCodeLetter = $"{codeMatches[0].Groups[5].Value}{codeMatches[0].Groups[7].Value}";
 
                 // Now the numbers
                 if (Int32.TryParse($"{codeMatches[0].Groups[4].Value}{codeMatches[0].Groups[8].Value}", out int result))
+                {
                     TaxCodeNumber = result;
+                }
             }
             else
             {
