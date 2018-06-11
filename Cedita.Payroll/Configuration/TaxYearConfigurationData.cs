@@ -26,7 +26,7 @@ namespace Cedita.Payroll.Configuration
 
         public List<FixedCode> FixedCodes { get; set; }
         public List<FixedCode> ScottishFixedCodes { get; set; }
-        public List<NationalInsuranceCode> NiRates { get; set; }
+        public Dictionary<char, NationalInsuranceCode> NiRates { get; set; }
         public List<TaxBracket> Brackets { get; set; }
         public List<TaxBracket> ScottishBrackets { get; set; }
     }

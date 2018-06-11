@@ -6,9 +6,6 @@ namespace Cedita.Payroll.Abstractions
 {
     /// <summary>
     /// Interface to support the retrieval of Tax Year Specifics
-    /// 
-    /// It is recommended for high performance applications to provide your own static in-code implementation of this,
-    /// or database / cache based at a minimum. This is to apply instead of the default JSON provider.
     /// </summary>
     public interface ITaxConfigurationDataProvider
     {
