@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
 using Cedita.Payroll.Models;
 
-namespace Cedita.Payroll.Engines.Paye
+namespace Cedita.Payroll.Calculation.Paye
 {
     public class PayeCalculationContainer
     {

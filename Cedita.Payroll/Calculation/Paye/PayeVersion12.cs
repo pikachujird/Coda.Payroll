@@ -6,7 +6,7 @@ using System.Linq;
 using Cedita.Payroll.Configuration;
 using Cedita.Payroll.Models;
 
-namespace Cedita.Payroll.Engines.Paye
+namespace Cedita.Payroll.Calculation.Paye
 {
     [CalculationEngineTaxYear(TaxYear = 2014)]
     public class PayeVersion12 : PayeCalculationEngine

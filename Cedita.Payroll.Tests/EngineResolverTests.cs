@@ -1,9 +1,9 @@
 ﻿// Copyright(c) Cedita Ltd.All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
-using Cedita.Payroll.Engines;
+using Cedita.Payroll.Calculation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Cedita.Payroll.Engines.Paye;
-using Cedita.Payroll.Engines.NationalInsurance;
+using Cedita.Payroll.Calculation.Paye;
+using Cedita.Payroll.Calculation.NationalInsurance;
 
 namespace Cedita.Payroll.Tests
 {

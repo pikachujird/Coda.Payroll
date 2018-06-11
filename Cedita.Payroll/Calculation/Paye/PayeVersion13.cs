@@ -3,7 +3,7 @@
 using System;
 using Cedita.Payroll.Configuration;
 
-namespace Cedita.Payroll.Engines.Paye
+namespace Cedita.Payroll.Calculation.Paye
 {
     [CalculationEngineTaxYear(TaxYear = 2015)]
     [CalculationEngineTaxYear(TaxYear = 2016)]

@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cedita.Payroll.Engines.Paye
+namespace Cedita.Payroll.Calculation.Paye
 {
     /// <summary>
     /// Starting point for Paye Calculation Engines requiring definition of most of the common internal structures required for tax calculation.

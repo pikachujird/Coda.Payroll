@@ -4,7 +4,7 @@ using Cedita.Payroll.Abstractions;
 using Cedita.Payroll.Configuration;
 using System;
 
-namespace Cedita.Payroll.Engines.NationalInsurance
+namespace Cedita.Payroll.Calculation.NationalInsurance
 {
     public abstract class NationalInsuranceCalculationEngine : INiCalculationEngine
     {

@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
 using System;
 
-namespace Cedita.Payroll.Engines
+namespace Cedita.Payroll.Calculation
 {
     /// <summary>
     /// Defines the tax year that a calculation engine applies to
