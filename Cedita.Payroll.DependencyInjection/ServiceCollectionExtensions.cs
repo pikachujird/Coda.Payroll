@@ -1,7 +1,8 @@
-﻿using Cedita.Payroll.Abstractions;
-using Cedita.Payroll.Engines.Paye;
+﻿// Copyright (c) Cedita Ltd. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
+using Cedita.Payroll.Abstractions;
+using Cedita.Payroll.Configuration.Providers;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Cedita.Payroll.DependencyInjection
 {
@@ -13,13 +14,14 @@ namespace Cedita.Payroll.DependencyInjection
         /// <param name="services"></param>
         public static void AddCeditaPayroll(this IServiceCollection services)
         {
-            //AddCeditaPayroll<JsonTax>
+            AddCeditaPayroll<EmbeddedTaxConfigurationDataProvider>(services);
         }
 
         public static void AddCeditaPayroll<TTaxConfigurationDataProvider>(this IServiceCollection services)
-            where TTaxConfigurationDataProvider : ITaxConfigurationDataProvider
+            where TTaxConfigurationDataProvider : class, ITaxConfigurationDataProvider
         {
-            services.AddTransient<IPayeCalculationEngine, PayeVersion13>();
+            services.AddSingleton<IPayrollCalculatorFactory, DefaultPayrollCalculatorFactory>();
+            services.AddSingleton<ITaxConfigurationDataProvider, TTaxConfigurationDataProvider>();
         }
     }
 }
