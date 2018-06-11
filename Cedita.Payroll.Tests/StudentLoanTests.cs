@@ -8,17 +8,18 @@ namespace Cedita.Payroll.Tests
     [TestClass]
     public partial class StudentLoanTests
     {
-        protected StudentLoans CalculationEngine { get; set; }
+        //protected StudentLoans CalculationEngine { get; set; }
 
         protected decimal TestShim(int year, StudentLoanPlan plan, decimal gross, PayPeriods periods)
         {
-            if (CalculationEngine == null) {
+            return 0;
+            /*if (CalculationEngine == null) {
                 CalculationEngine = new StudentLoans();
                 CalculationEngine.SetTaxYearSpecificsProvider(new JsonTaxYearSpecificProvider());
             }
             CalculationEngine.SetTaxYear(year);
 
-            return CalculationEngine.CalculateStudentLoanDeduction(plan, gross, periods).StudentLoanDeduction;
+            return CalculationEngine.CalculateStudentLoanDeduction(plan, gross, periods).StudentLoanDeduction;*/
         }
     }
 }

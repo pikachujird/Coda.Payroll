@@ -13,7 +13,7 @@ namespace Cedita.Payroll.DependencyInjection
         /// <param name="services"></param>
         public static void AddCeditaPayroll(this IServiceCollection services)
         {
-            AddCeditaPayroll<JsonTax>
+            //AddCeditaPayroll<JsonTax>
         }
 
         public static void AddCeditaPayroll<TTaxConfigurationDataProvider>(this IServiceCollection services)

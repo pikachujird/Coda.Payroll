@@ -3,6 +3,7 @@
 using Cedita.Payroll.Engines;
 using Cedita.Payroll.Engines.NationalInsurance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 
 namespace Cedita.Payroll.Tests
@@ -10,16 +11,21 @@ namespace Cedita.Payroll.Tests
     [TestClass]
     public partial class NiTests
     {
-        protected Dictionary<int, INiCalculationEngine> CalcEngines = new Dictionary<int, INiCalculationEngine>();
+        //protected Dictionary<int, INiCalculationEngine> CalcEngines = new Dictionary<int, INiCalculationEngine>();
 
         protected decimal TestShim(decimal gross, char niCode, PayPeriods periods, int year)
         {
+            return 0;
+            /*
             var result = GetCalculationResult(gross, niCode, periods, year);
-            return result.EmployeeNi + result.EmployerNi;
+            return result.EmployeeNi + result.EmployerNi;*/
         }
 
         protected NationalInsuranceCalculation GetCalculationResult(decimal gross, char niCode, PayPeriods periods, int year)
         {
+            throw new NotImplementedException();
+
+            /*
             if (!CalcEngines.ContainsKey(year))
             {
                 CalcEngines.Add(year, DefaultEngineResolver.GetEngine<INiCalculationEngine>(year));
@@ -27,7 +33,7 @@ namespace Cedita.Payroll.Tests
                 CalcEngines[year].SetTaxYear(year);
             }
 
-            return CalcEngines[year].CalculateNationalInsurance(gross, niCode, periods);
+            return CalcEngines[year].CalculateNationalInsurance(gross, niCode, periods);*/
         }
     }
 }

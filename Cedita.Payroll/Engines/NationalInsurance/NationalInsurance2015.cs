@@ -1,7 +1,8 @@
 ﻿// Copyright (c) Cedita Ltd. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
 
-using Cedita.Payroll.Models.TaxYearSpecifics;
+using Cedita.Payroll.Abstractions;
+using Cedita.Payroll.Configuration;
 using System;
 
 namespace Cedita.Payroll.Engines.NationalInsurance
@@ -9,16 +10,22 @@ namespace Cedita.Payroll.Engines.NationalInsurance
     [CalculationEngineTaxYear(TaxYear = 2015)]
     public class NationalInsurance2015 : NationalInsuranceCalculationEngine
     {
+        public NationalInsurance2015(TaxYearConfigurationData taxYearConfigurationData) : base(taxYearConfigurationData)
+        {
+        }
+
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)
         {
-            var totalPT = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.PrimaryThreshold);
-            var totalST = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.SecondaryThreshold);
-            var totalUAP = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.UpperAccrualPoint);
-            var totalUEL = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.UpperEarningsLimit);
-            var totalLEL = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.LowerEarningsLimit);
-            var niRates = TaxYearSpecificProvider.GetCodeSpecifics(niCategory);
+            var totalPT = taxYearConfigurationData.PrimaryThreshold;
+            var totalST = taxYearConfigurationData.SecondaryThreshold;
+            var totalUAP = taxYearConfigurationData.UpperAccrualPoint;
+            var totalUEL = taxYearConfigurationData.UpperEarningsLimit;
+            var totalLEL = taxYearConfigurationData.LowerEarningsLimit;
+            var niRates = taxYearConfigurationData.NiRates[niCategory];
 
-            var (periods, weeksInPeriod) = TaxMath.GetFactoring(payPeriods);
+            var factoring = TaxMath.GetFactoring(payPeriods);
+            int periods = factoring.Periods,
+                weeksInPeriod = factoring.WeeksInPeriod;
             decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, weeksInPeriod, periods), weeksInPeriod),
                 periodST = TaxMath.PeriodRound(TaxMath.Factor(totalST, weeksInPeriod, periods), weeksInPeriod),
                 periodUAP = TaxMath.PeriodRound(TaxMath.Factor(totalUAP, weeksInPeriod, periods), weeksInPeriod),

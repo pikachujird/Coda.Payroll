@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cedita.Payroll", "Cedita.Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cedita.Payroll.Tests", "Cedita.Payroll.Tests\Cedita.Payroll.Tests.csproj", "{1AD2EB03-4586-4A7D-B434-2AEDF7B89817}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cedita.Payroll.JsonTaxYearSpecificProvider", "Cedita.Payroll.JsonTaxYearSpecificProvider\Cedita.Payroll.JsonTaxYearSpecificProvider.csproj", "{01622244-B71F-4780-A9D3-467892B21808}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cedita.Payroll.DependencyInjection", "Cedita.Payroll.DependencyInjection\Cedita.Payroll.DependencyInjection.csproj", "{2DB25539-2372-4E08-962C-CE870B0414BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cedita.Payroll.DependencyInjection", "Cedita.Payroll.DependencyInjection\Cedita.Payroll.DependencyInjection.csproj", "{2DB25539-2372-4E08-962C-CE870B0414BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,18 +43,6 @@ Global
 		{1AD2EB03-4586-4A7D-B434-2AEDF7B89817}.Release|x64.Build.0 = Release|Any CPU
 		{1AD2EB03-4586-4A7D-B434-2AEDF7B89817}.Release|x86.ActiveCfg = Release|Any CPU
 		{1AD2EB03-4586-4A7D-B434-2AEDF7B89817}.Release|x86.Build.0 = Release|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Debug|x64.Build.0 = Debug|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Debug|x86.Build.0 = Debug|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Release|x64.ActiveCfg = Release|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Release|x64.Build.0 = Release|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Release|x86.ActiveCfg = Release|Any CPU
-		{01622244-B71F-4780-A9D3-467892B21808}.Release|x86.Build.0 = Release|Any CPU
 		{2DB25539-2372-4E08-962C-CE870B0414BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DB25539-2372-4E08-962C-CE870B0414BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DB25539-2372-4E08-962C-CE870B0414BA}.Debug|x64.ActiveCfg = Debug|Any CPU

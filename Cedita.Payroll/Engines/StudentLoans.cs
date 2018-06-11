@@ -21,7 +21,8 @@ namespace Cedita.Payroll.Engines
         public decimal StudentLoanDeduction { get; set; }
     }
 
-    public class StudentLoans : IRequireTaxYearSpecifics
+    /*
+    public class StudentLoans
     {
         public StudentLoanCalculationResult CalculateStudentLoanDeduction(StudentLoanPlan plan, decimal gross, PayPeriods periods)
         {
@@ -73,5 +74,5 @@ namespace Cedita.Payroll.Engines
             TaxYear = taxYear;
             TaxYearSpecificProvider.SetTaxYear(taxYear);
         }
-    }
+    }*/
 }

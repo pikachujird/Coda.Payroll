@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Cedita Ltd. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
 using System;
+using Cedita.Payroll.Configuration;
 
 namespace Cedita.Payroll.Engines.Paye
 {
@@ -10,6 +11,10 @@ namespace Cedita.Payroll.Engines.Paye
     [CalculationEngineTaxYear(TaxYear = 2018)]
     public class PayeVersion13 : PayeVersion12
     {
+        public PayeVersion13(TaxYearConfigurationData taxYearConfigurationData) : base(taxYearConfigurationData)
+        {
+        }
+
         protected override void Calculateln()
         {
             CalculationContainer.ln = TaxMath.Truncate(CalculationContainer.Ln, 2);

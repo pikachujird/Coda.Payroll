@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Cedita Ltd. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
-using Cedita.Payroll.Models.TaxYearSpecifics;
+using Cedita.Payroll.Configuration;
 using System;
 
 namespace Cedita.Payroll.Engines.NationalInsurance
@@ -9,24 +9,30 @@ namespace Cedita.Payroll.Engines.NationalInsurance
     [CalculationEngineTaxYear(TaxYear = 2018)]
     public class NationalInsurance2017 : NationalInsurance2016
     {
+        public NationalInsurance2017(TaxYearConfigurationData taxYearConfigurationData) : base(taxYearConfigurationData)
+        {
+        }
+
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)
         {
-            var totalPT = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.PrimaryThreshold);
-            var totalST = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.SecondaryThreshold);
-            var totalUEL = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.UpperEarningsLimit);
-            var totalLEL = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.LowerEarningsLimit);
-            var totalUST = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.UpperSecondaryThreshold);
-            var totalAUST = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.ApprenticeUpperSecondaryThreshold);
+            var totalPT = taxYearConfigurationData.PrimaryThreshold;
+            var totalST = taxYearConfigurationData.SecondaryThreshold;
+            var totalUEL = taxYearConfigurationData.UpperEarningsLimit;
+            var totalLEL = taxYearConfigurationData.LowerEarningsLimit;
+            var totalUST = taxYearConfigurationData.UpperSecondaryThreshold;
+            var totalAUST = taxYearConfigurationData.ApprenticeUpperSecondaryThreshold;
+            var niRates = taxYearConfigurationData.NiRates[niCategory];
 
-            var niRates = TaxYearSpecificProvider.GetCodeSpecifics(niCategory);
+            var factoring = TaxMath.GetFactoring(payPeriods);
+            int periods = factoring.Periods,
+                weeksInPeriod = factoring.WeeksInPeriod;
 
             // 'X' NI Code does not pay NI contributions
             if (niCategory == 'X')
             {
                 gross = 0m;
             }
-
-            var (periods, weeksInPeriod) = TaxMath.GetFactoring(payPeriods);
+            
             // WTF. UEL must round 865.3846 to 866. But PT must round 680.3333 to 680. This isn't sane.
             decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, weeksInPeriod, periods), weeksInPeriod),
                 periodUEL = Math.Ceiling(TaxMath.Factor(totalUEL, weeksInPeriod, periods)),

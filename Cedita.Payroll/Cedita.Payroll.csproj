@@ -25,6 +25,11 @@
     <None Remove="Configuration\PayrollConfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Configuration\Data\PayrollConfig.json" />
+    <EmbeddedResource Include="Configuration\Data\PayrollConfig.json">
+      <LogicalName>PayrollConfig</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 </Project>

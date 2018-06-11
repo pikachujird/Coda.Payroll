@@ -45,8 +45,8 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,13 +85,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EngineResolverTests.cs" />
     <Compile Include="TaxHelperTests.cs" />
-    <Compile Include="JsonProviderTests.cs" />
+    <Compile Include="EmbeddedProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cedita.Payroll.JsonTaxYearSpecificProvider\Cedita.Payroll.JsonTaxYearSpecificProvider.csproj">
-      <Project>{01622244-b71f-4780-a9d3-467892b21808}</Project>
-      <Name>Cedita.Payroll.JsonTaxYearSpecificProvider</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cedita.Payroll\Cedita.Payroll.csproj">
       <Project>{2a700254-0a8b-45fd-823d-6c805f1b41dd}</Project>
       <Name>Cedita.Payroll</Name>
