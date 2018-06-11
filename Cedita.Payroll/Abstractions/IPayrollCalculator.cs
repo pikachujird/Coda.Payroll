@@ -5,6 +5,6 @@ namespace Cedita.Payroll.Abstractions
 {
     public interface IPayrollCalculator
     {
-        PayrollCalculation Calculate();
+        PayrollCalculationResult Calculate(PayrollCalculationRequest payrollData);
     }
 }

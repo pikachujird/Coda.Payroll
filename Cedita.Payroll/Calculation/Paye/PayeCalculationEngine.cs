@@ -14,7 +14,7 @@ namespace Cedita.Payroll.Calculation.Paye
     /// </summary>
     public abstract class PayeCalculationEngine : IPayeCalculationEngine
     {
-        protected virtual PayeCalculationContainer CalculationContainer { get; set; }
+        protected virtual PayeCalculation CalculationContainer { get; set; }
         protected virtual Dictionary<Tuple<int, int, int, bool>, PayeInternalBracket[]> BracketCache { get; set; }
             = new Dictionary<Tuple<int, int, int, bool>, PayeInternalBracket[]>();
 
@@ -35,7 +35,7 @@ namespace Cedita.Payroll.Calculation.Paye
 
         protected abstract decimal GetPayAdjustment(TaxCode taxCode, PayPeriods periods);
 
-        protected abstract PayeCalculationContainer CreateDefaultContainer();
+        protected abstract PayeCalculation CreateDefaultContainer();
 
         protected abstract void CreateContainer(TaxCode taxCode, decimal grossForPeriod, PayPeriods periods, int period = 1, bool week1 = false, decimal grossToDateExcludingPeriod = 0, decimal taxToDateExcludingPeriod = 0);
 

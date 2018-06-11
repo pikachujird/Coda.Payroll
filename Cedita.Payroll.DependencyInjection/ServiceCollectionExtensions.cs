@@ -20,8 +20,12 @@ namespace Cedita.Payroll.DependencyInjection
         public static void AddCeditaPayroll<TTaxConfigurationDataProvider>(this IServiceCollection services)
             where TTaxConfigurationDataProvider : class, ITaxConfigurationDataProvider
         {
-            services.AddSingleton<IPayrollCalculatorFactory, DefaultPayrollCalculatorFactory>();
             services.AddSingleton<ITaxConfigurationDataProvider, TTaxConfigurationDataProvider>();
+
+            services.AddSingleton<IPayeCalculationEngineFactory, DefaultPayeCalculationEngineFactory>();
+            services.AddSingleton<INiCalculationEngineFactory, DefaultNiCalculationEngineFactory>();
+
+            services.AddSingleton<IPayrollCalculatorFactory, DefaultPayrollCalculatorFactory>();
         }
     }
 }

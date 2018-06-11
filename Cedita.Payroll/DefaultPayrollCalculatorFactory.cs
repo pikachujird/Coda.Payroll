@@ -2,11 +2,24 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the solution root for license information.
 using Cedita.Payroll.Abstractions;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Cedita.Payroll
 {
     public class DefaultPayrollCalculatorFactory : IPayrollCalculatorFactory
     {
+        protected readonly INiCalculationEngineFactory niCalculationEngineFactory;
+        protected readonly IPayeCalculationEngineFactory payeCalculationEngineFactory;
+
+        public DefaultPayrollCalculatorFactory(
+            INiCalculationEngineFactory niCalculationEngineFactory,
+            IPayeCalculationEngineFactory payeCalculationEngineFactory)
+        {
+            this.niCalculationEngineFactory = niCalculationEngineFactory;
+            this.payeCalculationEngineFactory = payeCalculationEngineFactory;
+        }
+
         public IPayrollCalculator CreatePayrollCalculator()
         {
             // Get the current tax year
@@ -18,7 +31,18 @@ namespace Cedita.Payroll
 
         public IPayrollCalculator CreatePayrollCalculator(int taxYear)
         {
-            throw new System.NotImplementedException();
+            return payrollCalculators.GetOrAdd(taxYear, CreatePayrollCalculatorInternal(taxYear));
+        }
+        
+        protected ConcurrentDictionary<int, IPayrollCalculator> payrollCalculators =
+            new ConcurrentDictionary<int, IPayrollCalculator>();
+
+        protected IPayrollCalculator CreatePayrollCalculatorInternal(int taxYear)
+        {
+            var niEngine = niCalculationEngineFactory.CreateNiCalculationEngine(taxYear);
+            var payeEngine = payeCalculationEngineFactory.CreatePayeCalculationEngine(taxYear);
+
+            return new PayrollCalculator(niEngine, payeEngine);
         }
     }
 }

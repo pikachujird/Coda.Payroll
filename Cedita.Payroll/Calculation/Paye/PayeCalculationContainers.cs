@@ -4,7 +4,7 @@ using Cedita.Payroll.Models;
 
 namespace Cedita.Payroll.Calculation.Paye
 {
-    public class PayeCalculationContainer
+    public class PayeCalculation
     {
         public TaxCode TaxCode { get; set; }
         public bool Week1 { get; set; }
@@ -22,8 +22,6 @@ namespace Cedita.Payroll.Calculation.Paye
         public decimal ln;
         public decimal Un;
         public decimal Tn;
-
-        public decimal TaxDue => ln;
     }
 
     public class PayeInternalBracket

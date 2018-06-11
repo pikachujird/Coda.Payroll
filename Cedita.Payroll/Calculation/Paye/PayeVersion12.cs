@@ -22,7 +22,7 @@ namespace Cedita.Payroll.Calculation.Paye
 
             return CalculationContainer.ln;
         }
-
+        
         protected override void CalculateTax()
         {
             CalculateLn();
@@ -78,7 +78,7 @@ namespace Cedita.Payroll.Calculation.Paye
                 taxToDateExcludingPeriod = 0;
             }
 
-            CalculationContainer = new PayeCalculationContainer
+            CalculationContainer = new PayeCalculation
             {
                 TaxCode = taxCode,
                 Week1 = week1,
@@ -98,9 +98,9 @@ namespace Cedita.Payroll.Calculation.Paye
             CalculationContainer.Tn = TaxMath.Truncate(CalculationContainer.Un, 0);
         }
 
-        protected override PayeCalculationContainer CreateDefaultContainer()
+        protected override PayeCalculation CreateDefaultContainer()
         {
-            return new PayeCalculationContainer();
+            return new PayeCalculation();
         }
 
         protected virtual IEnumerable<TaxBracket> GetBracketsFromProvider(bool scottish = false)
