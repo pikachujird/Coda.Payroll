@@ -31,6 +31,8 @@ namespace Cedita.Payroll.Calculation.Paye
         }
         public abstract decimal CalculateTaxDueForPeriod(TaxCode taxCode, decimal gross, PayPeriods periods, int period, bool week1 = false, decimal grossToDate = 0, decimal taxToDate = 0);
 
+        public virtual PayeCalculation GetContainer() => CalculationContainer;
+
         protected abstract PayeInternalBracket[] GetBracketsForPeriod();
 
         protected abstract decimal GetPayAdjustment(TaxCode taxCode, PayPeriods periods);
