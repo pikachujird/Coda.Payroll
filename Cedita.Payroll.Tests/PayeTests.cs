@@ -3,6 +3,7 @@
 using Cedita.Payroll.Abstractions;
 using Cedita.Payroll.Calculation;
 using Cedita.Payroll.Calculation.Paye;
+using Cedita.Payroll.Configuration.Providers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
@@ -11,19 +12,19 @@ namespace Cedita.Payroll.Tests
     [TestClass]
     public partial class PayeTests
     {
-        protected Dictionary<int, IPayeCalculationEngine> CalcEngines = new Dictionary<int, IPayeCalculationEngine>();
+        protected EmbeddedTaxConfigurationDataProvider DataProvider = new EmbeddedTaxConfigurationDataProvider();
+        protected readonly IPayeCalculationEngineFactory payeFactory;
+        
+        public PayeTests()
+        {
+            payeFactory = new DefaultPayeCalculationEngineFactory(DataProvider);
+        }
 
         protected decimal LegacyShim(decimal gross, string taxCode, PayPeriods periods, int period, decimal gtd, decimal ttd, bool wk1, int year)
         {
-            /*if (!CalcEngines.ContainsKey(year))
-            {
-                CalcEngines.Add(year, DefaultEngineResolver.GetEngine<IPayeCalculationEngine>(year));
-                CalcEngines[year].SetTaxYearSpecificsProvider(new JsonTaxYearSpecificProvider());
-                CalcEngines[year].SetTaxYear(year);
-            }
+            var payeEngine = payeFactory.CreatePayeCalculationEngine(year);
 
-            return CalcEngines[year].CalculateTaxDueForPeriod(taxCode, gross, periods, period, wk1, gtd, ttd);*/
-            return 0;
+            return payeEngine.CalculateTaxDueForPeriod(taxCode, gross, periods, period, wk1, gtd, ttd);
         }
     }
 }
