@@ -27,6 +27,12 @@ namespace Cedita.Payroll.Models.TaxYearSpecifics
 
         // Tax Specific (30-39)
         DefaultTaxCode = 30,
-        DeaProtectedEarnings = 31
+        DeaProtectedEarnings = 31,
+
+        // Statutories (32-34)
+        StatutorySickPayDayRate = 32,
+        StatutoryMaternityPayDayRate = 33,
+        StatutoryMaternityPay6WeekRatePercentage = 34
+
     }
 }

@@ -122,6 +122,15 @@ namespace Cedita.Payroll
                 case TaxYearSpecificValues.PensionUpperThreshold:
                     retValue = CurrentTaxYear.PensionUpperThreshold;
                     break;
+                case TaxYearSpecificValues.StatutorySickPayDayRate:
+                    retValue = CurrentTaxYear.StatutorySickPayDayRate;
+                    break;
+                case TaxYearSpecificValues.StatutoryMaternityPayDayRate:
+                    retValue = CurrentTaxYear.StatutoryMaternityPayDayRate;
+                    break;
+                case TaxYearSpecificValues.StatutoryMaternityPay6WeekRatePercentage:
+                    retValue = CurrentTaxYear.StatutoryMaternityPay6WeekRatePercentage;
+                    break;
                 case TaxYearSpecificValues.DefaultTaxCode:
                     retValue = CurrentTaxYear.DefaultTaxCode;
                     break;

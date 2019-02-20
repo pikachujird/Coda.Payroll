@@ -992,6 +992,20 @@
     "PensionAutomaticEnrolment": 10000,
     "PensionUpperThreshold": 46350,
 
+    "StatutorySickPayDayRate": 18.41,
+    "StatutoryMaternityPayDayRate": 20.74,
+    "StatutoryMaternityPay6WeekRatePercentage": 90,
+
+    "BankHolidays": [
+      "2019-04-19",
+      "2019-04-22",
+      "2019-05-06",
+      "2019-05-27",
+      "2019-08-26",
+      "2019-12-25",
+      "2019-12-26"
+    ],
+
     "FixedCodes": [
       {
         "Code": "BR",
