@@ -23,6 +23,10 @@ namespace Cedita.Payroll.Configuration
         public decimal PensionLowerThreshold { get; set; }
         public decimal PensionAutomaticEnrolment { get; set; }
         public decimal PensionUpperThreshold { get; set; }
+        
+        public decimal StatutorySickPayDayRate { get; set; }
+        public decimal StatutoryMaternityPayDayRate { get; set; }
+        public decimal StatutoryMaternityPay6WeekRatePercentage { get; set; }
 
         public List<FixedCode> FixedCodes { get; set; }
         public List<FixedCode> ScottishFixedCodes { get; set; }
