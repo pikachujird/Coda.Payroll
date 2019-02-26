@@ -14,18 +14,21 @@ namespace Cedita.Payroll.DependencyInjection
         /// <param name="services"></param>
         public static void AddCeditaPayroll(this IServiceCollection services)
         {
-            AddCeditaPayroll<EmbeddedTaxConfigurationDataProvider>(services);
+            AddCeditaPayroll<EmbeddedTaxConfigurationDataProvider, EmbeddedBankHolidayConfigurationProvider>(services);
         }
 
-        public static void AddCeditaPayroll<TTaxConfigurationDataProvider>(this IServiceCollection services)
+        public static void AddCeditaPayroll<TTaxConfigurationDataProvider, TBankHolidayConfigurationDataProvider>(this IServiceCollection services)
             where TTaxConfigurationDataProvider : class, ITaxConfigurationDataProvider
+            where TBankHolidayConfigurationDataProvider : class, IBankHolidayConfigurationDataProvider
         {
             services.AddSingleton<ITaxConfigurationDataProvider, TTaxConfigurationDataProvider>();
+            services.AddSingleton<IBankHolidayConfigurationDataProvider, TBankHolidayConfigurationDataProvider>();
 
             services.AddSingleton<IPayeCalculationEngineFactory, DefaultPayeCalculationEngineFactory>();
             services.AddSingleton<INiCalculationEngineFactory, DefaultNiCalculationEngineFactory>();
 
             services.AddSingleton<IPayrollCalculatorFactory, DefaultPayrollCalculatorFactory>();
+            services.AddSingleton<IStatutoryCalculationEngineFactory, DefaultStatutoryCalculationEngineFactory>();
         }
     }
 }

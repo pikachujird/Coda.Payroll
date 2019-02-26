@@ -9,8 +9,9 @@ namespace Cedita.Payroll.Abstractions
     /// <summary>
     /// Interface to support the retrieval of Tax Year Specifics
     /// </summary>
-    public interface ITaxConfigurationDataProvider
+    public interface IBankHolidayConfigurationDataProvider
     {
-        TaxYearConfigurationData GetTaxYearConfigurationData(int taxYear);
+        IEnumerable<DateTime> GetBankHolidays(DateTime? since);
+        BankHolidayConfigurationData GetBankHolidayConfigurationData();
     }
 }

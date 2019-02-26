@@ -26,6 +26,7 @@ namespace Cedita.Payroll.Configuration
         
         public decimal StatutorySickPayDayRate { get; set; }
         public decimal StatutoryMaternityPayDayRate { get; set; }
+        public decimal StatutoryPaternityPayDayRate { get; set; }
         public decimal StatutoryMaternityPay6WeekRatePercentage { get; set; }
 
         public List<FixedCode> FixedCodes { get; set; }

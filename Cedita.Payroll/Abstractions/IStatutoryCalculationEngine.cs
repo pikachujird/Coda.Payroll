@@ -5,21 +5,19 @@ using System.Text;
 using Cedita.Payroll.Models.Statutory;
 using Cedita.Payroll.Models.Statutory.Assessments;
 
-namespace Cedita.Payroll.Engines.StatutoryPayments
+namespace Cedita.Payroll.Abstractions
 {
-    public interface IStatutoryCalculationEngine : IResolvableEngine, IRequireTaxYearSpecifics { }
-
-    public interface IStatutorySickPayCalculationEngine : IStatutoryCalculationEngine
+    public interface IStatutorySickPayCalculationEngine
     {
         IEnumerable<StatutoryPayment> Calculate(SickPayAssessment model);
     }
 
-    public interface IStatutoryMaternityPayCalculationEngine : IStatutoryCalculationEngine
+    public interface IStatutoryMaternityPayCalculationEngine
     {
         IEnumerable<StatutoryPayment> Calculate(MaternityPayAssessment model);
     }
 
-    public interface IStatutoryPaternityPayCalculationEngine : IStatutoryCalculationEngine
+    public interface IStatutoryPaternityPayCalculationEngine
     {
         IEnumerable<StatutoryPayment> Calculate(PaternityPayAssessment model);
     }

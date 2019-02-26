@@ -3,27 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cedita.Payroll.Abstractions;
+using Cedita.Payroll.Configuration;
 using Cedita.Payroll.Models.Statutory;
 using Cedita.Payroll.Models.Statutory.Assessments;
-using Cedita.Payroll.Models.TaxYearSpecifics;
 
-namespace Cedita.Payroll.Engines.StatutoryPayments
+namespace Cedita.Payroll.Calculation.StatutoryPayments
 {
-    [EngineApplicableTaxYear(TaxYearStartYear = 2018)]
+    [CalculationEngineTaxYear(TaxYear = 2018)]
     public class SspCalculationEngine : StatutoryCalculationEngine, IStatutorySickPayCalculationEngine
     {
+        public SspCalculationEngine(TaxYearConfigurationData taxYearConfigurationData, BankHolidayConfigurationData bankHolidayConfigurationData) : base(taxYearConfigurationData, bankHolidayConfigurationData) {}
+
         public IEnumerable<StatutoryPayment> Calculate(SickPayAssessment model)
         {
-            var dailyRate = TaxYearSpecificProvider.GetSpecificValue<decimal>(TaxYearSpecificValues.StatutorySickPayDayRate);
+            if (model.UpcomingPaymentDate == DateTime.MinValue)
+                throw new Exception("The next Upcoming Payment Date must be provided");
 
             var scheduledPayments = new List<StatutoryPayment>();
-            var datesInRange = model.GetQualifyingDatesInRange();
+
+            var dailyRate = taxYearConfigurationData.StatutorySickPayDayRate;
+
+            var allDatesInRange = model.GetQualifyingDatesInRange();
+            var datesInRange = allDatesInRange.Skip(model.FirstSickNote ? 3 : 0);
             var nextPaymentDate = model.UpcomingPaymentDateForPeriod;
 
             var statPayment = new StatutoryPayment
             {
                 ReferenceDate = nextPaymentDate,
-                PaymentDate = nextPaymentDate,
+                PaymentDate = nextPaymentDate.AddDays(7),
                 Cost = dailyRate,
                 Qty = 0m
             };
@@ -34,6 +42,9 @@ namespace Cedita.Payroll.Engines.StatutoryPayments
                 {
                     scheduledPayments.Add(statPayment);
 
+                    // Next payment is one week away, Fort/Monthly change
+                    nextPaymentDate = nextPaymentDate.AddDays(7);
+
                     statPayment = new StatutoryPayment
                     {
                         ReferenceDate = nextPaymentDate,
@@ -41,19 +52,16 @@ namespace Cedita.Payroll.Engines.StatutoryPayments
                         Cost = dailyRate,
                         Qty = 0m
                     };
-
-                    // Next payment is one week away, Fort/Monthly change
-                    nextPaymentDate = nextPaymentDate.AddDays(7);
                 }
 
                 if (claimDate.DayOfWeek == DayOfWeek.Saturday || claimDate.DayOfWeek == DayOfWeek.Sunday)
                     continue;
 
-                // If we don't pay bank holidays, don't pay this date
-                if (model.IncludeBankHolidays && claimDate.IsBankHoliday())
+                // If we don't pay bank holidays, and the claim date is a bank holiday, don't pay this date
+                if (!model.IncludeBankHolidays && BankHolidayDates.Contains(claimDate))
                     continue;
 
-                // If we have an existing sick note for this date, don't pay this date
+                // TODO If we have an existing sick note for this date, don't pay this date
                 //
 
                 // We do want to pay this date, woop for the worker
@@ -63,10 +71,8 @@ namespace Cedita.Payroll.Engines.StatutoryPayments
             // Add the last period
             scheduledPayments.Add(statPayment);
 
-            return new List<StatutoryPayment>
-            {
-                new StatutoryPayment { Qty = 1, Cost = dailyRate }
-            };
+            // Filter out empty schedules
+            return scheduledPayments.Where(m => m.Qty > 0).Select(m => m);
         }
     }
 }

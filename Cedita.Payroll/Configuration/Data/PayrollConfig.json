@@ -993,6 +993,11 @@
       "PensionAutomaticEnrolment": 10000,
       "PensionUpperThreshold": 46350,
 
+      "StatutorySickPayDayRate": 18.41,
+      "StatutoryMaternityPayDayRate": 20.74,
+      "StatutoryPaternityPayDayRate": 20.74,
+      "StatutoryMaternityPay6WeekRatePercentage": 0.9,
+
       "FixedCodes": [
         {
           "Code": "BR",

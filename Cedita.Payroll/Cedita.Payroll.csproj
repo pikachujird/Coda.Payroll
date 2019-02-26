@@ -22,9 +22,13 @@
     <None Remove="obj\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Configuration\Data\BankHolidayConfig.json" />
     <None Remove="Configuration\PayrollConfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Configuration\Data\BankHolidayConfig.json">
+      <LogicalName>BankHolidayConfig</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Data\PayrollConfig.json">
       <LogicalName>PayrollConfig</LogicalName>
     </EmbeddedResource>
