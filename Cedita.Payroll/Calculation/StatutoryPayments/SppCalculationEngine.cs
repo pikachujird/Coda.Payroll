@@ -11,27 +11,31 @@ using Cedita.Payroll.Models.Statutory.Assessments;
 namespace Cedita.Payroll.Calculation.StatutoryPayments
 {
     [CalculationEngineTaxYear(TaxYear = 2018)]
-    public class SspCalculationEngine : StatutoryCalculationEngine, IStatutorySickPayCalculationEngine
+    public class SppCalculationEngine : StatutoryCalculationEngine, IStatutoryPaternityPayCalculationEngine
     {
-        public SspCalculationEngine(TaxYearConfigurationData taxYearConfigurationData, BankHolidayConfigurationData bankHolidayConfigurationData) : base(taxYearConfigurationData, bankHolidayConfigurationData) {}
+        public SppCalculationEngine(TaxYearConfigurationData taxYearConfigurationData, BankHolidayConfigurationData bankHolidayConfigurationData) : base(taxYearConfigurationData, bankHolidayConfigurationData) {}
 
-        public StatutoryCalculationResult<SickPayAssessment> Calculate(SickPayAssessment model)
+        public StatutoryCalculationResult<PaternityPayAssessment> Calculate(PaternityPayAssessment model)
         {
-            var assessmentCalculation = new StatutoryCalculationResult<SickPayAssessment>();
+            var assessmentCalculation = new StatutoryCalculationResult<PaternityPayAssessment>();
             if (model.UpcomingPaymentDate == DateTime.MinValue)
                 assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredUpcomingPayDate, "The next Upcoming Payment Date must be provided");
 
-            var scheduledPayments = new List<StatutoryPayment>();
+            if (model.UpcomingPaymentDate < model.StartDate)
+                assessmentCalculation.AddError(StatutoryValidationError.InvalidUpcomingPayDate, "The upcoming process date cannot be before the Start Date");
 
-            var allDatesInRange = model.GetQualifyingDatesInRange();
-            var datesInRange = allDatesInRange.Skip(model.FirstSickNote ? 3 : 0);
-            var nextPaymentDate = model.UpcomingPaymentDateForPeriod;
+            if (model.StartDate < model.BirthDate)
+                assessmentCalculation.AddError(StatutoryValidationError.InvalidStartDate, "Paternity pay cannot be started before the birth date");
+
+            var scheduledPayments = new List<StatutoryPayment>();
+            var datesInRange = model.GetQualifyingDatesInRange();
+            var nextPaymentDate = (model.UpcomingPaymentDate > datesInRange.First() ? model.UpcomingPaymentDate : model.UpcomingPaymentDate.AddDays(7));
 
             var statPayment = new StatutoryPayment
             {
                 ReferenceDate = nextPaymentDate,
                 PaymentDate = nextPaymentDate.AddDays(7),
-                Cost = taxYearConfigurationData.StatutorySickPayDayRate,
+                Cost = taxYearConfigurationData.StatutoryPaternityPayDayRate,
                 Qty = 0m
             };
 
@@ -41,29 +45,19 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                 {
                     scheduledPayments.Add(statPayment);
 
-                    // Next payment is one week away, Fort/Monthly change
-                    nextPaymentDate = nextPaymentDate.AddDays(7);
-
                     statPayment = new StatutoryPayment
                     {
                         ReferenceDate = nextPaymentDate,
                         PaymentDate = nextPaymentDate.AddDays(7),
-                        Cost = taxYearConfigurationData.StatutorySickPayDayRate,
+                        Cost = taxYearConfigurationData.StatutoryPaternityPayDayRate,
                         Qty = 0m
                     };
+
+                    // Next payment is one week away, Fort/Monthly change
+                    nextPaymentDate = nextPaymentDate.AddDays(7);
                 }
 
-                if (claimDate.DayOfWeek == DayOfWeek.Saturday || claimDate.DayOfWeek == DayOfWeek.Sunday)
-                    continue;
-
-                // If we don't pay bank holidays, and the claim date is a bank holiday, don't pay this date
-                if (!model.IncludeBankHolidays && BankHolidayDates.Contains(claimDate))
-                    continue;
-
-                // TODO If we have an existing sick note for this date, don't pay this date
-                //
-
-                // We do want to pay this date, woop for the worker
+                // We do want to pay this date
                 statPayment.Qty += 1m;
             }
 

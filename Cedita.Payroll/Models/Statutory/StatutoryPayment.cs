@@ -12,6 +12,7 @@ namespace Cedita.Payroll.Models.Statutory
         public DateTime PaymentDate { get; set; }
         public decimal Qty { get; set; }
         public decimal Cost { get; set; }
+        public bool IsStatutoryMinimumRate { get; set; } = true;
         public decimal Total
         {
             get

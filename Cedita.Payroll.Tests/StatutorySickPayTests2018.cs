@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Cedita.Payroll.Tests
 {
     [TestClass]
-    public class StatutorySickPayTests2018 : StatutorySickPayTest
+    public class StatutorySickPayTests2018 : StatutoryTests
     {
 
         [TestCategory("Statutory Sick Pay Tests"), TestMethod]
@@ -36,7 +36,7 @@ namespace Cedita.Payroll.Tests
                 .WithIsFirstSicknote(true)
                 .GetAssessment();
 
-            var statutoryPayments = LegacyShim(2018, sickPayAssessment);
+            var statutoryPayments = GetSspCalculation(2018, sickPayAssessment).Payments;
 
             // Calculate 2 days sick pay
             Assert.AreEqual(2, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
@@ -56,7 +56,7 @@ namespace Cedita.Payroll.Tests
                 .WithIsFirstSicknote(false)
                 .GetAssessment();
 
-            var statutoryPayments = LegacyShim(2018, sickPayAssessment);
+            var statutoryPayments = GetSspCalculation(2018, sickPayAssessment).Payments;
 
             // Calculate 2 days sick pay
             Assert.AreEqual(5, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
@@ -76,7 +76,7 @@ namespace Cedita.Payroll.Tests
                 .WithIsFirstSicknote(false)
                 .GetAssessment();
               
-            var statutoryPayments = LegacyShim(2018, sickPayAssessment);
+            var statutoryPayments = GetSspCalculation(2018, sickPayAssessment).Payments;
 
             // Calculate 2 days sick pay
             Assert.AreEqual(10, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
@@ -98,7 +98,7 @@ namespace Cedita.Payroll.Tests
                 .WithIsFirstSicknote(false)
                 .GetAssessment();
 
-            var statutoryPayments = LegacyShim(2018, sickPayAssessment);
+            var statutoryPayments = GetSspCalculation(2018, sickPayAssessment).Payments;
 
             // Calculate 2 days sick pay
             Assert.AreEqual(4, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");

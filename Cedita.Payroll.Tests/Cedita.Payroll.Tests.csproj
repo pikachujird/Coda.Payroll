@@ -61,6 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mocks\MockPaternityPayAssessment.cs" />
+    <Compile Include="Mocks\MockMaternityPayAssessment.cs" />
     <Compile Include="Mocks\MockSickPayAssessment.cs" />
     <Compile Include="NiTests.2015.cs" />
     <Compile Include="NiTests.2016.cs" />
@@ -71,7 +73,9 @@
     <Compile Include="PayeTests.2018.ScottishRate.cs" />
     <Compile Include="PayeTests.2018.cs" />
     <Compile Include="PayeTests.2017.Fortnightly.cs" />
-    <Compile Include="StatutorySickPayTests.cs" />
+    <Compile Include="StatutoryPaternityPayTests2018.cs" />
+    <Compile Include="StatutoryMaternityPayTests2018.cs" />
+    <Compile Include="StatutoryTests.cs" />
     <Compile Include="StatutorySickPayTests2018.cs" />
     <Compile Include="StudentLoanTests.2018.cs" />
     <Compile Include="StudentLoanTests.2017.cs" />

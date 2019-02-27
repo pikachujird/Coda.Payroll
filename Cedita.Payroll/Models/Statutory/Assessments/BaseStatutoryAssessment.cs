@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cedita.Payroll.Models.Statutory.Assessments
 {
-    public class BaseStatutoryAssessment
+    public interface IStatutoryAssessment { }
+
+    public class BaseStatutoryAssessment : IStatutoryAssessment
     {
         public PayPeriods Frequency { get; set; }
         public DateTime StartDate { get; set;}
