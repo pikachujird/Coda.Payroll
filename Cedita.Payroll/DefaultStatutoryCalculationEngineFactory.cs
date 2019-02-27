@@ -50,7 +50,7 @@ namespace Cedita.Payroll
 
         public IStatutorySickPayCalculationEngine CreateSspCalculationEngine(int taxYear) => sspCalculationEngines.GetOrAdd(taxYear, CreateSspCalculationEngineInternal(taxYear));
         public IStatutoryMaternityPayCalculationEngine CreateSmpCalculationEngine(int taxYear) => smpCalculationEngines.GetOrAdd(taxYear, CreateSmpCalculationEngineInternal(taxYear));        
-        public IStatutoryPaternityPayCalculationEngine CreateSppCalculationEngine(int taxYear) =>sppCalculationEngines.GetOrAdd(taxYear, CreateSppCalculationEngineInternal(taxYear));
+        public IStatutoryPaternityPayCalculationEngine CreateSppCalculationEngine(int taxYear) => sppCalculationEngines.GetOrAdd(taxYear, CreateSppCalculationEngineInternal(taxYear));
 
         protected IStatutorySickPayCalculationEngine CreateSspCalculationEngineInternal(int taxYear) => 
             (IStatutorySickPayCalculationEngine)Activator.CreateInstance(
