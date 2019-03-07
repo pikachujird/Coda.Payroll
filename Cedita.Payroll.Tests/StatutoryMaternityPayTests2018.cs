@@ -32,7 +32,8 @@ namespace Cedita.Payroll.Tests
                 .WithDueDate(new DateTime(2019, 05, 01))
                 .WithStartDate(new DateTime(2019, 05, 01))
                 .WithNextPaymentDate(new DateTime(2019, 05, 03))
-                .WithAverageWeeklyEarnings(250m)
+                .WithEarningsInPeriod(2000m)
+                .WithPaymentsInPeriod(8)
                 .GetAssessment();
 
             var statutoryCalculation = GetSmpCalculation(2018, maternityPayAssessment);
@@ -43,6 +44,30 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(6140.94m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of total maternity pay");
             Assert.AreEqual(1350m, statutoryPayments.Where(m => !m.IsStatutoryMinimumRate).Sum(m => m.Qty * m.Cost), "Unexpected amount of average earning pay");
             Assert.AreEqual(4790.94m, statutoryPayments.Where(m => m.IsStatutoryMinimumRate).Sum(m => m.Qty * m.Cost), "Unexpected amount of statutory maternity pay");
+            Assert.AreEqual(41, statutoryPayments.Count(), "Unexpected total collection of payments");
+        }
+
+        [TestCategory("Statutory Maternity Pay Tests"), TestMethod]
+        public void ValidComplexSmpClaim()
+        {
+            // Week long sick note, this is the first sick note they have claimed
+            var maternityPayAssessment = (new MockMaternityPayAssessment())
+                .WithBirthDate(new DateTime(2019, 05, 01))
+                .WithDueDate(new DateTime(2019, 05, 01))
+                .WithStartDate(new DateTime(2019, 05, 01))
+                .WithNextPaymentDate(new DateTime(2019, 05, 03))
+                .WithEarningsInPeriod(7454.24m)
+                .WithPaymentsInPeriod(8)
+                .GetAssessment();
+
+            var statutoryCalculation = GetSmpCalculation(2018, maternityPayAssessment);
+            var statutoryPayments = statutoryCalculation.Payments;
+
+            // Calculate 2 days sick pay
+            Assert.AreEqual(273, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+            Assert.AreEqual(9822.61m, statutoryPayments.Sum(m => m.Total), "Unexpected amount of total maternity pay");
+            Assert.AreEqual(5031.67m, statutoryPayments.Where(m => !m.IsStatutoryMinimumRate).Sum(m => m.Total), "Unexpected amount of average earning pay");
+            Assert.AreEqual(4790.94m, statutoryPayments.Where(m => m.IsStatutoryMinimumRate).Sum(m => m.Total), "Unexpected amount of statutory maternity pay");
             Assert.AreEqual(41, statutoryPayments.Count(), "Unexpected total collection of payments");
         }
 

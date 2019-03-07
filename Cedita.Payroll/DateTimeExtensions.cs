@@ -16,5 +16,35 @@ namespace Cedita.Payroll
         {
             return new TaxPeriod(date);
         }
+
+        /// <summary>
+        /// Returns a DateTime object for the previous specified week day
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public static DateTime GetPreviousWeekday(this DateTime start, DayOfWeek day)
+        {
+            if (start.DayOfWeek == day)
+                return start;
+
+            int daysToAdd = ((int)day - (int)start.DayOfWeek - 7) % 7;
+            return start.AddDays(daysToAdd);
+        }
+
+        /// <summary>
+        /// Returns a DateTime object for the next upcoming specified week day
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public static DateTime GetNextWeekday(this DateTime start, DayOfWeek day)
+        {
+            if (start.DayOfWeek == day)
+                return start;
+
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            return start.AddDays(daysToAdd);
+        }
     }
 }

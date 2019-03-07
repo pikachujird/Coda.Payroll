@@ -18,15 +18,21 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
         public StatutoryCalculationResult<MaternityPayAssessment> Calculate(MaternityPayAssessment model)
         {
             var assessmentCalculation = new StatutoryCalculationResult<MaternityPayAssessment>();
-            if (model.UpcomingPaymentDate == DateTime.MinValue)
-                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredUpcomingPayDate, "The next Upcoming Payment Date must be provided");
+            if (!model.UpcomingPaymentDate.HasValue)
+                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredValue, "The next Upcoming Payment Date must be provided");
+            if (!model.StartDate.HasValue)
+                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredValue, "The Start Date must be provided");
+            if (!model.DueDate.HasValue)
+                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredValue, "The Due Date must be provided");
+            if (model.UpcomingPaymentDate.Value < model.StartDate.Value)
+                assessmentCalculation.AddError(StatutoryValidationError.InvalidUpcomingPayDate, "The upcoming process date cannot be before the Start Date");
 
-            if (model.UpcomingPaymentDate < model.StartDate)
-                assessmentCalculation.AddError(StatutoryValidationError.InvalidUpcomingPayDate, "The next Upcoming Payment date cannot be before the Start date");
+            if (assessmentCalculation.Errors.Any())
+                return assessmentCalculation;
 
             // Statutory Maternity Pay ends after 39 weeks 
-            if (model.EndDate == DateTime.MinValue)
-                model.EndDate = model.BirthDate.AddDays((7 * 39) - 1);
+            if (!model.EndDate.HasValue)
+                model.EndDate = model.DueDate.Value.AddDays((7 * 39) - 1);
 
             var scheduledPayments = new List<StatutoryPayment>();
 
@@ -57,6 +63,9 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                 {
                     scheduledPayments.Add(statPayment);
 
+                    // Next payment is one week away, Fort/Monthly change
+                    nextPaymentDate = nextPaymentDate.AddDays(7);
+
                     statPayment = new StatutoryPayment
                     {
                         ReferenceDate = nextPaymentDate,
@@ -64,9 +73,6 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                         Cost = taxYearConfigurationData.StatutoryMaternityPayDayRate,
                         Qty = 0m,
                     };
-
-                    // Next payment is one week away, Fort/Monthly change
-                    nextPaymentDate = nextPaymentDate.AddDays(7);
                 }
 
                 // If this is the first day of our statutory minimum, create a new holder at the reduced rate

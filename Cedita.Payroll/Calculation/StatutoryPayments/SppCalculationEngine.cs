@@ -18,18 +18,27 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
         public StatutoryCalculationResult<PaternityPayAssessment> Calculate(PaternityPayAssessment model)
         {
             var assessmentCalculation = new StatutoryCalculationResult<PaternityPayAssessment>();
-            if (model.UpcomingPaymentDate == DateTime.MinValue)
-                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredUpcomingPayDate, "The next Upcoming Payment Date must be provided");
 
-            if (model.UpcomingPaymentDate < model.StartDate)
+            if (!model.UpcomingPaymentDate.HasValue)
+                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredValue, "The next Upcoming Payment Date must be provided");
+            if (!model.StartDate.HasValue)
+                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredValue, "The Start Date must be provided");
+            if (!model.BirthDate.HasValue)
+                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredValue, "The Birth Date must be provided");
+            if (model.UpcomingPaymentDate.HasValue && model.StartDate.HasValue && model.UpcomingPaymentDate.Value < model.StartDate.Value)
                 assessmentCalculation.AddError(StatutoryValidationError.InvalidUpcomingPayDate, "The upcoming process date cannot be before the Start Date");
-
-            if (model.StartDate < model.BirthDate)
+            if (model.BirthDate.HasValue && model.StartDate.HasValue && model.StartDate.Value < model.BirthDate.Value)
                 assessmentCalculation.AddError(StatutoryValidationError.InvalidStartDate, "Paternity pay cannot be started before the birth date");
+
+            if (assessmentCalculation.Errors.Any())
+                return assessmentCalculation;
+
+            if (!model.EndDate.HasValue)
+                model.EndDate = model.StartDate?.AddDays(model.TotalClaimDays);
 
             var scheduledPayments = new List<StatutoryPayment>();
             var datesInRange = model.GetQualifyingDatesInRange();
-            var nextPaymentDate = (model.UpcomingPaymentDate > datesInRange.First() ? model.UpcomingPaymentDate : model.UpcomingPaymentDate.AddDays(7));
+            var nextPaymentDate = (model.UpcomingPaymentDate.Value > datesInRange.First() ? model.UpcomingPaymentDate.Value : model.UpcomingPaymentDate.Value.AddDays(7));
 
             var statPayment = new StatutoryPayment
             {
@@ -45,6 +54,9 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                 {
                     scheduledPayments.Add(statPayment);
 
+                    // Next payment is one week away, Fort/Monthly change
+                    nextPaymentDate = nextPaymentDate.AddDays(7);
+
                     statPayment = new StatutoryPayment
                     {
                         ReferenceDate = nextPaymentDate,
@@ -52,9 +64,6 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                         Cost = taxYearConfigurationData.StatutoryPaternityPayDayRate,
                         Qty = 0m
                     };
-
-                    // Next payment is one week away, Fort/Monthly change
-                    nextPaymentDate = nextPaymentDate.AddDays(7);
                 }
 
                 // We do want to pay this date

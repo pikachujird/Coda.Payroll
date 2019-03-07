@@ -46,9 +46,15 @@ namespace Cedita.Payroll.Tests.Mocks
             return this;
         }
 
-        public MockMaternityPayAssessment WithAverageWeeklyEarnings(decimal earnings)
+        public MockMaternityPayAssessment WithEarningsInPeriod(decimal earnings)
         {
-            Assessment.AverageWeeklyEarnings = earnings;
+            Assessment.TotalEarningsInPeriod = earnings;
+            return this;
+        }
+
+        public MockMaternityPayAssessment WithPaymentsInPeriod(int payments)
+        {
+            Assessment.TotalPaymentsInPeriod = payments;
             return this;
         }
 

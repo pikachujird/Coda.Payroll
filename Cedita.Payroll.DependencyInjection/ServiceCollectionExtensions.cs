@@ -26,6 +26,7 @@ namespace Cedita.Payroll.DependencyInjection
 
             services.AddSingleton<IPayeCalculationEngineFactory, DefaultPayeCalculationEngineFactory>();
             services.AddSingleton<INiCalculationEngineFactory, DefaultNiCalculationEngineFactory>();
+            services.AddSingleton<IStudentLoanCalculationEngineFactory, DefaultStudentLoanCalculationEngineFactory>();
 
             services.AddSingleton<IPayrollCalculatorFactory, DefaultPayrollCalculatorFactory>();
             services.AddSingleton<IStatutoryCalculationEngineFactory, DefaultStatutoryCalculationEngineFactory>();

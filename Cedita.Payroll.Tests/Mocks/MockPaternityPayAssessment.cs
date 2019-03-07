@@ -47,16 +47,22 @@ namespace Cedita.Payroll.Tests.Mocks
             return this;
         }
 
-        public MockPaternityPayAssessment WithAverageWeeklyEarnings(decimal earnings)
+        public MockPaternityPayAssessment WithEarningsInPeriod(decimal earnings)
         {
-            Assessment.AverageWeeklyEarnings = earnings;
+            Assessment.TotalEarningsInPeriod = earnings;
+            return this;
+        }
+
+        public MockPaternityPayAssessment WithPaymentsInPeriod(int payments)
+        {
+            Assessment.TotalPaymentsInPeriod = payments;
             return this;
         }
 
         public MockPaternityPayAssessment WithTotalClaimDays(int claimDays)
         {
             Assessment.TotalClaimDays = claimDays;
-            Assessment.EndDate = Assessment.StartDate.AddDays(claimDays);
+            Assessment.EndDate = Assessment.StartDate.Value.AddDays(claimDays);
             return this;
         }
 

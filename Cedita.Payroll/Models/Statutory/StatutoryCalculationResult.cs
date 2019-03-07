@@ -7,7 +7,7 @@ namespace Cedita.Payroll.Models.Statutory
 {
     public enum StatutoryValidationError
     {
-        MissingRequiredUpcomingPayDate,
+        MissingRequiredValue,
         InvalidUpcomingPayDate,
 
         InvalidStartDate

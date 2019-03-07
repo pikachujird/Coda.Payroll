@@ -18,13 +18,18 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
         public StatutoryCalculationResult<SickPayAssessment> Calculate(SickPayAssessment model)
         {
             var assessmentCalculation = new StatutoryCalculationResult<SickPayAssessment>();
-            if (model.UpcomingPaymentDate == DateTime.MinValue)
-                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredUpcomingPayDate, "The next Upcoming Payment Date must be provided");
+            if (!model.UpcomingPaymentDate.HasValue)
+                assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredValue, "The next Upcoming Payment Date must be provided");
+
+            if (assessmentCalculation.Errors.Any())
+                return assessmentCalculation;
 
             var scheduledPayments = new List<StatutoryPayment>();
 
             var allDatesInRange = model.GetQualifyingDatesInRange();
-            var datesInRange = allDatesInRange.Skip(model.FirstSickNote ? 3 : 0);
+
+            // TODO - Re-factor, this needs changing to skpi the first 3 WORKING DAYS
+            var datesInRange = allDatesInRange.Where(m => m.DayOfWeek != DayOfWeek.Saturday && m.DayOfWeek != DayOfWeek.Sunday).Skip(model.FirstSickNote ? 3 : 0);
             var nextPaymentDate = model.UpcomingPaymentDateForPeriod;
 
             var statPayment = new StatutoryPayment

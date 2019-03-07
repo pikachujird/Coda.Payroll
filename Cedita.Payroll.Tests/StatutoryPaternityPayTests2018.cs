@@ -32,7 +32,8 @@ namespace Cedita.Payroll.Tests
                 .WithStartDate(new DateTime(2019, 05, 01))
                 .WithNextPaymentDate(new DateTime(2019, 05, 03))
                 .WithTotalClaimDays(13)
-                .WithAverageWeeklyEarnings(250m)
+                .WithEarningsInPeriod(2000m)
+                .WithPaymentsInPeriod(8)
                 .WithIsResponsibleFatherAnswer(true)
                 .WithEmployeeWorkedInPeriodAnswer(true)
                 .WithEmployeeHasContractAnswer(true)
@@ -50,10 +51,16 @@ namespace Cedita.Payroll.Tests
 
             var firstPayment = statutoryPayments.First();
             Assert.AreEqual(62.22m, firstPayment.Qty * firstPayment.Cost, "Unexpected total sum of first payments");
+            Assert.AreEqual(new DateTime(2019,05,03), firstPayment.ReferenceDate, "Unexpected reference date for first payment");
+            Assert.AreEqual(new DateTime(2019,05,10), firstPayment.PaymentDate, "Unexpected payment date for first payment");
             var secondPayment = statutoryPayments.Skip(1).First();
             Assert.AreEqual(145.18m, secondPayment.Qty * secondPayment.Cost, "Unexpected total sum of second payments");
+            Assert.AreEqual(new DateTime(2019, 05, 10), secondPayment.ReferenceDate, "Unexpected reference date for second payment");
+            Assert.AreEqual(new DateTime(2019, 05, 17), secondPayment.PaymentDate, "Unexpected payment date for second payment");
             var finalPayment = statutoryPayments.Skip(2).First();
-            Assert.AreEqual(82.96m, finalPayment.Qty * finalPayment.Cost, "Unexpected total sum of final payments");
+            Assert.AreEqual(82.96m, finalPayment.Qty * finalPayment.Cost, "Unexpected total sum of third payments");
+            Assert.AreEqual(new DateTime(2019, 05, 17), finalPayment.ReferenceDate, "Unexpected reference date for third payment");
+            Assert.AreEqual(new DateTime(2019, 05, 24), finalPayment.PaymentDate, "Unexpected payment date for third payment");
         }
 
     }
