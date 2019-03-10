@@ -70,6 +70,9 @@
     <Compile Include="NiTests.2017.cs" />
     <Compile Include="NiTests.cs" />
     <Compile Include="NiTests.2014.cs" />
+    <Compile Include="PayeTests.2019.cs" />
+    <Compile Include="PayeTests.2019.WelshRate.cs" />
+    <Compile Include="PayeTests.2019.ScottishRate.cs" />
     <Compile Include="PayeTests.2018.ScottishRate.cs" />
     <Compile Include="PayeTests.2018.cs" />
     <Compile Include="PayeTests.2017.Fortnightly.cs" />

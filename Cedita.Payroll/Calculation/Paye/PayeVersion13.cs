@@ -9,6 +9,7 @@ namespace Cedita.Payroll.Calculation.Paye
     [CalculationEngineTaxYear(TaxYear = 2016)]
     [CalculationEngineTaxYear(TaxYear = 2017)]
     [CalculationEngineTaxYear(TaxYear = 2018)]
+    [CalculationEngineTaxYear(TaxYear = 2019)]
     public class PayeVersion13 : PayeVersion12
     {
         public PayeVersion13(TaxYearConfigurationData taxYearConfigurationData) : base(taxYearConfigurationData)
