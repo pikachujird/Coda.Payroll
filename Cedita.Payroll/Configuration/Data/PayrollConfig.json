@@ -1180,8 +1180,8 @@
       "Plan1StudentLoanRate": 0.09,
       "Plan2StudentLoanThreshold": 25725,
       "Plan2StudentLoanRate": 0.09,
-      "PostGraduateLoanThreshold": 21000,
-      "PostGraduateLoanRate": 0.06,
+      "PostGradStudentLoanThreshold": 21000,
+      "PostGradStudentLoanRate": 0.06,
 
       "DeaProtectedEarnings": 0.6,
 

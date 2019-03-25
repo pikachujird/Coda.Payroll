@@ -7,7 +7,8 @@ namespace Cedita.Payroll.Calculation.StudentLoan
     public enum StudentLoanPlan
     {
         Plan1,
-        Plan2
+        Plan2,
+        PostGrad
     }
 
     public class StudentLoanCalculation

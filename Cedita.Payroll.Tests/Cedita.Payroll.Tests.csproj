@@ -80,6 +80,7 @@
     <Compile Include="StatutoryMaternityPayTests2018.cs" />
     <Compile Include="StatutoryTests.cs" />
     <Compile Include="StatutorySickPayTests2018.cs" />
+    <Compile Include="StudentLoanTests.2019.cs" />
     <Compile Include="StudentLoanTests.2018.cs" />
     <Compile Include="StudentLoanTests.2017.cs" />
     <Compile Include="StudentLoanTests.2016.cs" />
