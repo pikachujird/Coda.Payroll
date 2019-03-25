@@ -33,7 +33,21 @@ namespace Cedita.Payroll.Calculation.Paye
         protected virtual void CalculateLn()
         {
             var taxableIncome = Math.Max(Math.Floor(CalculationContainer.Pn - CalculationContainer.na1), 0);
-            var fixedCodeList = CalculationContainer.TaxCode.IsScotlandTax ? taxYearConfigurationData.ScottishFixedCodes : taxYearConfigurationData.FixedCodes;
+            // TODO: Change to Regime codes for better dynamic determination
+            var fixedCodeList = default(List<FixedCode>);
+            switch(CalculationContainer.TaxCode.Regime)
+            {
+                case TaxRegime.rUK:
+                    fixedCodeList = taxYearConfigurationData.FixedCodes;
+                    break;
+                case TaxRegime.Scottish:
+                    fixedCodeList = taxYearConfigurationData.ScottishFixedCodes;
+                    break;
+                case TaxRegime.Welsh:
+                    fixedCodeList = taxYearConfigurationData.WelshFixedCodes;
+                    break;
+            }
+
             FixedCode fixedCode;
             if (fixedCodeList?.Any(m => m.Code == CalculationContainer.TaxCode.SanitisedTaxCode) == true)
             {
@@ -104,27 +118,30 @@ namespace Cedita.Payroll.Calculation.Paye
             return new PayeCalculation();
         }
 
-        protected virtual IEnumerable<TaxBracket> GetBracketsFromProvider(bool scottish = false)
+        protected virtual IEnumerable<TaxBracket> GetBracketsFromProvider(TaxRegime regime)
         {
-            if (scottish)
+            switch(regime)
             {
-                return taxYearConfigurationData.ScottishBrackets;
-            } else
-            {
-                return taxYearConfigurationData.Brackets;
+                default:
+                case TaxRegime.rUK:
+                    return taxYearConfigurationData.Brackets;
+                case TaxRegime.Scottish:
+                    return taxYearConfigurationData.ScottishBrackets;
+                case TaxRegime.Welsh:
+                    return taxYearConfigurationData.WelshBrackets;
             }
         }
 
         protected override PayeInternalBracket[] GetBracketsForPeriod()
         {
             int year = taxYearConfigurationData.TaxYear, period = CalculationContainer.n, periods = (int)CalculationContainer.Periods;
-            bool scottish = CalculationContainer.TaxCode.IsScotlandTax;
+            var regime = CalculationContainer.TaxCode.Regime;
 
-            Tuple<int, int, int, bool> brKey;
-            if (BracketCache.ContainsKey(brKey = new Tuple<int, int, int, bool>(year, period, periods, scottish)))
+            Tuple<int, int, int, TaxRegime> brKey;
+            if (BracketCache.ContainsKey(brKey = new Tuple<int, int, int, TaxRegime>(year, period, periods, regime)))
                 return BracketCache[brKey];
 
-            var taxYearBrackets = GetBracketsFromProvider(year > 2016 ? scottish : false);
+            var taxYearBrackets = GetBracketsFromProvider(regime);
             var periodBrackets = new List<PayeInternalBracket>();
 
             decimal lastC = 0, lastK = 0;
