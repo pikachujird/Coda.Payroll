@@ -9,7 +9,7 @@ namespace Cedita.Payroll.Abstractions
 {
     public interface IStatutorySickPayCalculationEngine
     {
-        StatutoryCalculationResult<SickPayAssessment> Calculate(SickPayAssessment model);
+        StatutoryCalculationResult<SickPayAssessment> Calculate(SickPayAssessment model, IEnumerable<SickPayAssessment> previousSicknotes = null);
     }
 
     public interface IStatutoryMaternityPayCalculationEngine

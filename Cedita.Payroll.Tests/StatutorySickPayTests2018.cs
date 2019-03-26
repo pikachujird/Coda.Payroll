@@ -107,5 +107,106 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(new DateTime(2019, 04, 26), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
             Assert.AreEqual(new DateTime(2019, 05, 03), statutoryPayments.Skip(1).Single().PaymentDate, "Unexpected payment date for second payment collection");
         }
+
+        [TestCategory("Statutory Sick Pay Tests"), TestMethod]
+        public void ValidOverlappingSickPayClaimWithoutBankHolidays()
+        {
+            // Week long sick note, this is the first sick note they have claimed
+            var sickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 04, 17))
+                .WithEndDate(new DateTime(2019, 04, 24))
+                .WithNextPaymentDate(new DateTime(2019, 04, 19))
+                .WithBankHolidaysPaid(false)
+                .WithIsFirstSicknote(false)
+                .GetAssessment();
+
+            var overlappingSickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 04, 22))
+                .WithEndDate(new DateTime(2019, 04, 26))
+                .WithNextPaymentDate(new DateTime(2019, 04, 26))
+                .WithBankHolidaysPaid(false)
+                .WithIsFirstSicknote(false)
+                .GetAssessment();
+
+            var sspEngine = statutoryFactory.CreateSspCalculationEngine(2018);
+            var calculation = sspEngine.Calculate(overlappingSickPayAssessment, new List<SickPayAssessment> { sickPayAssessment });
+            var statutoryPayments = calculation.Payments;
+
+            // Calculate 2 days sick pay
+            Assert.AreEqual(2, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+            Assert.AreEqual(36.82m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
+            Assert.AreEqual(1, statutoryPayments.Count(), "Unexpected total collection of payments");
+            Assert.AreEqual(new DateTime(2019, 05, 03), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
+        }
+
+        [TestCategory("Statutory Sick Pay Tests"), TestMethod]
+        public void ValidOverlappingSickPayClaimWithBankHolidays()
+        {
+            // Week long sick note, this is the first sick note they have claimed
+            var sickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 04, 17))
+                .WithEndDate(new DateTime(2019, 04, 24))
+                .WithNextPaymentDate(new DateTime(2019, 04, 19))
+                .WithBankHolidaysPaid(false)
+                .WithIsFirstSicknote(false)
+                .GetAssessment();
+
+            var overlappingSickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 04, 22))
+                .WithEndDate(new DateTime(2019, 04, 26))
+                .WithNextPaymentDate(new DateTime(2019, 04, 26))
+                .WithBankHolidaysPaid(true)
+                .WithIsFirstSicknote(false)
+                .GetAssessment();
+
+            var sspEngine = statutoryFactory.CreateSspCalculationEngine(2018);
+            var calculation = sspEngine.Calculate(overlappingSickPayAssessment, new List<SickPayAssessment> { sickPayAssessment });
+            var statutoryPayments = calculation.Payments;
+
+            // Calculate 2 days sick pay
+            Assert.AreEqual(3, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+            Assert.AreEqual(55.23m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
+            Assert.AreEqual(1, statutoryPayments.Count(), "Unexpected total collection of payments");
+            Assert.AreEqual(new DateTime(2019, 05, 03), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
+        }
+
+        [TestCategory("Statutory Sick Pay Tests"), TestMethod]
+        public void ValidOverlappingSickPayClaimWith3HistoricalClaims()
+        {
+            // Week long sick note, this is the first sick note they have claimed
+            var sickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 04, 17))
+                .WithEndDate(new DateTime(2019, 04, 24))
+                .WithNextPaymentDate(new DateTime(2019, 04, 19))
+                .WithBankHolidaysPaid(false)
+                .WithIsFirstSicknote(false)
+                .GetAssessment();
+
+            var overlappingSickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 04, 22))
+                .WithEndDate(new DateTime(2019, 04, 26))
+                .WithNextPaymentDate(new DateTime(2019, 04, 26))
+                .WithBankHolidaysPaid(false)
+                .WithIsFirstSicknote(false)
+                .GetAssessment();
+
+            var finalSickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 04, 15))
+                .WithEndDate(new DateTime(2019, 05, 10))
+                .WithNextPaymentDate(new DateTime(2019, 04, 19))
+                .WithBankHolidaysPaid(false)
+                .WithIsFirstSicknote(false)
+                .GetAssessment();   
+
+            var sspEngine = statutoryFactory.CreateSspCalculationEngine(2018);
+            var calculation = sspEngine.Calculate(finalSickPayAssessment, new List<SickPayAssessment> { sickPayAssessment, overlappingSickPayAssessment });
+            var statutoryPayments = calculation.Payments;
+
+            // Calculate 2 days sick pay
+            Assert.AreEqual(11, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+            Assert.AreEqual(202.51m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
+            Assert.AreEqual(3, statutoryPayments.Count(), "Unexpected total collection of payments");
+            Assert.AreEqual(new DateTime(2019, 04, 26), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
+        }
     }
 }
