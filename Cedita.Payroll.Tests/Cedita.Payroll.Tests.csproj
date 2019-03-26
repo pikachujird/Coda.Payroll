@@ -66,6 +66,7 @@
     <Compile Include="Mocks\MockSickPayAssessment.cs" />
     <Compile Include="NiTests.2015.cs" />
     <Compile Include="NiTests.2016.cs" />
+    <Compile Include="NiTests.2019.cs" />
     <Compile Include="NiTests.2018.cs" />
     <Compile Include="NiTests.2017.cs" />
     <Compile Include="NiTests.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="StatutoryMaternityPayTests2018.cs" />
     <Compile Include="StatutoryTests.cs" />
     <Compile Include="StatutorySickPayTests2018.cs" />
+    <Compile Include="StudentLoanTests.2019.cs" />
     <Compile Include="StudentLoanTests.2018.cs" />
     <Compile Include="StudentLoanTests.2017.cs" />
     <Compile Include="StudentLoanTests.2016.cs" />

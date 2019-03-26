@@ -15,8 +15,8 @@ namespace Cedita.Payroll.Calculation.Paye
     public abstract class PayeCalculationEngine : IPayeCalculationEngine
     {
         protected virtual PayeCalculation CalculationContainer { get; set; }
-        protected virtual Dictionary<Tuple<int, int, int, bool>, PayeInternalBracket[]> BracketCache { get; set; }
-            = new Dictionary<Tuple<int, int, int, bool>, PayeInternalBracket[]>();
+        protected virtual Dictionary<Tuple<int, int, int, TaxRegime>, PayeInternalBracket[]> BracketCache { get; set; }
+            = new Dictionary<Tuple<int, int, int, TaxRegime>, PayeInternalBracket[]>();
 
         protected readonly TaxYearConfigurationData taxYearConfigurationData;
 

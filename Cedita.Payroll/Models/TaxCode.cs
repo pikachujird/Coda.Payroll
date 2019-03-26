@@ -37,9 +37,9 @@ namespace Cedita.Payroll.Models
         /// </summary>
         public bool IsNoAdjustmentCode { get; protected set; }
         /// <summary>
-        /// Determination of whether the tax code should calculate tax at the Scottish Rate
+        /// Determination of which regime the tax code belongs to
         /// </summary>
-        public bool IsScotlandTax { get; protected set; }
+        public TaxRegime Regime { get; protected set; }
 
         /// <summary>
         /// True if the code was able to be translated.
@@ -130,23 +130,34 @@ namespace Cedita.Payroll.Models
             }
 
             // Do this here as it affects the sanitised tax code directly
-            DetermineScottishTaxCode();
-            if (IsScotlandTax)
+            DetermineRegimeTaxCode();
+            if (Regime != TaxRegime.rUK)
             {
                 SanitisedTaxCode = SanitisedTaxCode.Substring(1);
             }
         }
 
-        protected void DetermineScottishTaxCode()
+        protected void DetermineRegimeTaxCode()
         {
-            IsScotlandTax = SanitisedTaxCode[0] == 'S';
+            switch(SanitisedTaxCode[0])
+            {
+                case 'S':
+                    Regime = TaxRegime.Scottish;
+                    break;
+                case 'C':
+                    Regime = TaxRegime.Welsh;
+                    break;
+                default:
+                    Regime = TaxRegime.rUK;
+                    break;
+            }
         }
 
         protected void DetermineNoAdjustmentCode()
         {
             IsNoAdjustmentCode = NoAdjustmentCodes.Contains(SanitisedTaxCode);
             // Check for Scotland specific No Adjustment Code
-            if (IsScotlandTax && !IsNoAdjustmentCode)
+            if (Regime == TaxRegime.Scottish && !IsNoAdjustmentCode)
             {
                 IsNoAdjustmentCode = ScottishNoAdjustmentCodes.Contains(SanitisedTaxCode);
             }
@@ -156,7 +167,7 @@ namespace Cedita.Payroll.Models
             IsPrefixCode = PrefixCodes.Contains(TaxCodeLetter);
         }
 
-        protected readonly string CodeRegex = @"^(S?)((([0-9]{0,6})([LMNPTY]))|(([K])([1-9][0-9]{0,5})))$";
+        protected readonly string CodeRegex = @"^([SC]?)((([0-9]{0,6})([LMNPTY]))|(([K])([1-9][0-9]{0,5})))$";
         protected bool DetermineCodeComponents()
         {
             if (!IsNoAdjustmentCode)

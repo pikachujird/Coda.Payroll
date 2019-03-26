@@ -19,6 +19,8 @@ namespace Cedita.Payroll.Configuration
         public decimal Plan1StudentLoanRate { get; set; }
         public decimal Plan2StudentLoanThreshold { get; set; }
         public decimal Plan2StudentLoanRate { get; set; }
+        public decimal PostGradStudentLoanThreshold { get; set; }
+        public decimal PostGradStudentLoanRate { get; set; }
         public decimal DeaProtectedEarnings { get; set; }
         public decimal PensionLowerThreshold { get; set; }
         public decimal PensionAutomaticEnrolment { get; set; }
@@ -31,8 +33,10 @@ namespace Cedita.Payroll.Configuration
 
         public List<FixedCode> FixedCodes { get; set; }
         public List<FixedCode> ScottishFixedCodes { get; set; }
+        public List<FixedCode> WelshFixedCodes { get; set; }
         public Dictionary<char, NationalInsuranceCode> NiRates { get; set; }
         public List<TaxBracket> Brackets { get; set; }
         public List<TaxBracket> ScottishBrackets { get; set; }
+        public List<TaxBracket> WelshBrackets { get; set; }
     }
 }
