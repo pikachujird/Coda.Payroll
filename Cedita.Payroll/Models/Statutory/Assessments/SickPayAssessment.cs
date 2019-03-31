@@ -13,6 +13,5 @@ namespace Cedita.Payroll.Models.Statutory.Assessments
         public bool FirstSickNote { get; set; }
 
         public DateTime? DateCaseAssessed { get; set; }
-
     }
 }

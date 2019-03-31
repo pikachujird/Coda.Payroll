@@ -15,7 +15,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
     {
         public SspCalculationEngine(TaxYearConfigurationData taxYearConfigurationData, BankHolidayConfigurationData bankHolidayConfigurationData) : base(taxYearConfigurationData, bankHolidayConfigurationData) {}
 
-        public StatutoryCalculationResult<SickPayAssessment> Calculate(SickPayAssessment model)
+        public StatutoryCalculationResult<SickPayAssessment> Calculate(SickPayAssessment model, IEnumerable<SickPayAssessment> previousSicknotes = null)
         {
             var assessmentCalculation = new StatutoryCalculationResult<SickPayAssessment>();
             if (!model.UpcomingPaymentDate.HasValue)
@@ -24,12 +24,14 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             if (assessmentCalculation.Errors.Any())
                 return assessmentCalculation;
 
+            var previousSickDays = new List<DateTime>();
+            // If we are providing some historical sick notes, extract the actual sick days for each of them
+            if (previousSicknotes != null)
+                previousSickDays = previousSicknotes.OrderBy(m => m.StartDate).SelectMany(m => GetSickDays(m)).Distinct().ToList();
+
             var scheduledPayments = new List<StatutoryPayment>();
 
-            var allDatesInRange = model.GetQualifyingDatesInRange();
-
-            // TODO - Re-factor, this needs changing to skpi the first 3 WORKING DAYS
-            var datesInRange = allDatesInRange.Where(m => m.DayOfWeek != DayOfWeek.Saturday && m.DayOfWeek != DayOfWeek.Sunday).Skip(model.FirstSickNote ? 3 : 0);
+            var datesInRange = GetSickDays(model);
             var nextPaymentDate = model.UpcomingPaymentDateForPeriod;
 
             var statPayment = new StatutoryPayment
@@ -58,15 +60,9 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                     };
                 }
 
-                if (claimDate.DayOfWeek == DayOfWeek.Saturday || claimDate.DayOfWeek == DayOfWeek.Sunday)
+                // If we have already been paid a sick note for this date, don't pay it twice
+                if (previousSickDays.Contains(claimDate))
                     continue;
-
-                // If we don't pay bank holidays, and the claim date is a bank holiday, don't pay this date
-                if (!model.IncludeBankHolidays && BankHolidayDates.Contains(claimDate))
-                    continue;
-
-                // TODO If we have an existing sick note for this date, don't pay this date
-                //
 
                 // We do want to pay this date, woop for the worker
                 statPayment.Qty += 1m;
@@ -83,5 +79,33 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
 
             return assessmentCalculation;
         }
+
+        /// <summary>
+        /// Returns the actual sick days contained within a given sick pay assessment
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public IEnumerable<DateTime> GetSickDays(SickPayAssessment model)
+        {
+            if (!model.EndDate.HasValue || !model.StartDate.HasValue)
+                return null;
+
+            var sickDays = new List<DateTime>();
+            var datesInRange = model.GetQualifyingDatesInRange().Where(m => m.DayOfWeek != DayOfWeek.Saturday && m.DayOfWeek != DayOfWeek.Sunday);
+
+            int dayCounter = 0;
+            foreach (var date in datesInRange)
+            {
+                dayCounter++;
+                if (model.FirstSickNote && dayCounter <= 3)
+                    continue;
+                if (!model.IncludeBankHolidays && BankHolidayDates.Contains(date))
+                    continue;
+                sickDays.Add(date);
+            }
+
+            return sickDays;
+        }
+
     }
 }
