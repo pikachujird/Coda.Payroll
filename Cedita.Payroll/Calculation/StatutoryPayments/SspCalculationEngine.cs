@@ -97,7 +97,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             foreach (var date in datesInRange)
             {
                 dayCounter++;
-                if (model.FirstSickNote && dayCounter < 3)
+                if (model.FirstSickNote && dayCounter <= 3)
                     continue;
                 if (!model.IncludeBankHolidays && BankHolidayDates.Contains(date))
                     continue;
