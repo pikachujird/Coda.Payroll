@@ -1185,9 +1185,9 @@
 
       "DeaProtectedEarnings": 0.6,
 
-      "PensionLowerThreshold": 6032,
+      "PensionLowerThreshold": 6136,
       "PensionAutomaticEnrolment": 10000,
-      "PensionUpperThreshold": 46350,
+      "PensionUpperThreshold": 50000,
 
       "StatutorySickPayDayRate": 18.85,
       "StatutoryMaternityPayDayRate": 21.24,
