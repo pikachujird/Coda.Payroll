@@ -11,6 +11,7 @@ using Cedita.Payroll.Models.Statutory.Assessments;
 namespace Cedita.Payroll.Calculation.StatutoryPayments
 {
     [CalculationEngineTaxYear(TaxYear = 2018)]
+    [CalculationEngineTaxYear(TaxYear = 2019)]
     public class SppCalculationEngine : StatutoryCalculationEngine, IStatutoryPaternityPayCalculationEngine
     {
         public SppCalculationEngine(TaxYearConfigurationData taxYearConfigurationData, BankHolidayConfigurationData bankHolidayConfigurationData) : base(taxYearConfigurationData, bankHolidayConfigurationData) {}
@@ -36,6 +37,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             if (!model.EndDate.HasValue)
                 model.EndDate = model.StartDate?.AddDays(model.TotalClaimDays);
 
+            assessmentCalculation.IsEligible = model.IsEligible;
             var scheduledPayments = new List<StatutoryPayment>();
             var datesInRange = model.GetQualifyingDatesInRange();
             var nextPaymentDate = (model.UpcomingPaymentDate.Value > datesInRange.First() ? model.UpcomingPaymentDate.Value : model.UpcomingPaymentDate.Value.AddDays(7));
@@ -75,9 +77,6 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
 
             // Filter out empty schedules
             assessmentCalculation.Payments = scheduledPayments.Where(m => m.Qty > 0).Select(m => m);
-
-            // If we've got to this point, we must be eligible
-            assessmentCalculation.IsEligible = true;
 
             return assessmentCalculation;
         }

@@ -32,6 +32,7 @@ namespace Cedita.Payroll.Tests
                 .WithDueDate(new DateTime(2019, 05, 01))
                 .WithStartDate(new DateTime(2019, 05, 01))
                 .WithNextPaymentDate(new DateTime(2019, 05, 03))
+                .WithEmploymentContract(true)
                 .WithEarningsInPeriod(2000m)
                 .WithPaymentsInPeriod(8)
                 .GetAssessment();
@@ -56,6 +57,7 @@ namespace Cedita.Payroll.Tests
                 .WithDueDate(new DateTime(2019, 05, 01))
                 .WithStartDate(new DateTime(2019, 05, 01))
                 .WithNextPaymentDate(new DateTime(2019, 05, 03))
+                .WithEmploymentContract(true)
                 .WithEarningsInPeriod(7454.24m)
                 .WithPaymentsInPeriod(8)
                 .GetAssessment();

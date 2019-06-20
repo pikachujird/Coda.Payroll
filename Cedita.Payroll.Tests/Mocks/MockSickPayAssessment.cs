@@ -16,6 +16,12 @@ namespace Cedita.Payroll.Tests.Mocks
             Assessment = new SickPayAssessment();
         }
 
+        public MockSickPayAssessment WithActiveContract(bool hasContract)
+        {
+            Assessment.EmployeeHasContract = hasContract;
+            return this;
+        }
+
         public MockSickPayAssessment WithStartDate(DateTime start)
         {
             Assessment.StartDate = start;
@@ -43,6 +49,29 @@ namespace Cedita.Payroll.Tests.Mocks
         public MockSickPayAssessment WithNextPaymentDate(DateTime nextPayment)
         {
             Assessment.UpcomingPaymentDate = nextPayment;
+            return this;
+        }
+
+        public MockSickPayAssessment WithTotalEarningsInPeriod(decimal totalEarnings)
+        {
+            Assessment.TotalEarningsInPeriod = totalEarnings;
+            return this;
+        }
+
+        public MockSickPayAssessment WithTotalPaymentsInPeriod(int totalPayments)
+        {
+            Assessment.TotalPaymentsInPeriod = totalPayments;
+            return this;
+        }
+
+        public MockSickPayAssessment WithIsFitForWork(bool isFit)
+        {
+            Assessment.IsFitForWork = isFit;
+            return this;
+        }
+        public MockSickPayAssessment WithHistoricalSickDayTotal(int total)
+        {
+            Assessment.PreviousSickDaysTotal = total;
             return this;
         }
 

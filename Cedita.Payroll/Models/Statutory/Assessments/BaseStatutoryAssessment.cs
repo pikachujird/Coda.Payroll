@@ -14,8 +14,10 @@ namespace Cedita.Payroll.Models.Statutory.Assessments
         public DateTime? StartDate { get; set;}
         public DateTime? EndDate { get; set; }
         public DateTime? UpcomingPaymentDate { get; set; }
+        public bool StartDateNotKnown { get; set; }
         public decimal TotalEarningsInPeriod { get; set; }
         public int TotalPaymentsInPeriod { get; set; }
+        public bool EmployeeHasContract { get; set; }
         public decimal AverageWeeklyEarnings {
             get
             {

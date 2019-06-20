@@ -27,10 +27,6 @@ namespace Cedita.Payroll.Models.Statutory.Assessments
         /// </summary>
         public bool EmployeeWorkedInPeriod { get; set; }
         /// <summary>
-        /// Question 5
-        /// </summary>
-        public bool EmployeeHasContract { get; set; }
-        /// <summary>
         /// Question 6
         /// </summary>
         public bool EmployeeOnPayroll { get; set; }
@@ -133,16 +129,15 @@ namespace Cedita.Payroll.Models.Statutory.Assessments
         /// <summary>
         /// Determines if the given assessment is eligible for SPP
         /// </summary>
-        public bool IsEligible
+        public virtual bool IsEligible
         {
             get
             {
                 return (IsResponsibleFather &&
                     EmployeeWorkedInPeriod &&
                     EmployeeHasContract &&
-                    EmployeeOnPayroll &&
-                    EmployeeEmployedAtBirth &&
-                    AverageWeeklyEarnings >= 116m);
+                    (EmployeeOnPayroll || EmployeeEmployedAtBirth) &&
+                    AverageWeeklyEarnings >= 118m);
             }
         }
     }

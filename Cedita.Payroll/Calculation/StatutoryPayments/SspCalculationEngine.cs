@@ -11,6 +11,7 @@ using Cedita.Payroll.Models.Statutory.Assessments;
 namespace Cedita.Payroll.Calculation.StatutoryPayments
 {
     [CalculationEngineTaxYear(TaxYear = 2018)]
+    [CalculationEngineTaxYear(TaxYear = 2019)]
     public class SspCalculationEngine : StatutoryCalculationEngine, IStatutorySickPayCalculationEngine
     {
         public SspCalculationEngine(TaxYearConfigurationData taxYearConfigurationData, BankHolidayConfigurationData bankHolidayConfigurationData) : base(taxYearConfigurationData, bankHolidayConfigurationData) {}
@@ -24,7 +25,9 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             if (assessmentCalculation.Errors.Any())
                 return assessmentCalculation;
 
+            assessmentCalculation.IsEligible = model.IsEligible;
             var previousSickDays = new List<DateTime>();
+
             // If we are providing some historical sick notes, extract the actual sick days for each of them
             if (previousSicknotes != null)
                 previousSickDays = previousSicknotes.OrderBy(m => m.StartDate).SelectMany(m => GetSickDays(m)).Distinct().ToList();
@@ -33,6 +36,8 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
 
             var datesInRange = GetSickDays(model);
             var nextPaymentDate = model.UpcomingPaymentDateForPeriod;
+            var maxSickDays = Math.Max(140 - model.PreviousSickDaysTotal, 0);
+            var totalDaysClaimed = 0;
 
             var statPayment = new StatutoryPayment
             {
@@ -64,8 +69,13 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                 if (previousSickDays.Contains(claimDate))
                     continue;
 
+                // If we have reached our max sick days, don't pay any more
+                if (totalDaysClaimed >= maxSickDays)
+                    break;
+
                 // We do want to pay this date, woop for the worker
                 statPayment.Qty += 1m;
+                totalDaysClaimed++;
             }
 
             // Add the last period
@@ -73,10 +83,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
 
             // Filter out empty schedules
             assessmentCalculation.Payments = scheduledPayments.Where(m => m.Qty > 0).Select(m => m);
-
-            // If we've got to this point, we must be eligible
-            assessmentCalculation.IsEligible = true;
-
+            
             return assessmentCalculation;
         }
 
@@ -96,10 +103,11 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             int dayCounter = 0;
             foreach (var date in datesInRange)
             {
+                if (!model.IncludeBankHolidays && BankHolidayDates.Contains(date))
+                    continue;
+
                 dayCounter++;
                 if (model.FirstSickNote && dayCounter <= 3)
-                    continue;
-                if (!model.IncludeBankHolidays && BankHolidayDates.Contains(date))
                     continue;
                 sickDays.Add(date);
             }

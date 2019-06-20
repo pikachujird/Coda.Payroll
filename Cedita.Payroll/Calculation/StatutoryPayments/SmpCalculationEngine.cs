@@ -11,6 +11,7 @@ using Cedita.Payroll.Models.Statutory.Assessments;
 namespace Cedita.Payroll.Calculation.StatutoryPayments
 {
     [CalculationEngineTaxYear(TaxYear = 2018)]
+    [CalculationEngineTaxYear(TaxYear = 2019)]
     public class SmpCalculationEngine : StatutoryCalculationEngine, IStatutoryMaternityPayCalculationEngine
     {
         public SmpCalculationEngine(TaxYearConfigurationData taxYearConfigurationData, BankHolidayConfigurationData bankHolidayConfigurationData) : base(taxYearConfigurationData, bankHolidayConfigurationData) {}
@@ -30,9 +31,13 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             if (assessmentCalculation.Errors.Any())
                 return assessmentCalculation;
 
+            assessmentCalculation.IsEligible = model.IsEligible;
+            if (!model.StartDate.HasValue)
+                model.StartDate = model.DueDate;
+
             // Statutory Maternity Pay ends after 39 weeks 
             if (!model.EndDate.HasValue)
-                model.EndDate = model.DueDate.Value.AddDays((7 * 39) - 1);
+                model.EndDate = model.StartDate.Value.AddDays((7 * 39) - 1);
 
             var scheduledPayments = new List<StatutoryPayment>();
 
@@ -98,9 +103,6 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
 
             // Filter out empty schedules
             assessmentCalculation.Payments = scheduledPayments.Where(m => m.Qty > 0).Select(m => m);
-
-            // If we've got to this point, we must be eligible
-            assessmentCalculation.IsEligible = true;
 
             return assessmentCalculation;
         }

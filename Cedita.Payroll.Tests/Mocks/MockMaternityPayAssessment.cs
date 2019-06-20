@@ -58,6 +58,12 @@ namespace Cedita.Payroll.Tests.Mocks
             return this;
         }
 
+        public MockMaternityPayAssessment WithEmploymentContract(bool hasContract)
+        {
+            Assessment.EmployeeHasContract = hasContract;
+            return this;
+        }
+
         public MaternityPayAssessment GetAssessment() => Assessment;
     }
 }

@@ -39,13 +39,25 @@ namespace Cedita.Payroll.Models.Statutory.Assessments
         {
             get
             {
-                if (!DueDate.HasValue)
+                if (!StartDate.HasValue)
                     return (DateTime?)null;
-                return DueDate?.AddDays((52 * 7) - 1);
+                return StartDate?.AddDays((52 * 7) - 1);
             }
 
         }
 
-
+        /// <summary>
+        /// Determines if the given assessment is eligible for SPP
+        /// </summary>
+        public override bool IsEligible
+        {
+            get
+            {
+                return (
+                    EmployeeHasContract && // The employee is not entitled to Statutory Maternity Leave because they don’t have an employment contract with you.
+                    AverageWeeklyEarnings >= 118m
+                );
+            }
+        } 
     }
 }
