@@ -339,10 +339,10 @@ namespace Cedita.Payroll.Tests
             var calculation = sspEngine.Calculate(overlappingSickPayAssessment, new List<SickPayAssessment> { firstSickPayAssessment });
             var statutoryPayments = calculation.Payments;
 
-            Assert.AreEqual(8, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
-            Assert.AreEqual(150.80m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
+            Assert.AreEqual(6, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+            Assert.AreEqual(113.1m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
             Assert.AreEqual(2, statutoryPayments.Count(), "Unexpected total collection of payments");
-            Assert.AreEqual(new DateTime(2019, 04, 26), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
+            Assert.AreEqual(new DateTime(2019, 07, 05), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
 
         }
     }

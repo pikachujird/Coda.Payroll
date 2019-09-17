@@ -30,7 +30,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
 
             // If we are providing some historical sick notes, extract the actual sick days for each of them
             if (previousSicknotes != null)
-                previousSickDays = previousSicknotes.OrderBy(m => m.StartDate).SelectMany(m => GetSickDays(m)).Distinct().ToList();
+                previousSickDays = previousSicknotes.OrderBy(m => m.StartDate).SelectMany(m => GetSickDays(m, true)).Distinct().ToList();
 
             var scheduledPayments = new List<StatutoryPayment>();
 
@@ -92,7 +92,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public IEnumerable<DateTime> GetSickDays(SickPayAssessment model)
+        public IEnumerable<DateTime> GetSickDays(SickPayAssessment model, bool includeWaitingDays = false)
         {
             if (!model.EndDate.HasValue || !model.StartDate.HasValue)
                 return null;
@@ -107,7 +107,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                     continue;
 
                 dayCounter++;
-                if (model.FirstSickNote && dayCounter <= 3)
+                if (!includeWaitingDays && model.FirstSickNote && dayCounter <= 3)
                     continue;
                 sickDays.Add(date);
             }
