@@ -96,9 +96,9 @@ namespace Cedita.Payroll.Models.Statutory.Assessments
         {
             get
             {
-                if (!BirthDate.HasValue && !DueDate.HasValue)
+                if (!StartDate.HasValue && !DueDate.HasValue)
                     return (DateTime?)null;
-                return (BirthDate ?? DueDate)?.GetNextWeekday(DayOfWeek.Saturday).AddDays(-(7 * 15));
+                return (StartDate ?? DueDate)?.GetNextWeekday(DayOfWeek.Saturday).AddDays(-(7 * 15));
             }
         }
 
