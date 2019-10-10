@@ -39,6 +39,7 @@ namespace Cedita.Payroll.Tests
                 .WithEmployeeHasContractAnswer(true)
                 .WithEmployeeOnPayrollAnswer(true)
                 .WithEmployedAtBirthAnswer(true)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var assessmentCalculation = GetSppCalculation(2018, paternityPayAssessment);

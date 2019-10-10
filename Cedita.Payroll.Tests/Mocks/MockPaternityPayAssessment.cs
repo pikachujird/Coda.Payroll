@@ -92,6 +92,12 @@ namespace Cedita.Payroll.Tests.Mocks
             return this;
         }
 
+        public MockPaternityPayAssessment WithPaymentFrequency(PayPeriods frequency)
+        {
+            Assessment.Frequency = frequency;
+            return this;
+        }
+
         public PaternityPayAssessment GetAssessment() => Assessment;
     }
 }

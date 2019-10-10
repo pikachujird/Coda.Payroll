@@ -46,6 +46,12 @@ namespace Cedita.Payroll.Tests.Mocks
             return this;
         }
 
+        public MockSickPayAssessment WithWaitingDaysApplied(bool waitingDaysApplied)
+        {
+            Assessment.ApplyWaitingDays = waitingDaysApplied;
+            return this;
+        }
+
         public MockSickPayAssessment WithNextPaymentDate(DateTime nextPayment)
         {
             Assessment.UpcomingPaymentDate = nextPayment;
@@ -72,6 +78,12 @@ namespace Cedita.Payroll.Tests.Mocks
         public MockSickPayAssessment WithHistoricalSickDayTotal(int total)
         {
             Assessment.PreviousSickDaysTotal = total;
+            return this;
+        }
+
+        public MockSickPayAssessment WithPaymentFrequency (PayPeriods frequency)
+        {
+            Assessment.Frequency = frequency;
             return this;
         }
 

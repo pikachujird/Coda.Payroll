@@ -44,6 +44,8 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             var datesInRange = model.GetQualifyingDatesInRange();
             var nextPaymentDate = model.UpcomingPaymentDateForPeriod;
 
+            var belowAverageEarningsCost = (model.AverageWeeklyEarnings * 0.9m) / 7;
+
             var statPayment = new StatutoryPayment
             {
                 ReferenceDate = nextPaymentDate,
@@ -60,7 +62,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                 // First 6 weeks we claim the average rate
                 if (totalDaysClaimed <= (7 * 6))
                 {
-                    statPayment.Cost = (model.AverageWeeklyEarnings * 0.9m) / 7;
+                    statPayment.Cost = belowAverageEarningsCost;
                     statPayment.IsStatutoryMinimumRate = false;
                 }
 
@@ -75,7 +77,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                     {
                         ReferenceDate = nextPaymentDate,
                         PaymentDate = nextPaymentDate.AddDays(7),
-                        Cost = taxYearConfigurationData.StatutoryMaternityPayDayRate,
+                        Cost = Math.Min(belowAverageEarningsCost, taxYearConfigurationData.StatutoryMaternityPayDayRate),
                         Qty = 0m,
                     };
                 }
@@ -89,7 +91,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                     {
                         ReferenceDate = statPayment.ReferenceDate,
                         PaymentDate = statPayment.PaymentDate,
-                        Cost = taxYearConfigurationData.StatutoryMaternityPayDayRate,
+                        Cost = Math.Min(belowAverageEarningsCost, taxYearConfigurationData.StatutoryMaternityPayDayRate),
                         Qty = 0m,
                     };
                 }

@@ -35,9 +35,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(true)
+                .WithWaitingDaysApplied(true)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var statutoryPayments = GetSspCalculation(2018, sickPayAssessment).Payments;
@@ -59,9 +61,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var statutoryPayments = GetSspCalculation(2018, sickPayAssessment).Payments;
@@ -83,19 +87,21 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
-              
+
             var statutoryPayments = GetSspCalculation(2018, sickPayAssessment).Payments;
 
             // Calculate 2 days sick pay
             Assert.AreEqual(10, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
             Assert.AreEqual(184.10m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
             Assert.AreEqual(2, statutoryPayments.Count(), "Unexpected total collection of payments");
-            Assert.AreEqual(new DateTime(2019,03,01), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
-            Assert.AreEqual(new DateTime(2019,03,08), statutoryPayments.Skip(1).Single().PaymentDate, "Unexpected payment date for second payment collection");
+            Assert.AreEqual(new DateTime(2019, 03, 01), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
+            Assert.AreEqual(new DateTime(2019, 03, 08), statutoryPayments.Skip(1).Single().PaymentDate, "Unexpected payment date for second payment collection");
         }
 
         [TestCategory("Statutory Sick Pay Tests"), TestMethod]
@@ -109,9 +115,11 @@ namespace Cedita.Payroll.Tests
                 .WithNextPaymentDate(new DateTime(2019, 04, 19))
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var statutoryAssessment = GetSspCalculation(2018, sickPayAssessment);
@@ -136,9 +144,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var overlappingSickPayAssessment = (new MockSickPayAssessment())
@@ -148,9 +158,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var sspEngine = statutoryFactory.CreateSspCalculationEngine(2018);
@@ -175,9 +187,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var overlappingSickPayAssessment = (new MockSickPayAssessment())
@@ -187,9 +201,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(true)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var sspEngine = statutoryFactory.CreateSspCalculationEngine(2018);
@@ -214,9 +230,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var overlappingSickPayAssessment = (new MockSickPayAssessment())
@@ -226,9 +244,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var finalSickPayAssessment = (new MockSickPayAssessment())
@@ -238,10 +258,12 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
-                .GetAssessment();   
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .GetAssessment();
 
             var sspEngine = statutoryFactory.CreateSspCalculationEngine(2018);
             var calculation = sspEngine.Calculate(finalSickPayAssessment, new List<SickPayAssessment> { sickPayAssessment, overlappingSickPayAssessment });
@@ -268,9 +290,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(true)
+                .WithWaitingDaysApplied(true)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var statutoryPayments = GetSspCalculation(2018, sickPayAssessment).Payments;
@@ -292,10 +316,12 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(false)
                 .WithIsFirstSicknote(true)
+                .WithWaitingDaysApplied(true)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(2000m)
                 .WithTotalPaymentsInPeriod(8)
                 .WithHistoricalSickDayTotal(139)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var statutoryPayments = GetSspCalculation(2018, sickPayAssessment).Payments;
@@ -318,9 +344,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(true)
                 .WithIsFirstSicknote(true)
+                .WithWaitingDaysApplied(true)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(1925.58m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var overlappingSickPayAssessment = (new MockSickPayAssessment())
@@ -330,9 +358,11 @@ namespace Cedita.Payroll.Tests
                 .WithActiveContract(true)
                 .WithBankHolidaysPaid(true)
                 .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
                 .WithIsFitForWork(false)
                 .WithTotalEarningsInPeriod(1925.58m)
                 .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var sspEngine = statutoryFactory.CreateSspCalculationEngine(2019);
@@ -344,6 +374,111 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(2, statutoryPayments.Count(), "Unexpected total collection of payments");
             Assert.AreEqual(new DateTime(2019, 07, 05), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
 
+        }
+
+        [TestCategory("Statutory Sick Pay Tests"), TestMethod]
+        public void UpdatedAverageWeeklyEarnings()
+        {
+            var sickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 05, 02))
+                .WithEndDate(new DateTime(2019, 06, 16))
+                .WithNextPaymentDate(new DateTime(2019, 05, 03))
+                .WithActiveContract(true)
+                .WithBankHolidaysPaid(false)
+                .WithIsFirstSicknote(true)
+                .WithWaitingDaysApplied(true)
+                .WithIsFitForWork(false)
+                .WithTotalEarningsInPeriod(2000m)
+                .WithTotalPaymentsInPeriod(2)
+                .WithHistoricalSickDayTotal(139)
+                .WithPaymentFrequency(PayPeriods.Monthly)
+                .GetAssessment();
+
+            var monthlyAvgEarnings = GetSspCalculation(2019, sickPayAssessment).Assessment.AverageWeeklyEarnings;
+            Assert.AreEqual(230.77100593081485242194170724m, monthlyAvgEarnings, "Monthly average earnings unexpected");
+
+            sickPayAssessment.Frequency = PayPeriods.Fortnightly;
+            sickPayAssessment.TotalPaymentsInPeriod = 4;
+            var fortnightlyAvgEarnings = GetSspCalculation(2019, sickPayAssessment).Assessment.AverageWeeklyEarnings;
+            Assert.AreEqual(250m, fortnightlyAvgEarnings, "Fortnightly average earnings unexpected");
+
+            sickPayAssessment.Frequency = PayPeriods.Weekly;
+            sickPayAssessment.TotalPaymentsInPeriod = 8;
+            var weeklyAvgEarnings = GetSspCalculation(2019, sickPayAssessment).Assessment.AverageWeeklyEarnings;
+            Assert.AreEqual(250, weeklyAvgEarnings, "Weekly average earnings unexpected");
+
+        }
+
+        [TestCategory("Statutory Sick Pay Tests"), TestMethod]
+        public void ValidSickNoteWithManualWaitingDaysPaid()
+        {
+            var firstSickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 11, 04))
+                .WithEndDate(new DateTime(2019, 11, 08))
+                .WithNextPaymentDate(new DateTime(2019, 06, 21))
+                .WithActiveContract(true)
+                .WithBankHolidaysPaid(true)
+                .WithIsFirstSicknote(true)
+                .WithWaitingDaysApplied(true)
+                .WithIsFitForWork(false)
+                .WithTotalEarningsInPeriod(1925.58m)
+                .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .GetAssessment();
+
+            var secondSickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 11, 11))
+                .WithEndDate(new DateTime(2019, 11, 15))
+                .WithNextPaymentDate(new DateTime(2019, 06, 21))
+                .WithActiveContract(true)
+                .WithBankHolidaysPaid(true)
+                .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
+                .WithIsFitForWork(false)
+                .WithTotalEarningsInPeriod(1925.58m)
+                .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .GetAssessment();
+
+            var sspEngine = statutoryFactory.CreateSspCalculationEngine(2019);
+            var calculation = sspEngine.Calculate(firstSickPayAssessment);
+            var statutoryPayments = calculation.Payments;
+
+            Assert.AreEqual(2, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+            Assert.AreEqual(37.70m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
+
+            var altCalculation = sspEngine.Calculate(secondSickPayAssessment);
+            var altStatutoryPayments = altCalculation.Payments;
+
+            Assert.AreEqual(5, altStatutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+            Assert.AreEqual(94.25m, altStatutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
+
+        }
+
+
+        [TestCategory("Statutory Sick Pay Tests"), TestMethod]
+        public void ValidSickNoteWithAwaitingDirstButNotFirst()
+        {
+            var sickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 11, 04))
+                .WithEndDate(new DateTime(2019, 11, 08))
+                .WithNextPaymentDate(new DateTime(2019, 06, 21))
+                .WithActiveContract(true)
+                .WithBankHolidaysPaid(true)
+                .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(true)
+                .WithIsFitForWork(false)
+                .WithTotalEarningsInPeriod(1925.58m)
+                .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .GetAssessment();
+
+            var sspEngine = statutoryFactory.CreateSspCalculationEngine(2019);
+            var calculation = sspEngine.Calculate(sickPayAssessment);
+            var statutoryPayments = calculation.Payments;
+
+            Assert.AreEqual(2, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+            Assert.AreEqual(37.70m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
         }
     }
 }
