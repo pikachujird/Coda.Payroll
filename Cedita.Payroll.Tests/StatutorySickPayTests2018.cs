@@ -307,5 +307,43 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(1, statutoryPayments.Count(), "Unexpected total collection of payments");
 
         }
+
+        [TestCategory("Statutory Sick Pay Tests"), TestMethod]
+        public void ValidOverlappingSspClaimForSamePeriod()
+        {
+            var firstSickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 06, 20))
+                .WithEndDate(new DateTime(2019, 06, 26))
+                .WithNextPaymentDate(new DateTime(2019, 06, 21))
+                .WithActiveContract(true)
+                .WithBankHolidaysPaid(true)
+                .WithIsFirstSicknote(true)
+                .WithIsFitForWork(false)
+                .WithTotalEarningsInPeriod(1925.58m)
+                .WithTotalPaymentsInPeriod(8)
+                .GetAssessment();
+
+            var overlappingSickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2019, 06, 20))
+                .WithEndDate(new DateTime(2019, 07, 04))
+                .WithNextPaymentDate(new DateTime(2019, 06, 21))
+                .WithActiveContract(true)
+                .WithBankHolidaysPaid(true)
+                .WithIsFirstSicknote(false)
+                .WithIsFitForWork(false)
+                .WithTotalEarningsInPeriod(1925.58m)
+                .WithTotalPaymentsInPeriod(8)
+                .GetAssessment();
+
+            var sspEngine = statutoryFactory.CreateSspCalculationEngine(2019);
+            var calculation = sspEngine.Calculate(overlappingSickPayAssessment, new List<SickPayAssessment> { firstSickPayAssessment });
+            var statutoryPayments = calculation.Payments;
+
+            Assert.AreEqual(6, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+            Assert.AreEqual(113.1m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
+            Assert.AreEqual(2, statutoryPayments.Count(), "Unexpected total collection of payments");
+            Assert.AreEqual(new DateTime(2019, 07, 05), statutoryPayments.First().PaymentDate, "Unexpected payment date for first payment collection");
+
+        }
     }
 }
