@@ -19,6 +19,8 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
         public StatutoryCalculationResult<SickPayAssessment> Calculate(SickPayAssessment model, IEnumerable<SickPayAssessment> previousSicknotes = null)
         {
             var assessmentCalculation = new StatutoryCalculationResult<SickPayAssessment>();
+            assessmentCalculation.Assessment = model;
+
             if (!model.UpcomingPaymentDate.HasValue)
                 assessmentCalculation.AddError(StatutoryValidationError.MissingRequiredValue, "The next Upcoming Payment Date must be provided");
 
@@ -34,7 +36,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
 
             var scheduledPayments = new List<StatutoryPayment>();
 
-            var datesInRange = GetSickDays(model);
+            var datesInRange = GetSickDays(model, !model.ApplyWaitingDays);
             var nextPaymentDate = model.UpcomingPaymentDateForPeriod;
             var maxSickDays = Math.Max(140 - model.PreviousSickDaysTotal, 0);
             var totalDaysClaimed = 0;
@@ -107,7 +109,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                     continue;
 
                 dayCounter++;
-                if (!includeWaitingDays && model.FirstSickNote && dayCounter <= 3)
+                if (!includeWaitingDays && dayCounter <= 3)
                     continue;
                 sickDays.Add(date);
             }

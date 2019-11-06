@@ -35,6 +35,7 @@ namespace Cedita.Payroll.Tests
                 .WithEmploymentContract(true)
                 .WithEarningsInPeriod(2000m)
                 .WithPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var statutoryCalculation = GetSmpCalculation(2018, maternityPayAssessment);
@@ -60,6 +61,7 @@ namespace Cedita.Payroll.Tests
                 .WithEmploymentContract(true)
                 .WithEarningsInPeriod(7454.24m)
                 .WithPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
                 .GetAssessment();
 
             var statutoryCalculation = GetSmpCalculation(2018, maternityPayAssessment);
@@ -73,5 +75,29 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(41, statutoryPayments.Count(), "Unexpected total collection of payments");
         }
 
+        [TestCategory("Statutory Maternity Pay Tests"), TestMethod]
+        public void SmpLowestPayments()
+        {
+            // Week long sick note, this is the first sick note they have claimed
+            var maternityPayAssessment = (new MockMaternityPayAssessment())
+                .WithBirthDate(new DateTime(2020, 02, 01))
+                .WithDueDate(new DateTime(2020, 02, 01))
+                .WithStartDate(new DateTime(2020, 02, 01))
+                .WithNextPaymentDate(new DateTime(2020, 02, 03))
+                .WithEmploymentContract(true)
+                .WithEarningsInPeriod(1000m)
+                .WithPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .GetAssessment();
+
+
+            var statutoryCalculation = GetSmpCalculation(2019, maternityPayAssessment);
+            var statutoryPayments = statutoryCalculation.Payments;
+
+            Assert.AreEqual(16.07m, Math.Round(statutoryPayments.FirstOrDefault().Cost, 2, MidpointRounding.AwayFromZero), "SMP Amount Value.");
+            Assert.AreEqual(16.07m, Math.Round(statutoryPayments.LastOrDefault().Cost, 2, MidpointRounding.AwayFromZero), "SMP Amount Value.");
+            Assert.IsTrue(statutoryPayments.All(x => Math.Round(x.Cost, 2, MidpointRounding.AwayFromZero) == 16.07m));
+
+        }
     }
 }
