@@ -99,5 +99,49 @@ namespace Cedita.Payroll.Tests
             Assert.IsTrue(statutoryPayments.All(x => Math.Round(x.Cost, 2, MidpointRounding.AwayFromZero) == 16.07m));
 
         }
+
+        [TestCategory("Statutory Maternity Pay Tests"), TestMethod]
+        public void SmpAverageEarningsCalculationTest()
+        {
+            // Week long sick note, this is the first sick note they have claimed
+            var maternityPayAssessment = (new MockMaternityPayAssessment())
+                .WithBirthDate(new DateTime(2020, 01, 07))
+                .WithDueDate(new DateTime(2020, 01, 07))
+                .WithStartDate(new DateTime(2020, 01, 07))
+                .WithNextPaymentDate(new DateTime(2020, 01, 10))
+                .WithEmploymentContract(true)
+                .WithEarningsInPeriod(2000m)
+                .WithPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .GetAssessment();
+
+            var statutoryCalculation = GetSmpCalculation(2019, maternityPayAssessment);
+            var statutoryPayments = statutoryCalculation.Payments;
+
+            var firstFullWeekPaymentAverageEarnings = statutoryPayments.Skip(1).First();
+            Assert.AreEqual(225m, Math.Round(firstFullWeekPaymentAverageEarnings.Total, 2, MidpointRounding.AwayFromZero), "Average Earnings Total");
+        }
+
+        [TestCategory("Statutory Maternity Pay Tests"), TestMethod]
+        public void SmpBelowMinimumEarningsCalculationTest()
+        {
+            // Week long sick note, this is the first sick note they have claimed
+            var maternityPayAssessment = (new MockMaternityPayAssessment())
+                .WithBirthDate(new DateTime(2020, 01, 07))
+                .WithDueDate(new DateTime(2020, 01, 07))
+                .WithStartDate(new DateTime(2020, 01, 07))
+                .WithNextPaymentDate(new DateTime(2020, 01, 10))
+                .WithEmploymentContract(true)
+                .WithEarningsInPeriod(500m)
+                .WithPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .GetAssessment();
+
+            var statutoryCalculation = GetSmpCalculation(2019, maternityPayAssessment);
+            var statutoryPayments = statutoryCalculation.Payments;
+
+            // Ensure the figure below statutory minimum is used (90% of average earnings)
+            Assert.AreEqual(2193.77m, Math.Round(statutoryPayments.Sum(x => x.Total), 2, MidpointRounding.AwayFromZero), "Below Statutory Earnings Total");
+        }
     }
 }

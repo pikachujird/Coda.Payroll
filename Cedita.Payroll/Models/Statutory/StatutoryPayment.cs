@@ -18,6 +18,6 @@ namespace Cedita.Payroll.Models.Statutory
         /// The HMRC Spec states that this should be truncated to 5 decimal places, then always rounded up to the nearest penny. Unless
         /// of course it's the statutory rate that is a flat £145.18 a week / £20.74 a day
         /// </summary>
-        public decimal Total => (IsStatutoryMinimumRate ? (Qty * Cost) : TaxMath.UpRound(TaxMath.Truncate(Qty * Cost, 5), 2));
+        public decimal Total => (IsStatutoryMinimumRate ? (Qty * Cost) : TaxMath.UpRound(TaxMath.Truncate(Cost, 5) * Qty, 2));
     }
 }

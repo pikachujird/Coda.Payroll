@@ -64,5 +64,34 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(new DateTime(2019, 05, 24), finalPayment.PaymentDate, "Unexpected payment date for third payment");
         }
 
+        [TestCategory("Statutory Paternity Pay Tests"), TestMethod]
+        public void ValidSppClaimDaysPerWeek()
+        {
+            // Week long sick note, this is the first sick note they have claimed
+            var paternityPayAssessment = (new MockPaternityPayAssessment())
+                .WithDueDate(new DateTime(2020, 01, 31))
+                .WithStartDate(new DateTime(2020, 01, 31))
+                .WithNextPaymentDate(new DateTime(2020, 01, 31))
+                .WithTotalClaimDays(13)
+                .WithEarningsInPeriod(2000m)
+                .WithPaymentsInPeriod(8)
+                .WithIsResponsibleFatherAnswer(true)
+                .WithEmployeeWorkedInPeriodAnswer(true)
+                .WithEmployeeHasContractAnswer(true)
+                .WithEmployeeOnPayrollAnswer(true)
+                .WithEmployedAtBirthAnswer(true)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .GetAssessment();
+
+            var assessmentCalculation = GetSppCalculation(2019, paternityPayAssessment);
+            var statutoryPayments = assessmentCalculation.Payments;
+
+            Assert.AreEqual(14, statutoryPayments.Sum(m => m.Qty), "Unexpected total days paternity pay");
+            Assert.AreEqual(297.36m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of total paternity pay");
+
+            // Ensure first payment is a single day
+            var firstPayment = statutoryPayments.First();
+            Assert.AreEqual(1m, firstPayment.Qty, "Unexpected qty of paternity pay");
+        }
     }
 }
