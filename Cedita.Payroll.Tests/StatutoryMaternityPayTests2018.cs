@@ -143,5 +143,30 @@ namespace Cedita.Payroll.Tests
             // Ensure the figure below statutory minimum is used (90% of average earnings)
             Assert.AreEqual(2193.77m, Math.Round(statutoryPayments.Sum(x => x.Total), 2, MidpointRounding.AwayFromZero), "Below Statutory Earnings Total");
         }
+
+        [TestCategory("Statutory Maternity Pay Tests"), TestMethod]
+        public void Calculate42CorrectPaymentsAtNintyPercent()
+        {
+            // Week long sick note, this is the first sick note they have claimed
+            var maternityPayAssessment = (new MockMaternityPayAssessment())
+                .WithBirthDate(new DateTime(2020, 07, 01))
+                .WithDueDate(new DateTime(2020, 07, 01))
+                .WithStartDate(new DateTime(2020, 04, 12))
+                .WithNextPaymentDate(new DateTime(2020, 04, 24))
+                .WithEmploymentContract(true)
+                .WithEarningsInPeriod(2000m)
+                .WithPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .GetAssessment();
+
+            var statutoryCalculation = GetSmpCalculation(2019, maternityPayAssessment);
+            //The first 6 payments should be calculated at 90% of their weekly rate. E.g. £250 / 0.9 = £225. £225 / 7 = £32.14 (the average day rate).
+            var statutoryPayments = statutoryCalculation.Payments.Take(6);
+
+            var averageCost = Math.Round(statutoryPayments.Average(x => x.Cost), 2, MidpointRounding.AwayFromZero);
+
+            Assert.AreEqual(32.14m, averageCost, "Below Statutory Earnings Total");
+
+        }
     }
 }

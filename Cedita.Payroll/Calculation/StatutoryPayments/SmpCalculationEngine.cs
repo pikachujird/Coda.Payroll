@@ -60,7 +60,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                 totalDaysClaimed++;
 
                 // First 6 weeks we claim the average rate
-                if (totalDaysClaimed <= (7 * 6))
+                if (totalDaysClaimed <= 43)
                 {
                     statPayment.Cost = belowAverageEarningsCost;
                     statPayment.IsStatutoryMinimumRate = false;
@@ -100,6 +100,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
 
                 // We do want to pay this date
                 statPayment.Qty += 1m;
+
             }
 
             // Add the last period
