@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>2.2019</Version>
+    <Version>2.2.8</Version>
     <Authors>Cedita</Authors>
     <Company>Cedita Ltd</Company>
     <Description>Dependency Injection support for Cedita's .NET Standard implementation of the United Kingdom's HMRC UK Tax legislation.</Description>
-    <Copyright>Cedita Ltd 2018</Copyright>
+    <Copyright>Cedita Ltd</Copyright>
     <PackageProjectUrl>https://www.cedita.com/</PackageProjectUrl>
     <PackageIconUrl>https://www.cedita.com/nuget.png</PackageIconUrl>
     <RepositoryUrl>https://www.github.com/cedita/Cedita.Payroll</RepositoryUrl>

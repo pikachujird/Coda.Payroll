@@ -6,7 +6,7 @@
     <Authors>Cedita</Authors>
     <Company>Cedita Ltd</Company>
     <Description>.NET Standard implementation of the United Kingdom's HMRC UK Tax legislation.</Description>
-    <Copyright>Cedita Ltd 2018</Copyright>
+    <Copyright>Cedita Ltd</Copyright>
     <PackageProjectUrl>https://www.cedita.com/</PackageProjectUrl>
     <PackageIconUrl>https://www.cedita.com/nuget.png</PackageIconUrl>
     <RepositoryUrl>https://www.github.com/cedita/Cedita.Payroll</RepositoryUrl>
