@@ -42,7 +42,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             var scheduledPayments = new List<StatutoryPayment>();
 
             var datesInRange = model.GetQualifyingDatesInRange();
-            var nextPaymentDate = model.UpcomingPaymentDateForPeriod;
+            var nextPaymentDate = (model.UpcomingPaymentDate.Value >= datesInRange.First() ? model.UpcomingPaymentDate.Value : model.UpcomingPaymentDate.Value.AddDays(7));
 
             var belowAverageEarningsCost = (model.AverageWeeklyEarnings * 0.9m) / 7;
 
@@ -60,7 +60,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                 totalDaysClaimed++;
 
                 // First 6 weeks we claim the average rate
-                if (totalDaysClaimed <= (7 * 6))
+                if (totalDaysClaimed <= 43)
                 {
                     statPayment.Cost = belowAverageEarningsCost;
                     statPayment.IsStatutoryMinimumRate = false;
@@ -79,6 +79,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                         PaymentDate = nextPaymentDate.AddDays(7),
                         Cost = Math.Min(belowAverageEarningsCost, taxYearConfigurationData.StatutoryMaternityPayDayRate),
                         Qty = 0m,
+                        IsStatutoryMinimumRate = (belowAverageEarningsCost > taxYearConfigurationData.StatutoryMaternityPayDayRate)
                     };
                 }
 
@@ -93,11 +94,13 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                         PaymentDate = statPayment.PaymentDate,
                         Cost = Math.Min(belowAverageEarningsCost, taxYearConfigurationData.StatutoryMaternityPayDayRate),
                         Qty = 0m,
+                        IsStatutoryMinimumRate = (belowAverageEarningsCost > taxYearConfigurationData.StatutoryMaternityPayDayRate)
                     };
                 }
 
                 // We do want to pay this date
                 statPayment.Qty += 1m;
+
             }
 
             // Add the last period

@@ -40,7 +40,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             assessmentCalculation.IsEligible = model.IsEligible;
             var scheduledPayments = new List<StatutoryPayment>();
             var datesInRange = model.GetQualifyingDatesInRange();
-            var nextPaymentDate = (model.UpcomingPaymentDate.Value > datesInRange.First() ? model.UpcomingPaymentDate.Value : model.UpcomingPaymentDate.Value.AddDays(7));
+            var nextPaymentDate = (model.UpcomingPaymentDate.Value >= datesInRange.First() ? model.UpcomingPaymentDate.Value : model.UpcomingPaymentDate.Value.AddDays(7));
 
             var statPayment = new StatutoryPayment
             {

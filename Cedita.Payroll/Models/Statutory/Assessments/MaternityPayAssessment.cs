@@ -29,9 +29,9 @@ namespace Cedita.Payroll.Models.Statutory.Assessments
         {
             get
             {
-                if (!DueDate.HasValue)
+                if (!DueDate.HasValue && !StartDate.HasValue) // Start Date First - and if not known, default to due date
                     return (DateTime?)null;
-                return DueDate?.AddDays(-28);
+                return (StartDate ?? DueDate)?.AddDays(-28);
             }
         }
 
