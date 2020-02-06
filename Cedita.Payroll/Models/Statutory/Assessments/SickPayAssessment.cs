@@ -11,6 +11,8 @@ namespace Cedita.Payroll.Models.Statutory.Assessments
         public bool HasEightWeekGapSincePreviousSicknote { get; set; }
         public int PreviousSickDaysTotal { get; set; }
         public DateTime? DateCaseAssessed { get; set; }
+        public bool SupersedeSickDayLimit { get; set; }
+        public int TotalUnclaimedSickDays { get; set; }
 
         /// <summary>
         /// Determines if the given assessment is eligible for SPP

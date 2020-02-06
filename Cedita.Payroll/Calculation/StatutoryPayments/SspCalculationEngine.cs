@@ -72,8 +72,11 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
                     continue;
 
                 // If we have reached our max sick days, don't pay any more
-                if (totalDaysClaimed >= maxSickDays)
+                if (totalDaysClaimed >= maxSickDays && !model.SupersedeSickDayLimit)
+                {
+                    model.TotalUnclaimedSickDays = datesInRange.Count() - maxSickDays;
                     break;
+                }
 
                 // We do want to pay this date, woop for the worker
                 statPayment.Qty += 1m;
