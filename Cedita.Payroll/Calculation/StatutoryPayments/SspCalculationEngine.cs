@@ -37,7 +37,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
             var scheduledPayments = new List<StatutoryPayment>();
 
             var datesInRange = GetSickDays(model, !model.ApplyWaitingDays);
-            var nextPaymentDate = (model.UpcomingPaymentDate.Value >= datesInRange.First() ? model.UpcomingPaymentDate.Value : model.UpcomingPaymentDate.Value.AddDays(7));
+            var nextPaymentDate = (datesInRange.Any() && model.UpcomingPaymentDate.Value >= datesInRange.First() ? model.UpcomingPaymentDate.Value : model.UpcomingPaymentDate.Value.AddDays(7));
             var maxSickDays = Math.Max(140 - model.PreviousSickDaysTotal, 0);
             var totalDaysClaimed = 0;
 
