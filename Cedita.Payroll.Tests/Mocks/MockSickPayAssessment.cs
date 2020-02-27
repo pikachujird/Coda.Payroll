@@ -87,6 +87,12 @@ namespace Cedita.Payroll.Tests.Mocks
             return this;
         }
 
+        public MockSickPayAssessment WithSupersedeSickDayLimit(bool supersedeSickDayLimit)
+        {
+            Assessment.SupersedeSickDayLimit = supersedeSickDayLimit;
+            return this;
+        }
+
         public SickPayAssessment GetAssessment() => Assessment;
     }
 }

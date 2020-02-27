@@ -480,5 +480,57 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(2, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
             Assert.AreEqual(37.70m, statutoryPayments.Sum(m => m.Qty * m.Cost), "Unexpected amount of sick pay");
         }
+
+        [TestCategory("Statutory Sick Pay Tests"), TestMethod]
+        public void ValidSickNoteWithoutSickDayOverride()
+        {
+            var sickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2020, 02, 06))
+                .WithEndDate(new DateTime(2020, 02, 17))
+                .WithNextPaymentDate(new DateTime(2020, 02, 07))
+                .WithActiveContract(true)
+                .WithBankHolidaysPaid(true)
+                .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
+                .WithIsFitForWork(false)
+                .WithTotalEarningsInPeriod(3500.00m)
+                .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .WithSupersedeSickDayLimit(false)
+                .WithHistoricalSickDayTotal(135)
+                .GetAssessment();
+
+            var sspEngine = statutoryFactory.CreateSspCalculationEngine(2019);
+            var calculation = sspEngine.Calculate(sickPayAssessment);
+            var statutoryPayments = calculation.Payments;
+
+            Assert.AreEqual(5, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+        }
+
+        [TestCategory("Statutory Sick Pay Tests"), TestMethod]
+        public void ValidSickNoteWithSickDayOverride()
+        {
+            var sickPayAssessment = (new MockSickPayAssessment())
+                .WithStartDate(new DateTime(2020, 02, 06))
+                .WithEndDate(new DateTime(2020, 02, 17))
+                .WithNextPaymentDate(new DateTime(2020, 02, 07))
+                .WithActiveContract(true)
+                .WithBankHolidaysPaid(true)
+                .WithIsFirstSicknote(false)
+                .WithWaitingDaysApplied(false)
+                .WithIsFitForWork(false)
+                .WithTotalEarningsInPeriod(3500.00m)
+                .WithTotalPaymentsInPeriod(8)
+                .WithPaymentFrequency(PayPeriods.Weekly)
+                .WithSupersedeSickDayLimit(true)
+                .WithHistoricalSickDayTotal(135)
+                .GetAssessment();
+
+            var sspEngine = statutoryFactory.CreateSspCalculationEngine(2019);
+            var calculation = sspEngine.Calculate(sickPayAssessment);
+            var statutoryPayments = calculation.Payments;
+
+            Assert.AreEqual(8, statutoryPayments.Sum(m => m.Qty), "Unexpected total days sick pay");
+        }
     }
 }
