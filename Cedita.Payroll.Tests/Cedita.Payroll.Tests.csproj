@@ -66,6 +66,7 @@
     <Compile Include="Mocks\MockSickPayAssessment.cs" />
     <Compile Include="NiTests.2015.cs" />
     <Compile Include="NiTests.2016.cs" />
+    <Compile Include="NiTests.2020.cs" />
     <Compile Include="NiTests.2019.cs" />
     <Compile Include="NiTests.2018.cs" />
     <Compile Include="NiTests.2017.cs" />
