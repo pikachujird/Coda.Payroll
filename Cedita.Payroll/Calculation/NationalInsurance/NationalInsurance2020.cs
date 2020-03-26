@@ -5,17 +5,16 @@ using System;
 
 namespace Cedita.Payroll.Calculation.NationalInsurance
 {
-    [CalculationEngineTaxYear(TaxYear = 2017)]
-    [CalculationEngineTaxYear(TaxYear = 2018)]
-    [CalculationEngineTaxYear(TaxYear = 2019)]
-    public class NationalInsurance2017 : NationalInsurance2016
+    [CalculationEngineTaxYear(TaxYear = 2020)]
+    public class NationalInsurance2020 : NationalInsurance2017
     {
-        public NationalInsurance2017(TaxYearConfigurationData taxYearConfigurationData) : base(taxYearConfigurationData)
+        public NationalInsurance2020(TaxYearConfigurationData taxYearConfigurationData) : base(taxYearConfigurationData)
         {
         }
 
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)
         {
+            // The ST is back! But lower than PT.
             var totalPT = taxYearConfigurationData.PrimaryThreshold;
             var totalST = taxYearConfigurationData.SecondaryThreshold;
             var totalUEL = taxYearConfigurationData.UpperEarningsLimit;
@@ -34,8 +33,9 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
                 gross = 0m;
             }
             
-            // WTF. UEL must round 865.3846 to 866. But PT must round 680.3333 to 680. This isn't sane.
+            // WTF. HMRC changed their rounding rules AGAIN in 2020. PeriodRound for the ST too.
             decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, weeksInPeriod, periods), weeksInPeriod),
+                periodST = TaxMath.PeriodRound(TaxMath.Factor(totalST, weeksInPeriod, periods), weeksInPeriod),
                 periodUEL = Math.Ceiling(TaxMath.Factor(totalUEL, weeksInPeriod, periods)),
                 periodLEL = Math.Ceiling(TaxMath.Factor(totalLEL, weeksInPeriod, periods));
 
@@ -43,15 +43,17 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
             {
                 EarningsUptoIncludingLEL = SubtractRound(gross, periodLEL, 0),
                 EarningsAboveLELUptoIncludingPT = SubtractRound(gross, periodPT, periodLEL),
-                EarningsAboveSTUptoIncludingUEL = SubtractRound(gross, periodUEL, periodPT),
-                EarningsAboveUEL = SubtractRound(gross, gross, periodUEL)
+                EarningsAboveUEL = SubtractRound(gross, gross, periodUEL),
+                EarningsAboveSTUpToIncludingPT = SubtractRound(gross, periodPT, periodST),
+                EarningsAbovePTUptoIncludingUEL = SubtractRound(gross, periodUEL, periodPT),
             };
 
-            niCalc.EmployeeNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveSTUptoIncludingUEL * (niRates.EeC / 100));
-            niCalc.EmployeeNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveUEL * (niRates.EeD / 100));
+            niCalc.EmployeeNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveSTUpToIncludingPT * (niRates.EeC / 100));
+            niCalc.EmployeeNiGross += TaxMath.HmrcRound(niCalc.EarningsAbovePTUptoIncludingUEL * (niRates.EeD / 100));
+            niCalc.EmployeeNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveUEL * (niRates.EeE / 100));
 
-            niCalc.EmployerNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveSTUptoIncludingUEL * (niRates.ErC / 100));
-            niCalc.EmployerNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveUEL * (niRates.ErD / 100));
+            niCalc.EmployerNiGross += TaxMath.HmrcRound((niCalc.EarningsAboveSTUpToIncludingPT + niCalc.EarningsAbovePTUptoIncludingUEL) * (niRates.ErD / 100));
+            niCalc.EmployerNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveUEL * (niRates.ErE / 100));
 
             return niCalc;
         }

@@ -349,19 +349,19 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(62.33m, TestShim(3847.05m, niCode, PayPeriods.FourWeekly, 2020));
             Assert.AreEqual(62.34m, TestShim(3847.12m, niCode, PayPeriods.FourWeekly, 2020));
 
-            Assert.AreEqual(0732.04m, TestShim(00.00m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(0732.05m, TestShim(00.00m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(0732.11m, TestShim(00.00m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(0732.12m, TestShim(00.00m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(0792.04m, TestShim(00.00m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(0792.05m, TestShim(00.00m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(0792.11m, TestShim(00.00m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(0792.12m, TestShim(00.00m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(4167.04m, TestShim(67.50m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(4167.05m, TestShim(67.51m, niCode, PayPeriods.Monthly, 2020));
-            Assert.AreEqual(4167.12m, TestShim(67.52m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(0m, TestShim(732.04m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(0m, TestShim(732.05m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(0m, TestShim(732.11m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(0m, TestShim(732.12m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(0m, TestShim(792.04m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(0m, TestShim(792.05m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(0m, TestShim(792.11m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(0m, TestShim(792.12m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(67.50m, TestShim(4167.04m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(67.51m, TestShim(4167.05m, niCode, PayPeriods.Monthly, 2020));
+            Assert.AreEqual(67.52m, TestShim(4167.12m, niCode, PayPeriods.Monthly, 2020));
 
-            // X Codeu
+            // X Codes
             niCode = 'X';
             Assert.AreEqual(0m, TestShim(162.29m, niCode, PayPeriods.Weekly, 2020));
             Assert.AreEqual(0m, TestShim(162.30m, niCode, PayPeriods.Weekly, 2020));
