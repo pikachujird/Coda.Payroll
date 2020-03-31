@@ -12,6 +12,7 @@ namespace Cedita.Payroll.Calculation.StatutoryPayments
 {
     [CalculationEngineTaxYear(TaxYear = 2018)]
     [CalculationEngineTaxYear(TaxYear = 2019)]
+    [CalculationEngineTaxYear(TaxYear = 2020)]
     public class SppCalculationEngine : StatutoryCalculationEngine, IStatutoryPaternityPayCalculationEngine
     {
         public SppCalculationEngine(TaxYearConfigurationData taxYearConfigurationData, BankHolidayConfigurationData bankHolidayConfigurationData) : base(taxYearConfigurationData, bankHolidayConfigurationData) {}

@@ -10,6 +10,9 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
         public decimal EarningsAbovePTUptoIncludingST { get; set; }
         public decimal EarningsAboveSTUptoIncludingUEL { get; set; }
         public decimal EarningsAboveUEL { get; set; }
+        // 2020 - ST < PT
+        public decimal EarningsAboveSTUpToIncludingPT { get; set; }
+        public decimal EarningsAbovePTUptoIncludingUEL { get; set; }
 
         /// <summary>
         /// Employee National Insurance Gross Value
