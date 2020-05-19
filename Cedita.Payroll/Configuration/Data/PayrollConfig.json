@@ -1566,16 +1566,16 @@
       "ScottishBrackets": [
         {
           "From": 0,
-          "To": 2049,
+          "To": 2085,
           "Multiplier": 0.19
         },
         {
-          "From": 2049,
-          "To": 12444,
+          "From": 2085,
+          "To": 12658,
           "Multiplier": 0.2
         },
         {
-          "From": 12444,
+          "From": 12658,
           "To": 30930,
           "Multiplier": 0.21
         },
