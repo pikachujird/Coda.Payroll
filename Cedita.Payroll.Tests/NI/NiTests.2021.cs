@@ -31,10 +31,10 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(3.86m, TestShim(368.01m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(3.87m, TestShim(368.04m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(3.88m, TestShim(368.05m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(407.78m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(407.78m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(407.83m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(407.84m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(407.88m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(407.89m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(407.93m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(407.94m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
 
             Assert.AreEqual(0m, TestShim(680.04m, niCode, PayPeriods.FourWeekly, 2021));
             Assert.AreEqual(0.01m, TestShim(680.05m, niCode, PayPeriods.FourWeekly, 2021));
@@ -80,10 +80,10 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(3.86m, TestShim(368.01m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(3.87m, TestShim(368.04m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(3.87m, TestShim(368.05m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(311.53m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(311.53m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(311.58m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(311.59m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(311.58m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(311.58m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(311.62m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(311.63m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
 
             Assert.AreEqual(0m, TestShim(680.04m, niCode, PayPeriods.FourWeekly, 2021));
             Assert.AreEqual(0.01m, TestShim(680.05m, niCode, PayPeriods.FourWeekly, 2021));
@@ -129,8 +129,8 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(3.86m, TestShim(368.01m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(3.87m, TestShim(368.04m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(3.87m, TestShim(368.05m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(219.96m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(219.96m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(219.97m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(219.97m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(220.01m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(220.01m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
 
@@ -178,10 +178,10 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(0m, TestShim(368.01m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(0m, TestShim(368.04m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(0.01m, TestShim(368.05m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(187.95m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(187.95m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(188m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(188.01m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(187.91m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(187.92m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(187.96m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(187.97m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
 
             Assert.AreEqual(0m, TestShim(680.04m, niCode, PayPeriods.FourWeekly, 2021));
             Assert.AreEqual(0m, TestShim(680.05m, niCode, PayPeriods.FourWeekly, 2021));
@@ -227,8 +227,8 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(3.86m, TestShim(368.01m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(3.87m, TestShim(368.04m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(3.87m, TestShim(368.05m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(251.28m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(251.28m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(251.29m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(251.29m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(251.33m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(251.34m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
 
@@ -276,10 +276,10 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(0m, TestShim(368.01m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(0m, TestShim(368.04m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(0.01m, TestShim(368.05m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(187.95m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(187.95m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(188m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(188.01m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(187.91m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(187.92m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(187.96m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(187.97m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
 
             Assert.AreEqual(0m, TestShim(680.04m, niCode, PayPeriods.FourWeekly, 2021));
             Assert.AreEqual(0m, TestShim(680.05m, niCode, PayPeriods.FourWeekly, 2021));
@@ -325,10 +325,10 @@ namespace Cedita.Payroll.Tests
             Assert.AreEqual(0m, TestShim(368.01m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(0m, TestShim(368.04m, niCode, PayPeriods.Fortnightly, 2021));
             Assert.AreEqual(0m, TestShim(368.05m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(31.45m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(31.45m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(31.5m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
-            Assert.AreEqual(31.51m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(31.32m, TestShim(1933.96m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(31.32m, TestShim(1933.97m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(31.36m, TestShim(1934.29m, niCode, PayPeriods.Fortnightly, 2021));
+            Assert.AreEqual(31.37m, TestShim(1934.3m, niCode, PayPeriods.Fortnightly, 2021));
 
             Assert.AreEqual(0m, TestShim(680.04m, niCode, PayPeriods.FourWeekly, 2021));
             Assert.AreEqual(0m, TestShim(680.05m, niCode, PayPeriods.FourWeekly, 2021));

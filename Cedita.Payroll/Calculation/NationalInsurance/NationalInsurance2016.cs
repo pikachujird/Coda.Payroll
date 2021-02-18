@@ -14,29 +14,17 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
 
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)
         {
-            var totalPT = taxYearConfigurationData.PrimaryThreshold;
-            var totalST = taxYearConfigurationData.SecondaryThreshold;
-            var totalUEL = taxYearConfigurationData.UpperEarningsLimit;
-            var totalLEL = taxYearConfigurationData.LowerEarningsLimit;
-            var totalUST = taxYearConfigurationData.UpperSecondaryThreshold;
-            var totalAUST = taxYearConfigurationData.ApprenticeUpperSecondaryThreshold;
-            var niRates = taxYearConfigurationData.NiRates[niCategory];
+            var niRates = TaxYearConfigurationData.NiRates[niCategory];
 
-            var factoring = TaxMath.GetFactoring(payPeriods);
-            int periods = factoring.Periods,
-                weeksInPeriod = factoring.WeeksInPeriod;
-            decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, weeksInPeriod, periods), weeksInPeriod),
-                periodST = TaxMath.PeriodRound(TaxMath.Factor(totalST, weeksInPeriod, periods), weeksInPeriod),
-                periodUEL = TaxMath.PeriodRound(TaxMath.Factor(totalUEL, weeksInPeriod, periods), weeksInPeriod),
-                periodLEL = Math.Ceiling(TaxMath.Factor(totalLEL, weeksInPeriod, periods));
-
+            var limitThresholds = GetLimitThresholdsForPeriods(payPeriods);
+            
             var niCalc = new NationalInsuranceCalculation
             {
-                EarningsUptoIncludingLEL = SubtractRound(gross, periodLEL, 0),
-                EarningsAboveLELUptoIncludingPT = SubtractRound(gross, periodPT, periodLEL),
-                EarningsAbovePTUptoIncludingST = SubtractRound(gross, periodST, periodPT),
-                EarningsAboveSTUptoIncludingUEL = SubtractRound(gross, periodUEL, periodST),
-                EarningsAboveUEL = SubtractRound(gross, gross, periodUEL)
+                EarningsUptoIncludingLEL = SubtractRound(gross, limitThresholds.LowerEarningsLimit, 0),
+                EarningsAboveLELUptoIncludingPT = SubtractRound(gross, limitThresholds.PrimaryThreshold, limitThresholds.LowerEarningsLimit),
+                EarningsAbovePTUptoIncludingST = SubtractRound(gross, limitThresholds.SecondaryThreshold, limitThresholds.PrimaryThreshold),
+                EarningsAboveSTUptoIncludingUEL = SubtractRound(gross, limitThresholds.UpperEarningsLimit, limitThresholds.SecondaryThreshold),
+                EarningsAboveUEL = SubtractRound(gross, gross, limitThresholds.UpperEarningsLimit)
             };
 
             niCalc.EmployeeNiGross += TaxMath.HmrcRound(niCalc.EarningsAbovePTUptoIncludingST * (niRates.EeC / 100));
@@ -47,6 +35,21 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
             niCalc.EmployerNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveUEL * (niRates.ErE / 100));
 
             return niCalc;
+        }
+        
+        protected override LimitThresholds CalculateLimitThresholdsForPeriods(PayPeriods payPeriods)
+        {
+            var factoring = TaxMath.GetFactoring(payPeriods);
+            int periods = factoring.Periods,
+                weeksInPeriod = factoring.WeeksInPeriod;
+
+            return new LimitThresholds
+            {
+                PrimaryThreshold = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.PrimaryThreshold, weeksInPeriod, periods), weeksInPeriod),
+                SecondaryThreshold = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.SecondaryThreshold, weeksInPeriod, periods), weeksInPeriod),
+                UpperEarningsLimit = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.UpperEarningsLimit, weeksInPeriod, periods), weeksInPeriod),
+                LowerEarningsLimit = Math.Ceiling(TaxMath.Factor(TaxYearConfigurationData.LowerEarningsLimit, weeksInPeriod, periods)),
+            };
         }
     }
 }

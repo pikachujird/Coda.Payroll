@@ -6,7 +6,6 @@ using System;
 namespace Cedita.Payroll.Calculation.NationalInsurance
 {
     [CalculationEngineTaxYear(TaxYear = 2020)]
-    [CalculationEngineTaxYear(TaxYear = 2021)]
     public class NationalInsurance2020 : NationalInsurance2017
     {
         public NationalInsurance2020(TaxYearConfigurationData taxYearConfigurationData) : base(taxYearConfigurationData)
@@ -16,37 +15,23 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)
         {
             // The ST is back! But lower than PT.
-            var totalPT = taxYearConfigurationData.PrimaryThreshold;
-            var totalST = taxYearConfigurationData.SecondaryThreshold;
-            var totalUEL = taxYearConfigurationData.UpperEarningsLimit;
-            var totalLEL = taxYearConfigurationData.LowerEarningsLimit;
-            var totalUST = taxYearConfigurationData.UpperSecondaryThreshold;
-            var totalAUST = taxYearConfigurationData.ApprenticeUpperSecondaryThreshold;
-            var niRates = taxYearConfigurationData.NiRates[niCategory];
-
-            var factoring = TaxMath.GetFactoring(payPeriods);
-            int periods = factoring.Periods,
-                weeksInPeriod = factoring.WeeksInPeriod;
+            var niRates = TaxYearConfigurationData.NiRates[niCategory];
 
             // 'X' NI Code does not pay NI contributions
             if (niCategory == 'X')
             {
                 gross = 0m;
             }
-            
-            // WTF. HMRC changed their rounding rules AGAIN in 2020. PeriodRound for the ST too.
-            decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, weeksInPeriod, periods), weeksInPeriod),
-                periodST = TaxMath.PeriodRound(TaxMath.Factor(totalST, weeksInPeriod, periods), weeksInPeriod),
-                periodUEL = Math.Ceiling(TaxMath.Factor(totalUEL, weeksInPeriod, periods)),
-                periodLEL = Math.Ceiling(TaxMath.Factor(totalLEL, weeksInPeriod, periods));
 
+            var limitThresholds = GetLimitThresholdsForPeriods(payPeriods);
+            
             var niCalc = new NationalInsuranceCalculation
             {
-                EarningsUptoIncludingLEL = SubtractRound(gross, periodLEL, 0),
-                EarningsAboveLELUptoIncludingPT = SubtractRound(gross, periodPT, periodLEL),
-                EarningsAboveUEL = SubtractRound(gross, gross, periodUEL),
-                EarningsAboveSTUpToIncludingPT = SubtractRound(gross, periodPT, periodST),
-                EarningsAbovePTUptoIncludingUEL = SubtractRound(gross, periodUEL, periodPT),
+                EarningsUptoIncludingLEL = SubtractRound(gross, limitThresholds.LowerEarningsLimit, 0),
+                EarningsAboveLELUptoIncludingPT = SubtractRound(gross, limitThresholds.PrimaryThreshold, limitThresholds.LowerEarningsLimit),
+                EarningsAboveUEL = SubtractRound(gross, gross, limitThresholds.UpperEarningsLimit),
+                EarningsAboveSTUpToIncludingPT = SubtractRound(gross, limitThresholds.PrimaryThreshold, limitThresholds.SecondaryThreshold),
+                EarningsAbovePTUptoIncludingUEL = SubtractRound(gross, limitThresholds.UpperEarningsLimit, limitThresholds.PrimaryThreshold),
             };
 
             niCalc.EmployeeNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveSTUpToIncludingPT * (niRates.EeC / 100));
@@ -57,6 +42,22 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
             niCalc.EmployerNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveUEL * (niRates.ErE / 100));
 
             return niCalc;
+        }
+        
+        protected override LimitThresholds CalculateLimitThresholdsForPeriods(PayPeriods payPeriods)
+        {
+            var factoring = TaxMath.GetFactoring(payPeriods);
+            int periods = factoring.Periods,
+                weeksInPeriod = factoring.WeeksInPeriod;
+
+            // WTF. HMRC changed their rounding rules AGAIN in 2020. PeriodRound for the ST too.
+            return new LimitThresholds
+            {
+                PrimaryThreshold = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.PrimaryThreshold, weeksInPeriod, periods), weeksInPeriod),
+                SecondaryThreshold = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.SecondaryThreshold, weeksInPeriod, periods), weeksInPeriod),
+                UpperEarningsLimit = Math.Ceiling(TaxMath.Factor(TaxYearConfigurationData.UpperEarningsLimit, weeksInPeriod, periods)),
+                LowerEarningsLimit = Math.Ceiling(TaxMath.Factor(TaxYearConfigurationData.LowerEarningsLimit, weeksInPeriod, periods)),
+            };
         }
     }
 }

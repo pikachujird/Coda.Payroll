@@ -16,35 +16,22 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
 
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)
         {
-            var totalPT = taxYearConfigurationData.PrimaryThreshold;
-            var totalST = taxYearConfigurationData.SecondaryThreshold;
-            var totalUEL = taxYearConfigurationData.UpperEarningsLimit;
-            var totalLEL = taxYearConfigurationData.LowerEarningsLimit;
-            var totalUST = taxYearConfigurationData.UpperSecondaryThreshold;
-            var totalAUST = taxYearConfigurationData.ApprenticeUpperSecondaryThreshold;
-            var niRates = taxYearConfigurationData.NiRates[niCategory];
-
-            var factoring = TaxMath.GetFactoring(payPeriods);
-            int periods = factoring.Periods,
-                weeksInPeriod = factoring.WeeksInPeriod;
+            var niRates = TaxYearConfigurationData.NiRates[niCategory];
 
             // 'X' NI Code does not pay NI contributions
             if (niCategory == 'X')
             {
                 gross = 0m;
             }
-            
-            // WTF. UEL must round 865.3846 to 866. But PT must round 680.3333 to 680. This isn't sane.
-            decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, weeksInPeriod, periods), weeksInPeriod),
-                periodUEL = Math.Ceiling(TaxMath.Factor(totalUEL, weeksInPeriod, periods)),
-                periodLEL = Math.Ceiling(TaxMath.Factor(totalLEL, weeksInPeriod, periods));
+
+            var limitThresholds = GetLimitThresholdsForPeriods(payPeriods);
 
             var niCalc = new NationalInsuranceCalculation
             {
-                EarningsUptoIncludingLEL = SubtractRound(gross, periodLEL, 0),
-                EarningsAboveLELUptoIncludingPT = SubtractRound(gross, periodPT, periodLEL),
-                EarningsAboveSTUptoIncludingUEL = SubtractRound(gross, periodUEL, periodPT),
-                EarningsAboveUEL = SubtractRound(gross, gross, periodUEL)
+                EarningsUptoIncludingLEL = SubtractRound(gross, limitThresholds.LowerEarningsLimit, 0),
+                EarningsAboveLELUptoIncludingPT = SubtractRound(gross, limitThresholds.PrimaryThreshold, limitThresholds.LowerEarningsLimit),
+                EarningsAboveSTUptoIncludingUEL = SubtractRound(gross, limitThresholds.UpperEarningsLimit, limitThresholds.PrimaryThreshold),
+                EarningsAboveUEL = SubtractRound(gross, gross, limitThresholds.UpperEarningsLimit)
             };
 
             niCalc.EmployeeNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveSTUptoIncludingUEL * (niRates.EeC / 100));
@@ -54,6 +41,21 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
             niCalc.EmployerNiGross += TaxMath.HmrcRound(niCalc.EarningsAboveUEL * (niRates.ErD / 100));
 
             return niCalc;
+        }
+        
+        protected override LimitThresholds CalculateLimitThresholdsForPeriods(PayPeriods payPeriods)
+        {
+            var factoring = TaxMath.GetFactoring(payPeriods);
+            int periods = factoring.Periods,
+                weeksInPeriod = factoring.WeeksInPeriod;
+
+            // WTF. UEL must round 865.3846 to 866. But PT must round 680.3333 to 680. This isn't sane.
+            return new LimitThresholds
+            {
+                PrimaryThreshold = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.PrimaryThreshold, weeksInPeriod, periods), weeksInPeriod),
+                UpperEarningsLimit = Math.Ceiling(TaxMath.Factor(TaxYearConfigurationData.UpperEarningsLimit, weeksInPeriod, periods)),
+                LowerEarningsLimit = Math.Ceiling(TaxMath.Factor(TaxYearConfigurationData.LowerEarningsLimit, weeksInPeriod, periods)),
+            };
         }
     }
 }

@@ -15,42 +15,45 @@ namespace Cedita.Payroll.Calculation.NationalInsurance
 
         public override NationalInsuranceCalculation CalculateNationalInsurance(decimal gross, char niCategory, PayPeriods payPeriods)
         {
-            var totalPT = taxYearConfigurationData.PrimaryThreshold;
-            var totalST = taxYearConfigurationData.SecondaryThreshold;
-            var totalUAP = taxYearConfigurationData.UpperAccrualPoint;
-            var totalUEL = taxYearConfigurationData.UpperEarningsLimit;
-            var totalLEL = taxYearConfigurationData.LowerEarningsLimit;
-            var niRates = taxYearConfigurationData.NiRates[niCategory];
-
-            var factoring = TaxMath.GetFactoring(payPeriods);
-            int periods = factoring.Periods,
-                weeksInPeriod = factoring.WeeksInPeriod;
-            decimal periodPT = TaxMath.PeriodRound(TaxMath.Factor(totalPT, weeksInPeriod, periods), weeksInPeriod),
-                periodST = TaxMath.PeriodRound(TaxMath.Factor(totalST, weeksInPeriod, periods), weeksInPeriod),
-                periodUAP = TaxMath.PeriodRound(TaxMath.Factor(totalUAP, weeksInPeriod, periods), weeksInPeriod),
-                periodUEL = TaxMath.PeriodRound(TaxMath.Factor(totalUEL, weeksInPeriod, periods), weeksInPeriod),
-                periodLEL = TaxMath.PeriodRound(TaxMath.Factor(totalLEL, weeksInPeriod, periods), weeksInPeriod);
+            var niRates = TaxYearConfigurationData.NiRates[niCategory];
+            var limitThresholds = GetLimitThresholdsForPeriods(payPeriods);
 
 #pragma warning disable IDE0017 // Simplify object initialization
             var niCalc = new NationalInsuranceCalculation();
 #pragma warning restore IDE0017 // Simplify object initialization
             // Employee NI Gross
-            niCalc.EmployeeNiGross = TaxMath.HmrcRound(SubtractRound(gross, periodUAP, periodPT) * (niRates.EeD / 100));
-            niCalc.EmployeeNiGross += TaxMath.HmrcRound(SubtractRound(gross, periodUEL, periodUAP) * (niRates.EeE / 100));
-            niCalc.EmployeeNiGross += TaxMath.HmrcRound(SubtractRound(gross, gross, periodUEL) * (niRates.EeF / 100));
+            niCalc.EmployeeNiGross = TaxMath.HmrcRound(SubtractRound(gross, limitThresholds.UpperAccrualPoint, limitThresholds.PrimaryThreshold) * (niRates.EeD / 100));
+            niCalc.EmployeeNiGross += TaxMath.HmrcRound(SubtractRound(gross, limitThresholds.UpperEarningsLimit, limitThresholds.UpperAccrualPoint) * (niRates.EeE / 100));
+            niCalc.EmployeeNiGross += TaxMath.HmrcRound(SubtractRound(gross, gross, limitThresholds.UpperEarningsLimit) * (niRates.EeF / 100));
 
-            niCalc.EmployeeNiRebate = TaxMath.HmrcRound(SubtractRound(gross, periodST, periodLEL) * (niRates.EeB / 100));
-            niCalc.EmployeeNiRebate += TaxMath.HmrcRound(SubtractRound(gross, periodPT, periodST) * (niRates.EeC / 100));
+            niCalc.EmployeeNiRebate = TaxMath.HmrcRound(SubtractRound(gross, limitThresholds.SecondaryThreshold, limitThresholds.LowerEarningsLimit) * (niRates.EeB / 100));
+            niCalc.EmployeeNiRebate += TaxMath.HmrcRound(SubtractRound(gross, limitThresholds.PrimaryThreshold, limitThresholds.SecondaryThreshold) * (niRates.EeC / 100));
 
             // Employer NI Gross
-            niCalc.EmployerNiGross = TaxMath.HmrcRound(SubtractRound(gross, periodPT, periodST) * (niRates.ErC / 100));
-            niCalc.EmployerNiGross += TaxMath.HmrcRound(SubtractRound(gross, periodUAP, periodPT) * (niRates.ErD / 100));
-            niCalc.EmployerNiGross += TaxMath.HmrcRound(SubtractRound(gross, periodUEL, periodUAP) * (niRates.ErE / 100));
-            niCalc.EmployerNiGross += TaxMath.HmrcRound(SubtractRound(gross, gross, periodUEL) * (niRates.ErF / 100));
+            niCalc.EmployerNiGross = TaxMath.HmrcRound(SubtractRound(gross, limitThresholds.PrimaryThreshold, limitThresholds.SecondaryThreshold) * (niRates.ErC / 100));
+            niCalc.EmployerNiGross += TaxMath.HmrcRound(SubtractRound(gross, limitThresholds.UpperAccrualPoint, limitThresholds.PrimaryThreshold) * (niRates.ErD / 100));
+            niCalc.EmployerNiGross += TaxMath.HmrcRound(SubtractRound(gross, limitThresholds.UpperEarningsLimit, limitThresholds.UpperAccrualPoint) * (niRates.ErE / 100));
+            niCalc.EmployerNiGross += TaxMath.HmrcRound(SubtractRound(gross, gross, limitThresholds.UpperEarningsLimit) * (niRates.ErF / 100));
 
-            niCalc.EmployerNiRebate = TaxMath.HmrcRound(SubtractRound(gross, periodST, periodLEL) * (niRates.ErB / 100));
+            niCalc.EmployerNiRebate = TaxMath.HmrcRound(SubtractRound(gross, limitThresholds.SecondaryThreshold, limitThresholds.LowerEarningsLimit) * (niRates.ErB / 100));
 
             return niCalc;
+        }
+
+        protected override LimitThresholds CalculateLimitThresholdsForPeriods(PayPeriods payPeriods)
+        {
+            var factoring = TaxMath.GetFactoring(payPeriods);
+            int periods = factoring.Periods,
+                weeksInPeriod = factoring.WeeksInPeriod;
+
+            return new LimitThresholds
+            {
+                PrimaryThreshold = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.PrimaryThreshold, weeksInPeriod, periods), weeksInPeriod),
+                SecondaryThreshold = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.SecondaryThreshold, weeksInPeriod, periods), weeksInPeriod),
+                UpperAccrualPoint = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.UpperAccrualPoint, weeksInPeriod, periods), weeksInPeriod),
+                UpperEarningsLimit = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.UpperEarningsLimit, weeksInPeriod, periods), weeksInPeriod),
+                LowerEarningsLimit = TaxMath.PeriodRound(TaxMath.Factor(TaxYearConfigurationData.LowerEarningsLimit, weeksInPeriod, periods), weeksInPeriod),
+            };
         }
     }
 }
