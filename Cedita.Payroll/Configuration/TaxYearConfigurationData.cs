@@ -19,6 +19,8 @@ namespace Cedita.Payroll.Configuration
         public decimal Plan1StudentLoanRate { get; set; }
         public decimal Plan2StudentLoanThreshold { get; set; }
         public decimal Plan2StudentLoanRate { get; set; }
+        public decimal Plan4StudentLoanThreshold { get; set; }
+        public decimal Plan4StudentLoanRate { get; set; }
         public decimal PostGradStudentLoanThreshold { get; set; }
         public decimal PostGradStudentLoanRate { get; set; }
         public decimal DeaProtectedEarnings { get; set; }

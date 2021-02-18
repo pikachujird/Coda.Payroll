@@ -35,6 +35,10 @@ namespace Cedita.Payroll.Calculation.StudentLoan
                     threshold = taxYearConfigurationData.Plan2StudentLoanThreshold;
                     rate = taxYearConfigurationData.Plan2StudentLoanRate;
                     break;
+                case StudentLoanPlan.Plan4:
+                    threshold = taxYearConfigurationData.Plan4StudentLoanThreshold;
+                    rate = taxYearConfigurationData.Plan4StudentLoanRate;
+                    break;
                 case StudentLoanPlan.PostGrad:
                     threshold = taxYearConfigurationData.PostGradStudentLoanThreshold;
                     rate = taxYearConfigurationData.PostGradStudentLoanRate;

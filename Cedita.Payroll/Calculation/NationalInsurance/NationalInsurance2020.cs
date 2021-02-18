@@ -6,6 +6,7 @@ using System;
 namespace Cedita.Payroll.Calculation.NationalInsurance
 {
     [CalculationEngineTaxYear(TaxYear = 2020)]
+    [CalculationEngineTaxYear(TaxYear = 2021)]
     public class NationalInsurance2020 : NationalInsurance2017
     {
         public NationalInsurance2020(TaxYearConfigurationData taxYearConfigurationData) : base(taxYearConfigurationData)
