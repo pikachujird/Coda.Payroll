@@ -14,7 +14,7 @@ namespace Cedita.Payroll.Configuration.Providers
         /// </summary>
         /// <param name="since"></param>
         /// <returns></returns>
-        public IEnumerable<DateTime> GetBankHolidays(DateTime? since)
+        public IEnumerable<DateTime> GetBankHolidays(DateTime? since = null)
         {
             var bankHolidayData = LoadBankHolidayConfigurationData();
             if (since.HasValue)

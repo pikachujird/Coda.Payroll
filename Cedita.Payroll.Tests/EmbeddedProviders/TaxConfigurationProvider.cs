@@ -5,15 +5,15 @@ using Cedita.Payroll.Configuration.Providers;
 using System.Linq;
 using Cedita.Payroll.Abstractions;
 
-namespace Cedita.Payroll.Tests
+namespace Cedita.Payroll.Tests.EmbeddedProviders
 {
     [TestClass]
-    public class EmbeddedProviderTests
+    public class TaxConfigurationProviderTests
     {
         private ITaxConfigurationDataProvider _provider = new EmbeddedTaxConfigurationDataProvider();
 
         [TestCategory("Embedded Provider Tests"), TestMethod]
-        public void EmbeddedProviderTest()
+        public void TaxProviderTests()
         {
             var taxYearData = _provider.GetTaxYearConfigurationData(2015);
             var brackets = taxYearData.Brackets;

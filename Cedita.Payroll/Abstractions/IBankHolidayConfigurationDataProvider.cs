@@ -11,7 +11,7 @@ namespace Cedita.Payroll.Abstractions
     /// </summary>
     public interface IBankHolidayConfigurationDataProvider
     {
-        IEnumerable<DateTime> GetBankHolidays(DateTime? since);
+        IEnumerable<DateTime> GetBankHolidays(DateTime? since = null);
         BankHolidayConfigurationData GetBankHolidayConfigurationData();
     }
 }
