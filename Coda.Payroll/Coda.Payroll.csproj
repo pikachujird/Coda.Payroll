@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <LangVersion>9.0</LangVersion>
+    <Version>2.2021.2</Version>
+    <Authors>Coda Tech</Authors>
+    <Company>Coda Technology Ltd</Company>
+    <Description>.NET Standard implementation of the United Kingdom's HMRC UK Tax legislation.</Description>
+    <Copyright>Coda Technology Ltd</Copyright>
+    <PackageProjectUrl>https://www.codapay.co.uk/</PackageProjectUrl>
+    <RepositoryUrl>https://www.github.com/codapayuk/Coda.Payroll</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>payroll hmrc paye tax nationalinsurance rti ni calculations uk uktax json coda codapay</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="obj\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Configuration\Data\BankHolidayConfig.json" />
+    <None Remove="Configuration\PayrollConfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\Data\BankHolidayConfig.json">
+      <LogicalName>BankHolidayConfig</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\Data\PayrollConfig.json">
+      <LogicalName>PayrollConfig</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+</Project>
