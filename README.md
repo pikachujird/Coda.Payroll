@@ -1,17 +1,19 @@
-# Cedita.Payroll
-Cedita.Payroll is a .NET Standard version of HMRC-compliant PAYE, National Insurance, and related calculators. Core components for building payroll services.
+# Coda.Payroll
+Coda.Payroll is a .NET Standard version of HMRC-compliant PAYE, National Insurance, and related calculators. Core components for building payroll services.
+
+_Formerly Cedita.Payroll, now operated and managed by [Coda Technology](https://www.codapay.co.uk/), an innovative payroll solutions company._
 
 ## Usage
 Version 2 comes with a revised API meaning there's less wiring up to do, and is also DI first (whilst retaining ease to wire up manually).
 
 To get started, install from NuGet:
 
-    Install-Package Cedita.Payroll -pre
+    Install-Package Coda.Payroll
     
 If you're using ASP.NET Core (or any `IServiceCollection` compatible DI library), just call:
 
 ```cs
-services.AddCeditaPayroll();
+services.AddCodaPayroll();
 ```
 
 ## Calculate Payroll for a Pay Period
