@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>2.2.9</Version>
     <Authors>Coda Tech</Authors>
     <Company>Coda Technology Ltd</Company>
-    <Description>Dependency Injection support for Coda Tech's .NET Standard implementation of the United Kingdom's HMRC UK Tax legislation.</Description>
+    <Description>Dependency Injection support for Coda Tech's .NET implementation of the United Kingdom's HMRC UK Tax legislation.</Description>
     <Copyright>Coda Technology Ltd</Copyright>
     <PackageProjectUrl>https://www.codapay.co.uk/</PackageProjectUrl>
     <RepositoryUrl>https://www.github.com/codapayuk/Coda.Payroll</RepositoryUrl>

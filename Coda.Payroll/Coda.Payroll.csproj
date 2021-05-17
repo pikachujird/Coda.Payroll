@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <LangVersion>9.0</LangVersion>
-    <Version>2.2021.3</Version>
+    <Version>2.2021.4</Version>
     <Authors>Coda Tech</Authors>
     <Company>Coda Technology Ltd</Company>
-    <Description>.NET Standard implementation of the United Kingdom's HMRC UK Tax legislation.</Description>
+    <Description>.NET implementation of the United Kingdom's HMRC UK Tax legislation.</Description>
     <Copyright>Coda Technology Ltd</Copyright>
     <PackageProjectUrl>https://www.codapay.co.uk/</PackageProjectUrl>
     <RepositoryUrl>https://www.github.com/codapayuk/Coda.Payroll</RepositoryUrl>
