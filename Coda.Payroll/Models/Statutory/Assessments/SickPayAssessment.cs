@@ -7,6 +7,7 @@ namespace Coda.Payroll.Models.Statutory.Assessments
         public bool IsFitForWork { get; set; }
         public bool ApplyWaitingDays { get; set; }
         public bool IncludeBankHolidays { get; set; }
+        public bool IsolationNote { get; set; }
         public bool FirstSickNote { get; set; }
         public bool HasEightWeekGapSincePreviousSicknote { get; set; }
         public int PreviousSickDaysTotal { get; set; }
